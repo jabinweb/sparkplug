@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  /* Sparkplug Brand Colors - Updated to match brand guidelines */
+  --color-brand-primary: hsl(219, 84%, 32%); /* #1E3A8A - Deep Blue */
+  --color-brand-secondary: hsl(45, 100%, 48%); /* #F5B800 - Golden Yellow */
+  
+  /* Brand Primary Variations (Blue Tones) */
+  --color-brand-primary-50: hsl(214, 100%, 97%);
+  --color-brand-primary-100: hsl(214, 95%, 93%);
+  --color-brand-primary-200: hsl(213, 97%, 87%);
+  --color-brand-primary-300: hsl(212, 96%, 78%);
+  --color-brand-primary-400: hsl(213, 94%, 68%);
+  --color-brand-primary-500: hsl(217, 91%, 60%);
+  --color-brand-primary-600: hsl(219, 84%, 32%); /* Main blue */
+  --color-brand-primary-700: hsl(219, 84%, 25%);
+  --color-brand-primary-800: hsl(219, 84%, 20%);
+  --color-brand-primary-900: hsl(219, 84%, 15%);
+  
+  /* Brand Secondary Variations (Yellow/Gold Tones) */
+  --color-brand-secondary-50: hsl(45, 100%, 96%);
+  --color-brand-secondary-100: hsl(45, 100%, 89%);
+  --color-brand-secondary-200: hsl(45, 100%, 77%);
+  --color-brand-secondary-300: hsl(45, 100%, 65%);
+  --color-brand-secondary-400: hsl(45, 100%, 56%);
+  --color-brand-secondary-500: hsl(45, 100%, 48%); /* Main yellow */
+  --color-brand-secondary-600: hsl(45, 100%, 40%);
+  --color-brand-secondary-700: hsl(45, 100%, 32%);
+  --color-brand-secondary-800: hsl(45, 100%, 24%);
+  --color-brand-secondary-900: hsl(45, 100%, 16%);
+  
+  /* SOSC Extended Palette */
+  --color-sosc-teal: hsl(188, 85%, 35%); /* #0891B2 - Teal */
+  --color-sosc-green: hsl(159, 95%, 20%); /* #059669 - Green */
+  --color-sosc-red: hsl(0, 74%, 49%); /* #DC2626 - Red/Orange */
+  --color-sosc-black: hsl(0, 0%, 0%); /* #000000 - Black */
+  
+  /* Teal variations */
+  --color-sosc-teal-50: hsl(188, 85%, 95%);
+  --color-sosc-teal-100: hsl(188, 85%, 85%);
+  --color-sosc-teal-500: hsl(188, 85%, 35%);
+  --color-sosc-teal-600: hsl(188, 85%, 30%);
+  --color-sosc-teal-700: hsl(188, 85%, 25%);
+  
+  /* Green variations */
+  --color-sosc-green-50: hsl(159, 95%, 90%);
+  --color-sosc-green-100: hsl(159, 95%, 80%);
+  --color-sosc-green-500: hsl(159, 95%, 20%);
+  --color-sosc-green-600: hsl(159, 95%, 18%);
+  --color-sosc-green-700: hsl(159, 95%, 15%);
+  
+  /* Red variations */
+  --color-sosc-red-50: hsl(0, 74%, 95%);
+  --color-sosc-red-100: hsl(0, 74%, 85%);
+  --color-sosc-red-500: hsl(0, 74%, 49%);
+  --color-sosc-red-600: hsl(0, 74%, 40%);
+  --color-sosc-red-700: hsl(0, 74%, 35%);
+  
+  /* Legacy support aliases */
+  --color-accent: hsl(159, 95%, 20%); /* Green for success/impact */
+  --color-accent-light: hsl(159, 95%, 90%);
+  --color-warm: hsl(0, 74%, 49%); /* Red/orange for urgent CTAs */
+  --color-warm-light: hsl(0, 74%, 95%);
+  
+  /* Neutral colors */
+  --color-gray-50: hsl(210, 40%, 98%);
+  --color-gray-100: hsl(210, 40%, 96%);
+  --color-gray-200: hsl(214, 32%, 91%);
+  --color-gray-300: hsl(213, 27%, 84%);
+  --color-gray-400: hsl(215, 20%, 65%);
+  --color-gray-500: hsl(215, 16%, 47%);
+  --color-gray-600: hsl(215, 19%, 35%);
+  --color-gray-700: hsl(215, 25%, 27%);
+  --color-gray-800: hsl(217, 33%, 17%);
+  --color-gray-900: hsl(222, 84%, 5%);
+  
+  /* Typography */
+  --font-sans: var(--font-poppins), 'Inter', 'Segoe UI', system-ui, sans-serif;
+  
+  /* Spacing and sizing */
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Global styles inspired by modern education websites */
+body {
+  font-family: var(--font-poppins), 'Inter', 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: var(--color-brand-secondary);
+  color: white;
+}

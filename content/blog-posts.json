@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "5 High-Energy Activities That Transform Team Dynamics",
+    "excerpt": "How interactive experiences create lasting bonds and boost collaboration across corporate teams.",
+    "content": "From drum circles to adventure challenges, our curated activities have energized over 70,000 participants. We've seen firsthand how the right experience can break down silos, build trust, and create a shared sense of purpose. In this post, we share our top 5 most transformative team-building activities and why they work.",
+    "author": "Sparkplug Experience Team",
+    "publishDate": "2025-01-15",
+    "category": "Experiences",
+    "tags": ["team building", "activities", "engagement"],
+    "featured": true
+  },
+  {
+    "id": 2,
+    "title": "Why Corporate Teams Are Choosing Experiential Learning",
+    "excerpt": "The shift from traditional training to memorable, hands-on experiences that stick.",
+    "content": "Corporate India is moving away from classroom-style training toward experiential learning that creates lasting impact. Our research shows that teams retain 90% more when they actively participate versus passive learning. This blog explores why companies like Google, Deloitte, and PepsiCo are investing in high-energy team experiences.",
+    "author": "Sparkplug Insights",
+    "publishDate": "2025-01-10",
+    "category": "Insights",
+    "tags": ["experiential learning", "corporate training", "ROI"],
+    "featured": true
+  },
+  {
+    "id": 3,
+    "title": "Drum Circles: The Rhythm of Team Connection",
+    "excerpt": "How music-based activities create instant bonding and break communication barriers.",
+    "content": "Our drum circle experiences have become a client favorite, creating powerful moments of synchronization and collective achievement. From first-time drummers to experienced musicians, everyone finds their rhythm. In this post, we share success stories of how rhythm-based activities have transformed team communication at leading organizations.",
+    "author": "Sparkplug Music Team",
+    "publishDate": "2025-01-05",
+    "category": "Activities",
+    "tags": ["drum circles", "music", "team bonding"],
+    "featured": false
+  },
+  {
+    "id": 4,
+    "title": "Creator Collaborations: Bringing Fresh Energy to Your Events",
+    "excerpt": "Why partnering with influencers and content creators amplifies team engagement.",
+    "content": "We've pioneered a unique approach to team building by bringing popular creators into corporate experiences. Whether it's a comedy workshop, content creation challenge, or interactive performance, these collaborations add an element of excitement and contemporary relevance that traditional activities can't match. Learn how we curate the perfect creator partnership for your team.",
+    "author": "Sparkplug Partnerships",
+    "publishDate": "2025-01-01",
+    "category": "Innovation",
+    "tags": ["creators", "influencers", "events"],
+    "featured": false
+  },
+  {
+    "id": 5,
+    "title": "Pan-India Success: Scaling Team-Building Across Locations",
+    "excerpt": "How we deliver consistent, high-quality experiences from Mumbai to Bangalore to Delhi.",
+    "content": "With operations across India, Sparkplug has perfected the art of delivering seamless team-building experiences regardless of location. From venue selection to activity customization, we ensure every team gets the same energy and professionalism. This post shares our approach to scaling quality experiences and highlights some of our most successful multi-city engagements.",
+    "author": "Sparkplug Operations",
+    "publishDate": "2024-12-20",
+    "category": "Case Studies",
+    "tags": ["pan-india", "operations", "scale"],
+    "featured": false
+  }
+]
