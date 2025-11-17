@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import siteContent from '../../content/site-content.json';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
@@ -23,7 +22,13 @@ export default function Hero() {
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
                 {homepage.hero.title.split('\n').map((line, index) => (
                   <span key={index}>
-                    {line}
+                    {line.split(' ').map((word, wordIndex) => 
+                      word.toLowerCase() === 'spark' ? (
+                        <span key={wordIndex} className="text-yellow-600 font-black drop-shadow-lg">{word} </span>
+                      ) : (
+                        <span key={wordIndex}>{word} </span>
+                      )
+                    )}
                     {index < homepage.hero.title.split('\n').length - 1 && <br />}
                   </span>
                 ))}
@@ -51,20 +56,27 @@ export default function Hero() {
                 </motion.div>
             </motion.div>
 
-            {/* Right Image - Clean and Simple */}
+            {/* Right Video - Clean and Simple */}
             <motion.div 
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="order-first lg:order-last"
+                className="order-first lg:order-last relative"
             >
-                <Image
-                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.1.0&auto=format&fit=crop&w=800&q=80"
-                alt="Students learning together"
-                width={600}
-                height={450}
-                className="object-cover w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[450px] rounded-lg shadow-xl"
-                />
+                <div className="relative w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[450px] rounded-lg shadow-xl overflow-hidden">
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                >
+                    <source src="https://videos.pexels.com/video-files/3253079/3253079-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+                {/* Optional overlay gradient for better text readability if needed */}
+                {/* <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div> */}
+                </div>
             </motion.div>
 
             </div>
