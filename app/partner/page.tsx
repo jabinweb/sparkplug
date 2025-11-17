@@ -307,7 +307,7 @@ export default function GetInvolvedPage() {
               Ready to create meaningful change together?
             </p>
             <a
-              href="mailto:partnerships@schoolofsocialchange.org"
+              href="mailto:partnerships@sparkplug.in"
               className="bg-brand-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-primary-800 transition-colors inline-block"
             >
               Start a Partnership
