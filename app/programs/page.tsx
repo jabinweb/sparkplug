@@ -2,20 +2,16 @@
 
 import siteContent from '../../content/site-content.json';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
-interface Program {
-  name: string;
-  description: string;
-}
 
-export default function ProgramsPage() {
+export default function ExperiencesPage() {
   const { programs } = siteContent;
 
   return (
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 text-gray-900 py-24 overflow-hidden">
-        {/* Animated background elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -52,218 +48,275 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* Four Services - Modern Card Grid */}
-      <section className="py-24 bg-gray-50">
+      {/* Corporate Drum Circles */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
           >
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-              Four High-Energy Services
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From corporate team building to drum circles, we create experiences that energize, connect, and inspire
-            </p>
+            <div>
+              <div className="inline-flex items-center px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium mb-6">
+                🥁 Signature Experience
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">
+                Corporate Drum Circles
+              </h2>
+              <p className="text-xl text-yellow-600 font-semibold mb-6">
+                The fastest way to energise a room
+              </p>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                A high-energy, music-led experience where everyone, CEO to intern, becomes part of one rhythm. Corporate drum circles are one of the fastest ways to energise a room, break silos, and create instant connection.
+              </p>
+              <p className="text-gray-700 font-medium mb-6">
+                <span className="text-brand-primary">Perfect for:</span> Off-sites, annual meets, R&Rs, launch events, and culture days.
+              </p>
+              <div className="mb-8">
+                <p className="font-bold text-gray-900 mb-4">Ideal for:</p>
+                <ul className="grid grid-cols-2 gap-3">
+                  {['Energising burnout teams', 'Breaking silos', 'Boosting morale', 'Making events unforgettable'].map((item, index) => (
+                    <li key={index} className="flex items-center text-gray-600">
+                      <svg className="w-5 h-5 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-3xl p-8 h-80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <span className="text-5xl">🥁</span>
+                  </div>
+                  <p className="text-gray-600 italic">&quot;Everyone becomes part of the same beat&quot;</p>
+                </div>
+              </div>
+            </div>
           </motion.div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Service 1 - Corporate Team Building */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
-            >
-              {/* Gradient header */}
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-400 to-yellow-600"></div>
-              
-              <div className="p-8">
-                {/* Icon */}
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-3xl font-black text-white">A</span>
-                </div>
-                
-                <h3 className="text-2xl font-black text-gray-900 mb-2">{programs.activatingExisting.name}</h3>
-                <p className="text-sm text-yellow-600 font-bold mb-4 uppercase tracking-wide">{programs.activatingExisting.tagline}</p>
-                <p className="text-gray-600 mb-6 leading-relaxed">{programs.activatingExisting.description}</p>
-                
-                {/* Programs list */}
-                <div className="space-y-4 mb-6">
-                  {programs.activatingExisting.programs.map((program: Program, index: number) => (
-                    <div key={index} className="relative pl-6 border-l-4 border-yellow-400">
-                      <h4 className="font-bold text-gray-900 mb-1">{program.name}</h4>
-                      <p className="text-sm text-gray-600">{program.description}</p>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Footer */}
-                <div className="pt-6 border-t border-gray-100">
-                  <p className="text-sm text-gray-500 mb-2">
-                    <span className="font-semibold text-gray-700">Target:</span> {programs.activatingExisting.targetAudience}
-                  </p>
-                  <p className="text-sm font-bold text-yellow-600">{programs.activatingExisting.callToAction}</p>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Service 2 - Experiential Events */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
-            >
-              {/* Gradient header */}
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 to-blue-700"></div>
-              
-              <div className="p-8">
-                {/* Icon */}
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-3xl font-black text-white">B</span>
-                </div>
-                
-                <h3 className="text-2xl font-black text-gray-900 mb-2">{programs.buildingOriginal.name}</h3>
-                <p className="text-sm text-blue-600 font-bold mb-4 uppercase tracking-wide">{programs.buildingOriginal.tagline}</p>
-                <p className="text-gray-600 mb-6 leading-relaxed">{programs.buildingOriginal.description}</p>
-                
-                {/* Programs list */}
-                <div className="space-y-4 mb-6">
-                  {programs.buildingOriginal.programs.map((program: Program, index: number) => (
-                    <div key={index} className="relative pl-6 border-l-4 border-blue-500">
-                      <h4 className="font-bold text-gray-900 mb-1">{program.name}</h4>
-                      <p className="text-sm text-gray-600">{program.description}</p>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Footer */}
-                <div className="pt-6 border-t border-gray-100">
-                  <p className="text-sm text-gray-500 mb-2">
-                    <span className="font-semibold text-gray-700">Target:</span> {programs.buildingOriginal.targetAudience}
-                  </p>
-                  <p className="text-sm font-bold text-blue-600">{programs.buildingOriginal.callToAction}</p>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Service 3 - Music & Conversations */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
-            >
-              {/* Gradient header */}
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-500 to-purple-700"></div>
-              
-              <div className="p-8">
-                {/* Icon */}
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-3xl font-black text-white">C</span>
-                </div>
-                
-                <h3 className="text-2xl font-black text-gray-900 mb-2">{programs.catalysingConversations.name}</h3>
-                <p className="text-sm text-purple-600 font-bold mb-4 uppercase tracking-wide">{programs.catalysingConversations.tagline}</p>
-                <p className="text-gray-600 mb-6 leading-relaxed">{programs.catalysingConversations.description}</p>
-                
-                {/* Programs list */}
-                <div className="space-y-4 mb-6">
-                  {programs.catalysingConversations.programs.map((program: Program, index: number) => (
-                    <div key={index} className="relative pl-6 border-l-4 border-purple-500">
-                      <h4 className="font-bold text-gray-900 mb-1">{program.name}</h4>
-                      <p className="text-sm text-gray-600">{program.description}</p>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Footer */}
-                <div className="pt-6 border-t border-gray-100">
-                  <p className="text-sm text-gray-500 mb-2">
-                    <span className="font-semibold text-gray-700">Target:</span> {programs.catalysingConversations.targetAudience}
-                  </p>
-                  <p className="text-sm font-bold text-purple-600">{programs.catalysingConversations.callToAction}</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
         </div>
       </section>
 
-      {/* Why Choose Sparkplug - Modern Stats */}
-      <section className="py-24 bg-white">
+      {/* Team-Building Workshops */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          >
+            <div className="order-2 lg:order-1 relative">
+              <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl p-8 h-80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <span className="text-5xl">🤝</span>
+                  </div>
+                  <p className="text-gray-600 italic">&quot;Without the awkward icebreakers&quot;</p>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
+                🎯 Collaboration Focused
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">
+                Team-Building Workshops
+              </h2>
+              <p className="text-xl text-blue-600 font-semibold mb-6">
+                Communication, trust, and creative problem-solving
+              </p>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                Our collaboration-focused workshops help teams communicate better, build trust, and solve problems creatively. These are not typical corporate games. These are high-engagement, gamified experiences developed to bring out teamwork naturally.
+              </p>
+              <p className="text-gray-700 font-medium mb-6">
+                <span className="text-brand-primary">Great for:</span> Onboarding, leadership development, and cross-functional collaboration.
+              </p>
+              <div className="mb-8">
+                <p className="font-bold text-gray-900 mb-4">Ideal for:</p>
+                <ul className="grid grid-cols-2 gap-3">
+                  {['Freshers & new joiners', 'Leadership teams', 'Cross-functional groups', 'Creative problem-solving days'].map((item, index) => (
+                    <li key={index} className="flex items-center text-gray-600">
+                      <svg className="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Workplace Culture Experiences */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          >
+            <div>
+              <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium mb-6">
+                🏢 Regular Engagement
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">
+                Workplace Culture Experiences
+              </h2>
+              <p className="text-xl text-purple-600 font-semibold mb-6">
+                Regular engagement, not once-a-year events
+              </p>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                Every workplace has people who&apos;ve drifted into silos without even realising it. Our quick 45–60 minute modules are built for offices that want regular engagement, not once-a-year events. Great for energising the office, refreshing teams, and building a culture of belonging.
+              </p>
+              <div className="mb-8">
+                <p className="font-bold text-gray-900 mb-4">Modules include:</p>
+                <ul className="grid grid-cols-2 gap-3">
+                  {['Rhythm Energizers', 'Creativity Boosters', 'Stress-Relief Sessions', 'Motivation & Morale Boosters'].map((item, index) => (
+                    <li key={index} className="flex items-center text-gray-600">
+                      <svg className="w-5 h-5 text-purple-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl p-8 h-80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <span className="text-5xl">✨</span>
+                  </div>
+                  <p className="text-gray-600 italic">&quot;Build a culture of belonging&quot;</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Community Experiences */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          >
+            <div className="order-2 lg:order-1 relative">
+              <div className="bg-gradient-to-br from-pink-100 to-red-100 rounded-3xl p-8 h-80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-gradient-to-br from-pink-500 to-pink-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <span className="text-5xl">🎉</span>
+                  </div>
+                  <p className="text-gray-600 italic">&quot;Fun, memorable experiences&quot;</p>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="inline-flex items-center px-4 py-2 bg-pink-100 text-pink-700 rounded-full text-sm font-medium mb-6">
+                🎊 Celebrations & Events
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">
+                Community Experiences
+              </h2>
+              <p className="text-xl text-pink-600 font-semibold mb-6">
+                Fun, memorable experiences for any celebration
+              </p>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                From birthday parties and baby showers to weddings and large-scale fan engagement events like IPL activations, we design fun, memorable experiences that leave participants energised, connected, and fully immersed in the moment.
+              </p>
+              <div className="mb-8">
+                <p className="font-bold text-gray-900 mb-4">Ideal for:</p>
+                <ul className="grid grid-cols-2 gap-3">
+                  {['Celebrations & private events', 'Brand activations', 'Fan engagement', 'Wedding & pre-wedding events', 'Community gatherings'].map((item, index) => (
+                    <li key={index} className="flex items-center text-gray-600">
+                      <svg className="w-5 h-5 text-pink-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Custom Experiences */}
+      <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-              Why Choose Sparkplug?
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 text-white rounded-full text-sm font-medium mb-6">
+              🎨 Tailor-Made
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black mb-6">
+              Custom Experiences
             </h2>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              Trusted by world-class brands across India for high-energy experiences that transform teams
+            <p className="text-xl text-green-400 font-semibold mb-6">
+              If you can imagine it, we can build it
             </p>
+            <p className="text-gray-300 text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+              Have something unique in mind? We design custom engagement experiences for corporates, communities, events, and hybrid/virtual formats. If you can imagine it, we can build it — music-led, rhythm-driven, or completely tailor-made.
+            </p>
+            <Link 
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+            >
+              Let&apos;s Create Together
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
           </motion.div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div 
-              className="text-center p-8 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+      {/* CTA Section */}
+      <section className="py-20 bg-brand-primary text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              Ready to Sparkplug your audience?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Let&apos;s create an unforgettable experience for your team.
+            </p>
+            <Link 
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-white text-brand-primary px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
-              <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-3">Proven Track Record</h3>
-              <p className="text-gray-700 text-lg font-medium">200+ activities delivered to 70,000+ participants across India</p>
-            </motion.div>
-
-            <motion.div 
-              className="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-3">Prestigious Clients</h3>
-              <p className="text-gray-700 text-lg font-medium">Trusted by Google, Microsoft, Deloitte, EY, PwC, and many more</p>
-            </motion.div>
-
-            <motion.div 
-              className="text-center p-8 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-3">Unique Edge</h3>
-              <p className="text-gray-700 text-lg font-medium">Exclusive activities, music facilitation, and high-energy engagement</p>
-            </motion.div>
-          </div>
+              Enquire Now
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>

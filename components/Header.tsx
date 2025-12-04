@@ -8,9 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const navigation = [
   { label: "Home", href: "/" },
-  { label: "What We Do", href: "/programs" },
+  { label: "Experiences", href: "/programs" },
   { label: "About Us", href: "/about" },
-  // { label: "Partner With Us", href: "/partner" },
   { label: "Contact", href: "/contact" }
 ];
 

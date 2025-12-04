@@ -3,27 +3,26 @@
     "name": "Sparkplug",
     "shortName": "Sparkplug",
     "tagline": "Spark Your Teams. Plug in Connections.",
-    "description": "High-energy team building experiences, drum circles, and engagement sessions for corporates, events, and communities across India"
+    "description": "High-energy audience engagement experiences for teams, corporates, and communities across India, built around rhythm, collaboration, and pure human energy."
   },
   "navigation": {
     "items": [
       { "label": "Home", "href": "/" },
-      { "label": "What We Do", "href": "/programs" },
-      { "label": "Why Choose Us", "href": "/about" },
-      { "label": "Partner With Us", "href": "/partner" },
+      { "label": "Experiences", "href": "/programs" },
+      { "label": "About Us", "href": "/about" },
       { "label": "Contact", "href": "/contact" }
     ]
   },
   "homepage": {
     "hero": {
       "title": "Spark Your Teams.\nPlug in Connections.",
-      "subtitle": "Where teams stop working in silos and start sparking together",
-      "description": "We design high-energy experiences like drum circles, team building workshops, and engagement sessions for corporates, events, and communities. Get people talking, laughing, and collaborating with powerful mixes of connection, creativity, and pure fun."
+      "subtitle": "Energise. Connect. Transform your people.",
+      "description": "With our high-energy audience engagement experiences for teams, corporates, and communities across India, built around rhythm, collaboration, and pure human energy."
     },
     "challenge": {
-      "title": "What We Offer",
-      "subtitle": "Purposeful & Memorable Experiences",
-      "description": "Sparkplug operates as a hybrid audience engagement company, combining corporate team-building, experiential events, and music-led sessions. This unique mix allows us to design experiences that are both purposeful and memorable.",
+      "title": "What We Do",
+      "subtitle": "We Turn Teams Into a Connected Force",
+      "description": "High-energy experiences that get teams talking, laughing, and actually enjoying each other's company. Trusted by global brands.",
       "statistics": [
         { "number": "200+", "label": "Activities Delivered" },
         { "number": "70,000+", "label": "Participants Engaged" },
@@ -31,303 +30,290 @@
       ]
     },
     "causes": {
-      "title": "Our Services",
+      "title": "We Specialise In",
       "subtitle": "High-Energy Experiences That Transform Teams",
       "items": [
         {
-          "category": "Corporate Team-Building",
-          "causes": ["Engaging workshops & ice-breakers", "High-energy activities", "Collaboration boosters", "Available in-person or virtually"]
+          "category": "Corporate Drum Circles",
+          "causes": ["High-energy music-led experiences", "Everyone becomes part of the beat", "CEO to intern, one rhythm", "Fastest way to energise a room"]
         },
         {
-          "category": "Experiential Events",
-          "causes": ["Birthday parties & baby showers", "Weddings & celebrations", "IPL & fan engagement events", "Memorable participant experiences"]
+          "category": "Team-Building Workshops",
+          "causes": ["Interactive sessions for teamwork", "Unlock creativity and trust", "No awkward icebreakers", "High-engagement gamified experiences"]
         },
         {
-          "category": "Music & Drum Circles",
-          "causes": ["Unique music-led sessions", "Rhythmic team connection", "Creativity sparking activities", "Community gatherings"]
+          "category": "Musical Therapy Experiences",
+          "causes": ["Stress-relief sessions", "Motivation & morale boosters", "Rhythm energizers", "Creativity boosters"]
         },
         {
-          "category": "Creator Collaborations",
-          "causes": ["Agency partnerships", "Venue co-creation", "Event campaigns", "Lasting impression experiences"]
+          "category": "Leadership Retreats",
+          "causes": ["Strategic team alignment", "High-energy leadership sessions", "Cross-functional collaboration", "Creative problem-solving"]
         }
       ]
     },
-    "approach": {
-      "title": "Outcomes After the Events",
-      "subtitle": "Energized, Connected, and Inspired",
+    "signatureExperiences": {
+      "title": "Signature Experiences",
       "items": [
         {
-          "letter": "E",
-          "title": "Energized Teams",
-          "description": "Every Sparkplug experience leaves people energized and inspired, with high-energy workshops that reduce stress and create unforgettable fun."
+          "name": "Corporate Drum Circles",
+          "tagline": "Where suits, interns, and senior leaders drop their roles and pick up a drum.",
+          "description": "Everyone becomes part of the same beat."
         },
         {
-          "letter": "C",
-          "title": "Connected Collaboration",
-          "description": "Teams discover fresh ways to collaborate while breaking silos. Participants feel included and engaged from start to finish, building stronger bonds."
+          "name": "Team-Building Workshops",
+          "tagline": "Interactive sessions designed to unlock creativity, teamwork, and trust",
+          "description": "Without the awkward icebreakers."
         },
         {
-          "letter": "S",
-          "title": "Sparked Creativity",
-          "description": "Our sessions spark creativity and positive energy, creating a culture of engagement that continues to grow long after the event ends."
+          "name": "Culture & Engagement Sessions",
+          "tagline": "High-energy modules that boost morale, belonging, and on-ground participation.",
+          "description": "Build a culture of connection."
         }
+      ]
+    },
+    "whyTeamsLove": {
+      "title": "Why Teams Love Sparkplug",
+      "items": [
+        "Zero skill required",
+        "100% participation guaranteed",
+        "Breaks barriers instantly",
+        "Boosts collaboration and communication",
+        "Creates lasting memories",
+        "Works for groups of 10 to 5,000+"
       ]
     },
     "theoryOfChange": {
-      "title": "Why Choose Sparkplug?",
+      "title": "Why Teams Love Sparkplug",
       "description": "Backed by years of facilitation experience and a track record with some of the world's biggest brands, we know how to turn any gathering into a powerful experience.",
       "steps": [
         {
           "step": "1",
-          "title": "Proven Track Record",
-          "description": "200+ activities delivered, 70,000+ participants engaged across India with consistent excellence"
+          "title": "Zero Skill Required",
+          "description": "No musical background needed. Everyone can participate from the very first beat."
         },
         {
           "step": "2",
-          "title": "Prestigious Clients",
-          "description": "Trusted by Deloitte, EY, PwC, Google, Microsoft, PepsiCo, Flipkart, ICICI, Nestlé, IPL, and more"
+          "title": "100% Participation",
+          "description": "Our facilitation ensures everyone is engaged. No spectators, only participants."
         },
         {
           "step": "3",
-          "title": "Unique Edge",
-          "description": "Exclusive activities, music facilitation, and high-energy audience engagement that stands out"
+          "title": "Breaks Barriers Instantly",
+          "description": "Watch hierarchies dissolve as CEOs and interns drum together as equals."
         },
         {
           "step": "4",
-          "title": "Values & Culture",
-          "description": "Inclusive by design with positive energy, collaborative spirit, continuous learning, and integrity"
+          "title": "Works for Any Size",
+          "description": "From intimate teams of 10 to stadium crowds of 5,000+. We scale seamlessly."
         }
       ]
+    },
+    "clients": {
+      "title": "Taking Energy Nationwide",
+      "subtitle": "Across Brands. Across Cities. Across India.",
+      "logos": ["Google", "Deloitte", "PepsiCo", "EY", "PwC", "Microsoft", "Flipkart", "ICICI", "Nestlé", "IPL"],
+      "cities": ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Goa"]
     }
   },
   "about": {
     "hero": {
-      "title": "Why Choose Sparkplug?",
-      "subtitle": "Energetic, Fun, Positive, Creative",
-      "description": "We're where teams stop working in silos and start sparking together. Backed by years of facilitation experience and a track record with world-class brands."
+      "title": "Our Story",
+      "subtitle": "People connect best when they experience something together.",
+      "description": "Sparkplug was born from a simple idea: People connect best when they experience something together."
     },
     "foundingAspiration": {
-      "title": "Our Brand Personality",
-      "content": "Sparkplug is energetic, fun, positive, creative, bonding, professional, therapeutic, and healing. We bring together team building, employee engagement, audience engagement, energizers, collaboration, music therapy, and team creativity in everything we do. Our look and feel is standout, niche, premium, and lively. We're inspired by industry leaders like CrewIt, BITE, HappynessProject, FocusU, and TheConnectedTeam, but we bring our own unique spark to every experience we create."
+      "title": "Our Story",
+      "content": "After years of working with corporates and communities, we saw the same thing: people open up in engagement that didn't feel forced, boring, or predictable. So we built Sparkplug — a space where music, rhythm, and intentional facilitation come together to energise teams and spark meaningful connection."
     },
-    "vision": "A world where teams are energized, connected, and inspired. Where collaboration happens naturally, creativity flows freely, and every gathering becomes a powerful mix of connection and pure fun. We envision workplaces and communities where people genuinely enjoy working together, breaking down silos through shared experiences that spark lasting bonds.",
+    "whatMakesDifferent": {
+      "title": "What Makes Sparkplug Different",
+      "items": [
+        {
+          "title": "We don't \"perform\". We involve.",
+          "description": "Everyone becomes part of the experience."
+        },
+        {
+          "title": "We design for real outcomes.",
+          "description": "Not just passive entertainment, but active engagement that improves communication, trust, and team morale."
+        },
+        {
+          "title": "We bring world-class facilitation.",
+          "description": "Simple, clean, and deeply human sessions shaped by years of experience."
+        },
+        {
+          "title": "We work with any group size.",
+          "description": "Small teams to stadium-level crowds across India."
+        }
+      ]
+    },
+    "vision": "A world where teams are energized, connected, and inspired. Where collaboration happens naturally, creativity flows freely, and every gathering becomes a powerful mix of connection and pure fun.",
     "mission": "To design high-energy experiences that transform how teams connect and collaborate. We create memorable moments through drum circles, workshops, and engagement sessions that leave participants energized, inspired, and ready to work better together.",
     "values": [
       {
-        "title": "Energetic & Fun",
-        "description": "We bring high energy and genuine fun to every experience, creating moments that people remember long after the event."
+        "title": "We Involve, Not Perform",
+        "description": "Everyone becomes part of the experience. No spectators, only participants."
       },
       {
-        "title": "Positive & Creative", 
-        "description": "Our approach sparks creativity and maintains positive energy, fostering environments where innovation thrives."
+        "title": "Real Outcomes",
+        "description": "Not just passive entertainment, but active engagement that improves communication, trust, and team morale."
       },
       {
-        "title": "Professional & Bonding",
-        "description": "We balance professionalism with authentic connection, helping teams build stronger bonds through shared experiences."
+        "title": "World-Class Facilitation",
+        "description": "Simple, clean, and deeply human sessions shaped by years of experience."
       },
       {
-        "title": "Therapeutic & Healing",
-        "description": "Our music-led sessions and activities provide therapeutic benefits, reducing stress and promoting team wellbeing."
+        "title": "Any Group Size",
+        "description": "Small teams to stadium-level crowds across India."
       }
     ],
-    "objectives": [
-      "To deliver 200+ high-energy team building activities annually, engaging 70,000+ participants across India with experiences that break barriers and boost collaboration",
-      "To partner with India's leading corporates, agencies, and venues to co-create innovative engagement experiences that leave lasting impressions and strengthen organizational culture", 
-      "To pioneer music-led facilitation through drum circles and unique activities that bring people together rhythmically, spark creativity, and create genuine unity",
-      "To design memorable experiential events from birthdays to IPL activations that energize participants and create authentic connections across communities",
-      "To maintain our values of inclusivity, positive energy, collaborative spirit, continuous learning, and integrity in every experience we deliver"
-    ],
-    "governance": {
-      "legalBoard": {
-        "name": "Client Portfolio",
-        "description": "Trusted by world-class organizations",
-        "members": ["Deloitte", "EY", "PwC", "Google", "Microsoft", "PepsiCo", "Flipkart", "ICICI", "Nestlé", "IPL"]
-      },
-      "advisoryPanel": {
-        "name": "Our Unique Edge",
-        "description": "What sets us apart in the industry",
-        "members": ["Exclusive activities", "Music facilitation expertise", "High-energy audience engagement", "Proven track record across India"]
-      },
-      "nextGenBoard": {
-        "name": "Service Delivery",
-        "description": "How we work with clients",
-        "members": ["In-person workshops", "Virtual team building", "Hybrid event formats", "Custom experience design"]
-      },
-      "executiveTeam": {
-        "name": "Core Team",
-        "description": "Expert facilitators with years of experience in creating unforgettable team experiences",
-        "members": []
-      }
-    },
-    "journey": {
-      "title": "Our Impact Journey",
-      "description": "From local workshops to serving India's biggest brands, Sparkplug has grown by consistently delivering high-energy experiences that truly transform how teams connect and collaborate.",
-      "quarters": [
-        {
-          "quarter": "Foundation",
-          "months": [
-            {
-              "month": "Early Days",
-              "priorities": ["Launched first drum circle sessions", "Built core facilitation methodology"]
-            },
-            {
-              "month": "Growth",
-              "priorities": ["Expanded to corporate team building", "Developed signature activities"]
-            },
-            {
-              "month": "Scale", 
-              "priorities": ["Crossed 10,000 participants", "Established pan-India presence"]
-            }
-          ]
-        },
-        {
-          "quarter": "Expansion",
-          "months": [
-            {
-              "month": "Diversification",
-              "priorities": ["Added experiential events portfolio", "Launched virtual offerings"]
-            },
-            {
-              "month": "Partnerships",
-              "priorities": ["Began agency collaborations", "Created venue partnerships"]
-            },
-            {
-              "month": "Recognition",
-              "priorities": ["Worked with first Fortune 500 client", "Delivered IPL activation"]
-            }
-          ]
-        },
-        {
-          "quarter": "Excellence", 
-          "months": [
-            {
-              "month": "Premium",
-              "priorities": ["Served 50+ major corporates", "50,000+ participants milestone"]
-            },
-            {
-              "month": "Innovation",
-              "priorities": ["Introduced new music therapy formats", "Expanded activity portfolio"]
-            },
-            {
-              "month": "Leadership",
-              "priorities": ["Industry benchmark status", "Thought leadership in engagement"]
-            }
-          ]
-        },
-        {
-          "quarter": "Today",
-          "months": [
-            {
-              "month": "Current",
-              "priorities": ["200+ activities delivered", "70,000+ participants engaged"]
-            },
-            {
-              "month": "Present",
-              "priorities": ["Trusted by top global brands", "All-India coverage"]
-            },
-            {
-              "month": "Future",
-              "priorities": ["Continuous innovation", "Setting new industry standards"]
-            }
-          ]
-        }
-      ]
+    "founder": {
+      "title": "Meet the Founder",
+      "content": "Coming soon..."
     }
   },
   "programs": {
     "hero": {
-      "title": "What We Do",
-      "subtitle": "Four Pillars of High-Energy Engagement",
-      "description": "From corporate workshops to drum circles, we create experiences that energize, connect, and inspire."
+      "title": "Our Experiences",
+      "subtitle": "High-Energy Engagement That Transforms",
+      "description": "From corporate drum circles to custom experiences, we create moments that energize, connect, and inspire."
     },
+    "experiences": [
+      {
+        "name": "Corporate Drum Circles",
+        "tagline": "The fastest way to energise a room",
+        "description": "A high-energy, music-led experience where everyone, CEO to intern, becomes part of one rhythm. Corporate drum circles are one of the fastest ways to energise a room, break silos, and create instant connection.",
+        "perfectFor": "Off-sites, annual meets, R&Rs, launch events, and culture days.",
+        "idealFor": ["Energising burnout teams", "Breaking silos", "Boosting morale", "Making events unforgettable"]
+      },
+      {
+        "name": "Team-Building Workshops",
+        "tagline": "Communication, trust, and creative problem-solving",
+        "description": "Our collaboration-focused workshops help teams communicate better, build trust, and solve problems creatively. These are not typical corporate games. These are high-engagement, gamified experiences developed to bring out teamwork naturally.",
+        "perfectFor": "Onboarding, leadership development, and cross-functional collaboration.",
+        "idealFor": ["Freshers & new joiners", "Leadership teams", "Cross-functional groups", "Creative problem-solving days"]
+      },
+      {
+        "name": "Workplace Culture Experiences",
+        "tagline": "Regular engagement, not once-a-year events",
+        "description": "Every workplace has people who've drifted into silos without even realising it. Our quick 45–60 minute modules are built for offices that want regular engagement, not once-a-year events. Great for energising the office, refreshing teams, and building a culture of belonging.",
+        "modules": ["Rhythm Energizers", "Creativity Boosters", "Stress-Relief Sessions", "Motivation & Morale Boosters"]
+      },
+      {
+        "name": "Community Experiences",
+        "tagline": "Fun, memorable experiences for any celebration",
+        "description": "From birthday parties and baby showers to weddings and large-scale fan engagement events like IPL activations, we design fun, memorable experiences that leave participants energised, connected, and fully immersed in the moment.",
+        "idealFor": ["Celebrations & private events", "Brand activations", "Fan engagement", "Wedding & pre-wedding events", "Community gatherings"]
+      },
+      {
+        "name": "Custom Experiences",
+        "tagline": "If you can imagine it, we can build it",
+        "description": "Have something unique in mind? We design custom engagement experiences for corporates, communities, events, and hybrid/virtual formats. If you can imagine it, we can build it — music-led, rhythm-driven, or completely tailor-made."
+      }
+    ],
     "activatingExisting": {
-      "name": "Corporate Team-Building",
-      "tagline": "Break Barriers, Boost Collaboration",
-      "description": "Engaging workshops, ice-breakers, and high-energy activities designed to break barriers, boost collaboration, and strengthen culture. Available in-person or virtually for teams across India.",
+      "name": "Corporate Drum Circles",
+      "tagline": "The fastest way to energise a room",
+      "description": "A high-energy, music-led experience where everyone, CEO to intern, becomes part of one rhythm. Corporate drum circles are one of the fastest ways to energise a room, break silos, and create instant connection.",
       "programs": [
         {
-          "name": "Workshops & Ice-Breakers",
-          "description": "Interactive sessions that get teams talking and collaborating from the start"
+          "name": "Off-sites & Annual Meets",
+          "description": "Energise your annual gatherings with rhythm and connection"
         },
         {
-          "name": "High-Energy Activities",
-          "description": "Dynamic experiences that boost energy levels and team spirit"
+          "name": "R&Rs & Launch Events",
+          "description": "Celebrate achievements with high-energy musical experiences"
         },
         {
-          "name": "Virtual & In-Person",
-          "description": "Flexible delivery formats to meet your team wherever they are"
+          "name": "Culture Days",
+          "description": "Build belonging and team spirit through shared rhythm"
         }
       ],
-      "targetAudience": "Corporate teams, HR departments, organizational development leaders",
-      "callToAction": "Energize your team"
+      "targetAudience": "Corporate teams looking to energise, connect, and inspire",
+      "callToAction": "Book a Drum Circle"
     },
     "buildingOriginal": {
-      "name": "Experiential Events",
-      "tagline": "Fun, Memorable, Connected",
-      "description": "From birthday parties and baby showers to weddings and fan engagement events like IPL activations, we design fun, memorable experiences that leave participants energized and connected.",
+      "name": "Team-Building Workshops",
+      "tagline": "Communication, trust, and creative problem-solving",
+      "description": "Our collaboration-focused workshops help teams communicate better, build trust, and solve problems creatively. These are not typical corporate games — these are high-engagement, gamified experiences.",
       "programs": [
         {
-          "name": "Celebrations",
-          "description": "Birthday parties, baby showers, and weddings that people remember"
+          "name": "Freshers & Onboarding",
+          "description": "Help new joiners integrate and bond with teams naturally"
         },
         {
-          "name": "Fan Engagement",
-          "description": "IPL activations and brand experiences that energize audiences"
+          "name": "Leadership Development",
+          "description": "Build trust and collaboration among leadership teams"
         },
         {
-          "name": "Community Events",
-          "description": "Gatherings that bring people together in meaningful ways"
+          "name": "Cross-functional Collaboration",
+          "description": "Break silos and improve communication across departments"
         }
       ],
-      "targetAudience": "Individuals, brands, sports franchises, community organizers",
-      "callToAction": "Create your experience"
+      "targetAudience": "Teams seeking meaningful collaboration and trust-building",
+      "callToAction": "Plan Your Workshop"
     },
     "catalysingConversations": {
-      "name": "Music & Drum Circles", 
-      "tagline": "Unity Through Rhythm",
-      "description": "Unique music-led sessions that bring people together rhythmically, spark creativity, and create a sense of unity. Perfect for corporates, communities, and social gatherings.",
+      "name": "Workplace Culture Experiences",
+      "tagline": "Regular engagement, not once-a-year events",
+      "description": "Quick 45–60 minute modules built for offices that want regular engagement. Great for energising the office, refreshing teams, and building a culture of belonging.",
       "programs": [
         {
-          "name": "Drum Circles",
-          "description": "Rhythmic experiences that create instant connection and energy"
+          "name": "Rhythm Energizers",
+          "description": "Quick energy boosts through music and movement"
         },
         {
-          "name": "Music Therapy",
-          "description": "Therapeutic sessions that reduce stress and promote wellbeing"
+          "name": "Creativity Boosters",
+          "description": "Unlock creative thinking through interactive activities"
         },
         {
-          "name": "Creative Sessions",
-          "description": "Music-led activities that unlock creativity and collaboration"
+          "name": "Stress-Relief Sessions",
+          "description": "Help teams unwind and recharge together"
         }
       ],
-      "targetAudience": "Teams, communities, wellness programs, social gatherings",
-      "callToAction": "Feel the rhythm"
+      "targetAudience": "Offices seeking regular team engagement and culture building",
+      "callToAction": "Schedule a Session"
     },
     "creatorCollabs": {
-      "name": "Creator & Agency Collaborations",
-      "tagline": "Co-Creating Impact",
-      "description": "Partnering with agencies and venues to co-create experiences, events, and campaigns that leave a lasting impression.",
+      "name": "Community & Custom Experiences",
+      "tagline": "If you can imagine it, we can build it",
+      "description": "From birthday parties and weddings to IPL activations and brand experiences, we design fun, memorable experiences for any occasion. Custom formats available.",
       "programs": [
         {
-          "name": "Agency Partnerships",
-          "description": "Collaborative campaign design and execution with creative agencies"
+          "name": "Celebrations & Events",
+          "description": "Birthdays, baby showers, weddings, and pre-wedding events"
         },
         {
-          "name": "Venue Collaborations",
-          "description": "Co-creating experiences at premier venues across India"
+          "name": "Brand Activations",
+          "description": "Fan engagement, IPL activations, and brand experiences"
         },
         {
-          "name": "Event Co-Creation",
-          "description": "Joint development of innovative engagement experiences"
+          "name": "Custom Experiences",
+          "description": "Tailor-made experiences for any unique requirement"
         }
       ],
-      "targetAudience": "Creative agencies, event venues, brands, experience designers",
-      "callToAction": "Partner with us"
+      "targetAudience": "Individuals, brands, and communities seeking memorable experiences",
+      "callToAction": "Create Your Experience"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Plan Your Experience",
+      "subtitle": "Tell us a little about your event, and we'll craft something perfect for your team.",
+      "description": "Send us a message and let's create something unforgettable."
+    },
+    "form": {
+      "fields": ["Name", "Organisation", "Email", "Phone", "Type of event", "Number of participants", "Preferred date", "Message"]
+    },
+    "info": {
+      "email": "connect@sparkplug.in",
+      "instagram": "@thesparkplugin",
+      "instagramUrl": "https://instagram.com/thesparkplugin",
+      "whatsapp": "Coming soon"
     }
   },
   "getInvolved": {
     "hero": {
-      "title": "Partner With Us", 
+      "title": "Partner With Us",
       "subtitle": "Let's Create Amazing Experiences Together",
       "description": "Whether you're a corporate HR team, event organizer, creative agency, or venue owner, we're ready to collaborate and energize your next gathering."
     },
@@ -336,70 +322,43 @@
       "description": "Ready to transform your next team building session, event, or gathering? Let's design an experience that your participants will never forget.",
       "packages": [
         {
-          "name": "Corporate Team-Building",
-          "description": "Engaging workshops, ice-breakers, and high-energy activities for teams"
+          "name": "Corporate Drum Circles",
+          "description": "High-energy music-led experiences for teams"
         },
         {
-          "name": "Experiential Events",
-          "description": "Birthday parties, weddings, IPL activations, and celebrations"  
+          "name": "Team-Building Workshops",
+          "description": "Gamified experiences for communication and trust"
         },
         {
-          "name": "Music & Drum Circles",
-          "description": "Unique music-led sessions that create rhythm and unity"
+          "name": "Custom Experiences",
+          "description": "Tailor-made engagement for any occasion"
         }
-      ]
-    },
-    "volunteer": {
-      "title": "Collaboration Opportunities",
-      "description": "Join forces with Sparkplug to create unforgettable experiences.",
-      "opportunities": [
-        {
-          "role": "Creative Agency Partner",
-          "commitment": "Co-create campaigns and experiences with our facilitation expertise",
-          "skills": "Event planning, brand activation, creative campaign development"
-        },
-        {
-          "role": "Venue Partner", 
-          "commitment": "Host and collaborate on high-energy engagement experiences",
-          "skills": "Event space management, hospitality, community connections"
-        },
-        {
-          "role": "Corporate HR Partner",
-          "commitment": "Ongoing team building and employee engagement programs",
-          "skills": "HR management, organizational development, culture building"
-        },
-        {
-          "role": "Facilitator Network",
-          "commitment": "Join our team of expert facilitators delivering experiences",
-          "skills": "Group facilitation, high energy, music or creative background"
-        }
-      ]
-    },
-    "workWithUs": {
-      "title": "Join Our Team",
-      "description": "Be part of a high-energy team that creates unforgettable experiences every day.",
-      "currentOpenings": [
-        "Lead Facilitator - Corporate Events",
-        "Music Facilitator - Drum Circles", 
-        "Experience Designer - Event Planning"
       ]
     },
     "contact": {
       "title": "Let's Connect",
-      "email": "hello@sparkplug.in",
-      "phone": "+91 98765 43210",
+      "email": "connect@sparkplug.in",
+      "instagram": "@thesparkplugin",
+      "instagramUrl": "https://instagram.com/thesparkplugin",
       "address": "Pan-India Coverage",
       "socialMedia": {
-        "youtube": "https://youtube.com/@sparkplug",
-        "linkedin": "https://linkedin.com/company/sparkplug",
-        "instagram": "https://instagram.com/sparkplug_official", 
-        "facebook": "https://facebook.com/sparkplug.official"
+        "instagram": "https://instagram.com/thesparkplugin"
       }
     }
+  },
+  "cta": {
+    "title": "Ready to Sparkplug your audience?",
+    "buttonText": "Enquire Now",
+    "buttonLink": "/contact"
   },
   "blog": {
     "title": "Stories & Updates",
     "subtitle": "Energy, Connection, and Fun",
     "description": "Follow our journey as we spark teams and plug in connections across India. Stories from events, insights on engagement, and the power of bringing people together."
+  },
+  "testimonials": {
+    "title": "What Teams Say",
+    "subtitle": "Real feedback from real experiences",
+    "items": []
   }
 }

@@ -1,34 +1,34 @@
 'use client';
 
-import StoriesUpdates from '../components/sections/StoriesUpdates';
-import Challenge from '@/components/sections/Challenge';
 import Hero from '@/components/sections/Hero';
-import TheoryOfChange from '@/components/sections/TheoryOfChange';
+import WhatWeDo from '@/components/sections/WhatWeDo';
+import SignatureExperiences from '@/components/sections/SignatureExperiences';
 import VideoReels from '@/components/sections/VideoReels';
-import RootCause from '@/components/sections/RootCause';
-
+import WhyTeamsLove from '@/components/sections/WhyTeamsLove';
+import ClientLogos from '@/components/sections/ClientLogos';
 
 export default function Home() {
-
   return (
     <div className="bg-white">
-      {/* Hero Section - Minimal Design Like Educate Girls */}
+      {/* Hero Section */}
       <Hero />
 
-      {/* Challenge Section - Professional NGO Design */}
-      <Challenge />
+      {/* What We Do - Interactive description */}
+      <WhatWeDo />
 
-      {/* Root Causes - Clean analysis */}
-      <RootCause />
+      {/* Signature Experiences - Interactive Cards */}
+      <SignatureExperiences />
 
-      {/* Video Reels Section */}
+      {/* Video Reels - Showcase our events */}
       <VideoReels />
 
-      {/* Theory of Change - Elegant timeline */}
-      <TheoryOfChange />
+      {/* Why Teams Love Us - Animated Benefits */}
+      <WhyTeamsLove />
 
-      {/* Stories & Updates Section */}
-      <StoriesUpdates />
+      {/* Client Logos & Cities */}
+      <ClientLogos />
+
+
     </div>
   );
 }
