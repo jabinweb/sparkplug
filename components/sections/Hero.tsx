@@ -22,18 +22,13 @@ export default function Hero() {
           >
             {/* Main Headline */}
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--color-text-primary)] mb-4 sm:mb-6 leading-tight">
-              {homepage.hero.title.split('\n').map((line, index) => (
-                <span key={index}>
-                  {line.split(' ').map((word, wordIndex) => 
-                    word.toLowerCase() === 'spark' ? (
-                      <span key={wordIndex} className="text-[var(--color-brand-secondary)] font-black drop-shadow-lg">{word} </span>
-                    ) : (
-                      <span key={wordIndex}>{word} </span>
-                    )
-                  )}
-                  {index < homepage.hero.title.split('\n').length - 1 && <br />}
-                </span>
-              ))}
+              {homepage.hero.title.split(' ').map((word, wordIndex) => 
+                word.toLowerCase() === 'people' || word.toLowerCase() === 'power' ? (
+                  <span key={wordIndex} className="text-[var(--color-brand-secondary)] font-black drop-shadow-lg">{word} </span>
+                ) : (
+                  <span key={wordIndex}>{word} </span>
+                )
+              )}
             </h1>
 
             {/* Subheading */}
