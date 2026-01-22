@@ -174,7 +174,7 @@ html {
 /* Selection styles */
 ::selection {
   background-color: var(--color-brand-secondary);
-  color: white;
+  color: var(--color-button-text);
 }
 
 /* Hide scrollbar for horizontal scroll */

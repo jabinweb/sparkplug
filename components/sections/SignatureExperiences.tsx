@@ -133,7 +133,7 @@ export default function SignatureExperiences() {
                   whileTap={{ scale: 0.98 }}
                   layout
                 >
-                  <div className="flex items-start gap-4">
+                  <div className={`flex ${isActive ? 'items-start' : 'items-center'} gap-4`}>
                     <motion.div 
                       className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
                         isActive 
@@ -154,7 +154,7 @@ export default function SignatureExperiences() {
                     
                     <div className="flex-1 min-w-0">
                       <h3 className={`font-bold text-lg transition-colors duration-300 ${
-                        isActive ? 'text-white' : 'text-[var(--color-text-primary)]'
+                        isActive ? 'text-[var(--color-text-secondary)]' : 'text-[var(--color-text-primary)]'
                       }`}>
                         {exp.title}
                       </h3>
