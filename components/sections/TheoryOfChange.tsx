@@ -20,7 +20,7 @@ const staggerContainer = {
 export default function TheoryOfChange() {
     const { homepage } = siteContent;
   return (
-          <section className="py-24 bg-white">
+          <section className="py-24 bg-[var(--color-bg-primary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             className="text-center mb-20"
@@ -32,10 +32,10 @@ export default function TheoryOfChange() {
             <Badge className="inline-flex items-center bg-brand-primary/10 text-brand-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
               Theory of Change
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 max-w-4xl mx-auto leading-tight">
+            <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 max-w-4xl mx-auto leading-tight">
               {homepage.theoryOfChange.title}
             </h2>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto font-light leading-relaxed">
+            <p className="text-lg text-[var(--color-text-secondary)] max-w-4xl mx-auto font-light leading-relaxed">
               {homepage.theoryOfChange.description}
             </p>
           </motion.div>
@@ -181,13 +181,13 @@ export default function TheoryOfChange() {
                               viewport={{ once: true }}
                               transition={{ delay: 0.3 + index * 0.1 }}
                             >
-                              <span className="text-sm font-medium text-gray-500 mb-1">Step {step.step}</span>
+                              <span className="text-sm font-medium text-[var(--color-text-tertiary)] mb-1">Step {step.step}</span>
                               <div className="w-12 h-1 rounded-full" style={{ backgroundColor: currentColor.accent }} />
                             </motion.div>
                           </div>
                           
                           <motion.h3 
-                            className="text-xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors mb-4"
+                            className="text-xl font-bold text-white group-hover:text-[var(--color-brand-primary)] transition-colors mb-4"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -199,7 +199,7 @@ export default function TheoryOfChange() {
                         
                         <div className="pt-0 pb-8 px-6">
                           <motion.p 
-                            className="text-gray-600 leading-relaxed text-sm"
+                            className="text-[var(--color-text-secondary)] leading-relaxed text-sm"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}

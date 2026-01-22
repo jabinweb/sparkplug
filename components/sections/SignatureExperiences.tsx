@@ -88,7 +88,7 @@ export default function SignatureExperiences() {
   };
 
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="py-24 bg-[var(--color-bg-primary)] overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -104,10 +104,10 @@ export default function SignatureExperiences() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="w-12 h-1 bg-brand-primary rounded-full" />
-            <span className="text-brand-primary font-bold uppercase tracking-widest text-sm">Signature Experiences</span>
+            <span className="w-12 h-1 bg-[var(--color-brand-secondary)] rounded-full" />
+            <span className="text-[var(--color-brand-secondary)] font-bold uppercase tracking-widest text-sm">Signature Experiences</span>
           </motion.div>
-          <h2 className="text-3xl md:text-4xl font-black text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-black text-[var(--color-text-primary)]">
             Experiences That Transform
           </h2>
         </motion.div>
@@ -126,8 +126,8 @@ export default function SignatureExperiences() {
                   onClick={() => setActiveIndex(index)}
                   className={`w-full text-left p-5 rounded-2xl transition-all duration-300 border-2 ${
                     isActive 
-                      ? 'bg-white shadow-xl border-gray-900' 
-                      : 'bg-gray-50 hover:bg-white border-transparent hover:border-gray-200'
+                      ? 'bg-[var(--color-bg-tertiary)] shadow-xl border-[var(--color-brand-primary)]' 
+                      : 'bg-[var(--color-bg-secondary)] hover:bg-[var(--color-bg-tertiary)] border-transparent hover:border-[var(--color-brand-primary)]/20'
                   }`}
                   whileHover={{ x: isActive ? 0 : 8 }}
                   whileTap={{ scale: 0.98 }}
@@ -138,7 +138,7 @@ export default function SignatureExperiences() {
                       className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
                         isActive 
                           ? `bg-gradient-to-br ${exp.color} shadow-lg` 
-                          : 'bg-gray-100'
+                          : 'bg-[var(--color-bg-tertiary)]'
                       }`}
                       animate={{ 
                         rotate: isActive ? [0, -5, 5, 0] : 0,
@@ -147,14 +147,14 @@ export default function SignatureExperiences() {
                       transition={{ duration: 0.4 }}
                     >
                       <IconComponent 
-                        className={`w-6 h-6 ${isActive ? 'text-white' : 'text-gray-500'}`} 
+                        className={`w-6 h-6 ${isActive ? 'text-white' : 'text-[var(--color-text-primary)]'}`} 
                         strokeWidth={1.5} 
                       />
                     </motion.div>
                     
                     <div className="flex-1 min-w-0">
                       <h3 className={`font-bold text-lg transition-colors duration-300 ${
-                        isActive ? 'text-gray-900' : 'text-gray-600'
+                        isActive ? 'text-white' : 'text-[var(--color-text-primary)]'
                       }`}>
                         {exp.title}
                       </h3>
@@ -167,15 +167,15 @@ export default function SignatureExperiences() {
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <p className="text-gray-600 text-sm mt-2 leading-relaxed">
+                            <p className="text-[var(--color-text-secondary)] text-sm mt-2 leading-relaxed">
                               {exp.tagline}
                             </p>
-                            <p className="text-gray-500 text-sm mt-1 italic">
+                            <p className="text-[var(--color-text-tertiary)] text-sm mt-1 italic">
                               {exp.description}
                             </p>
                             <Link 
                               href="/programs"
-                              className="inline-flex items-center gap-2 mt-4 text-sm font-bold text-gray-900 hover:text-brand-primary transition-colors"
+                              className="inline-flex items-center gap-2 mt-4 text-sm font-bold text-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary-600)] transition-colors"
                             >
                               Learn More
                               <ChevronRight className="w-4 h-4" />
@@ -187,12 +187,12 @@ export default function SignatureExperiences() {
 
                     <motion.div
                       className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
-                        isActive ? 'bg-gray-900' : 'bg-gray-200'
+                        isActive ? 'bg-[var(--color-brand-primary)]' : 'bg-[hsl(235,52%,20%)]'
                       }`}
                       animate={{ scale: isActive ? 1 : 0.8 }}
                     >
                       <motion.div
-                        className={`w-2 h-2 rounded-full ${isActive ? 'bg-white' : 'bg-gray-400'}`}
+                        className={`w-2 h-2 rounded-full ${isActive ? 'bg-[var(--color-brand-primary)]' : 'bg-[var(--color-bg-tertiary)]'}`}
                       />
                     </motion.div>
                   </div>
@@ -204,7 +204,7 @@ export default function SignatureExperiences() {
           {/* Right: Image Slider */}
           <div className="relative">
             <motion.div
-              className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-gray-100"
+              className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-[var(--color-bg-tertiary)]"
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -239,19 +239,19 @@ export default function SignatureExperiences() {
               <div className="absolute inset-0 flex items-center justify-between p-4">
                 <motion.button
                   onClick={prevImage}
-                  className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+                  className="w-10 h-10 bg-[var(--color-bg-tertiary)]/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-[var(--color-bg-tertiary)] transition-colors text-[var(--color-text-primary)]"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <ChevronLeft className="w-5 h-5 text-gray-800" />
+                  <ChevronLeft className="w-5 h-5 text-[var(--color-text-primary)]" />
                 </motion.button>
                 <motion.button
                   onClick={nextImage}
-                  className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+                  className="w-10 h-10 bg-[var(--color-bg-tertiary)]/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-[var(--color-bg-tertiary)] transition-colors text-[var(--color-text-primary)]"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <ChevronRight className="w-5 h-5 text-gray-800" />
+                  <ChevronRight className="w-5 h-5 text-[var(--color-text-primary)]" />
                 </motion.button>
               </div>
 
@@ -288,7 +288,7 @@ export default function SignatureExperiences() {
                   className={`h-2 rounded-full transition-all duration-300 ${
                     currentImageIndex === imgIndex 
                       ? 'w-8' 
-                      : 'w-2 bg-gray-300 hover:bg-gray-400'
+                      : 'w-2 bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-bg-secondary)]'
                   }`}
                   style={currentImageIndex === imgIndex ? { backgroundColor: currentExperience.accentColor } : {}}
                   whileHover={{ scale: 1.2 }}
@@ -296,22 +296,6 @@ export default function SignatureExperiences() {
                 />
               ))}
             </div>
-
-            {/* Auto-play indicator */}
-            {isAutoPlaying && (
-              <motion.div 
-                className="flex items-center justify-center gap-2 mt-3 text-xs text-gray-400"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                <motion.div 
-                  className="w-1.5 h-1.5 rounded-full bg-green-500"
-                  animate={{ opacity: [1, 0.3, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                Auto-playing
-              </motion.div>
-            )}
           </div>
         </div>
       </div>

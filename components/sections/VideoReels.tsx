@@ -36,7 +36,7 @@ export default function VideoReels() {
     {
       title: "Drum Circle Magic",
       description: "Watch teams sync together in rhythm, creating powerful moments of unity and joy through interactive drum circle experiences.",
-      thumbnail: "https://images.unsplash.com/photo-1519683384663-c4e0c0c93c66?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      thumbnail: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       videoUrl: "https://www.pexels.com/video/7534311/download/",
       duration: "2:15"
     },
@@ -103,9 +103,7 @@ export default function VideoReels() {
   };
 
   return (
-    <section className="py-24 bg-black relative overflow-hidden">
-      {/* Background gradient effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-50"></div>
+    <section className="py-24 bg-[var(--color-bg-secondary)] relative overflow-hidden transition-colors duration-300">
       
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         {/* Header */}
@@ -116,10 +114,10 @@ export default function VideoReels() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight">
+          <h2 className="text-5xl lg:text-6xl font-black text-[var(--color-text-primary)] mb-4 tracking-tight">
             Watch Our Reels
           </h2>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-[var(--color-text-primary)] font-medium opacity-70">
             Real moments. Real energy. Real results.
           </p>
         </motion.div>
@@ -147,7 +145,7 @@ export default function VideoReels() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                 >
                   <div 
-                    className="relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer group bg-gray-900"
+                    className="relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer group bg-[var(--color-bg-tertiary)]"
                   >
                     {/* Thumbnail with gradient overlay */}
                     <Image
@@ -181,18 +179,18 @@ export default function VideoReels() {
                     
                     {/* Content - bottom with glassmorphism */}
                     <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-                        <h3 className="text-white font-bold text-lg mb-2 line-clamp-2">
+                      <div className="bg-[var(--color-bg-primary)]/95 backdrop-blur-md rounded-2xl p-4 border border-[var(--color-brand-primary)]/20">
+                        <h3 className="text-[var(--color-text-primary)] font-bold text-lg mb-2 line-clamp-2">
                           {story.title}
                         </h3>
-                        <p className="text-gray-200 text-sm line-clamp-2">
+                        <p className="text-[var(--color-text-secondary)] text-sm line-clamp-2">
                           {story.description}
                         </p>
                       </div>
                     </div>
                     
-                    {/* Yellow accent on hover */}
-                    <div className="absolute inset-0 border-4 border-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl pointer-events-none"></div>
+                    {/* Accent border on hover */}
+                    <div className="absolute inset-0 border-4 border-[var(--color-brand-accent)] opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl pointer-events-none"></div>
                   </div>
                 </motion.div>
               ))}
@@ -208,8 +206,8 @@ export default function VideoReels() {
               onClick={() => setCurrentSlide(index)}
               className={`transition-all duration-300 rounded-full ${
                 index === currentSlide 
-                  ? 'w-8 h-2 bg-yellow-400' 
-                  : 'w-2 h-2 bg-gray-600 hover:bg-gray-500'
+                  ? 'w-8 h-2 bg-[var(--color-brand-primary)]' 
+                  : 'w-2 h-2 bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-bg-secondary)]'
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -224,12 +222,12 @@ export default function VideoReels() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <button className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-yellow-500/50 transition-all hover:scale-105">
+          {/* <button className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-[var(--color-brand-primary)] to-[var(--color-brand-primary-600)] text-white px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-[var(--color-brand-primary)]/50 transition-all hover:scale-105">
             <span>Watch Full Showreel</span>
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
             </svg>
-          </button>
+          </button> */}
         </motion.div>
       </div>
     </section>

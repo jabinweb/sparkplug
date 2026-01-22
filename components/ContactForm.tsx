@@ -40,18 +40,18 @@ export default function ContactForm({
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md">
+    <div className="bg-[var(--color-bg-primary)] dark:bg-[var(--color-bg-secondary)] p-8 rounded-lg shadow-md">
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">{title}</h3>
+        <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">{title}</h3>
         {subtitle && (
-          <p className="text-gray-600">{subtitle}</p>
+          <p className="text-[var(--color-text-secondary)]">{subtitle}</p>
         )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {fields.map((field) => (
           <div key={field.name}>
-            <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor={field.name} className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">
               {field.label} {field.required && <span className="text-red-500">*</span>}
             </label>
             
@@ -62,7 +62,7 @@ export default function ContactForm({
                 rows={4}
                 value={formData[field.name] || ''}
                 onChange={(e) => handleChange(field.name, e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={field.placeholder}
                 required={field.required}
               />
@@ -72,7 +72,7 @@ export default function ContactForm({
                 name={field.name}
                 value={formData[field.name] || ''}
                 onChange={(e) => handleChange(field.name, e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required={field.required}
               >
                 <option value="">Select an option</option>
@@ -87,7 +87,7 @@ export default function ContactForm({
                 name={field.name}
                 value={formData[field.name] || ''}
                 onChange={(e) => handleChange(field.name, e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={field.placeholder}
                 required={field.required}
               />

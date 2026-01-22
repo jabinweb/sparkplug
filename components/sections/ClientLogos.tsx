@@ -11,7 +11,7 @@ export default function ClientLogos() {
   const cities = homepage.clients?.cities || ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Pune', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Goa'];
 
   return (
-    <section className="py-20 bg-gray-50 overflow-hidden">
+    <section className="py-20 bg-[var(--color-bg-primary)] overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -26,22 +26,22 @@ export default function ClientLogos() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center bg-brand-primary/10 text-brand-primary px-4 py-2 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] px-4 py-2 rounded-full text-sm font-medium mb-6 border border-[var(--color-brand-primary)]/20"
           >
             🇮🇳 Taking Energy Nationwide
           </motion.div>
-          <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">
-            Across Brands. Across Cities. Across <span className="text-brand-primary">India.</span>
+          <h2 className="text-3xl md:text-5xl font-black text-[var(--color-text-primary)] mb-4">
+            Across Brands. Across Cities. Across <span className="text-[var(--color-brand-secondary)]">India.</span>
           </h2>
         </motion.div>
 
         {/* Clients Marquee */}
         <div className="mb-12">
-          <p className="text-center text-gray-600 mb-6 font-medium">Trusted by teams at</p>
+          <p className="text-center text-[var(--color-text-secondary)] mb-6 font-medium">Trusted by teams at</p>
           <div className="relative">
             {/* Gradient overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-10"></div>
+            {/* <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--color-bg-primary)] to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--color-bg-primary)] to-transparent z-10"></div> */}
             
             {/* Scrolling logos */}
             <motion.div 
@@ -59,10 +59,10 @@ export default function ClientLogos() {
               {[...clients, ...clients].map((client, index) => (
                 <motion.div
                   key={index}
-                  className="flex-shrink-0 bg-white px-8 py-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow"
+                  className="flex-shrink-0 bg-[var(--color-bg-tertiary)] px-8 py-4 rounded-xl border border-[var(--color-brand-primary)]/10 hover:border-[var(--color-brand-primary)]/30 transition-all"
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <span className="text-gray-700 font-bold text-lg whitespace-nowrap">{client}</span>
+                  <span className="text-[var(--color-text-primary)] font-bold text-lg whitespace-nowrap">{client}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -77,12 +77,12 @@ export default function ClientLogos() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <p className="text-gray-600 mb-6 font-medium">Delivering experiences across</p>
+          <p className="text-[var(--color-text-secondary)] mb-6 font-medium">Delivering experiences across</p>
           <div className="flex flex-wrap justify-center gap-3">
             {cities.map((city, index) => (
               <motion.span
                 key={index}
-                className="bg-white px-4 py-2 rounded-full text-gray-700 font-medium shadow-sm border border-gray-100 hover:bg-brand-primary hover:text-white transition-all cursor-default"
+                className="bg-[var(--color-bg-tertiary)] px-4 py-2 rounded-full text-[var(--color-text-primary)] font-medium border border-[var(--color-brand-primary)]/10 hover:bg-[var(--color-brand-primary)] hover:text-[var(--color-button-text)] transition-all cursor-default"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -93,7 +93,7 @@ export default function ClientLogos() {
               </motion.span>
             ))}
             <motion.span
-              className="bg-brand-primary text-white px-4 py-2 rounded-full font-bold shadow-md"
+              className="bg-[var(--color-brand-primary)] text-[var(--color-button-text)] px-4 py-2 rounded-full font-bold"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}

@@ -10,7 +10,7 @@ export default function Challenge() {
     const { homepage } = siteContent;
   
     return (
-        <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+        <section className="py-12 sm:py-16 lg:py-20 bg-[var(--color-bg-secondary)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Section Header */}
@@ -21,10 +21,10 @@ export default function Challenge() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
             >
-                <div className="inline-flex items-center bg-brand-primary/10 text-brand-primary px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
+                <div className="inline-flex items-center bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 border border-[var(--color-brand-primary)]/20">
                 What We Do
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-text-primary)] mb-4 sm:mb-6 leading-tight px-4">
                 {homepage.challenge.subtitle}
                 </h2>
             </motion.div>
@@ -37,7 +37,7 @@ export default function Challenge() {
                 transition={{ duration: 0.6 }}
                 className="max-w-4xl mx-auto text-center mb-12"
             >
-                <p className="text-gray-700 leading-relaxed mb-8 text-base sm:text-lg lg:text-xl">
+                <p className="text-[var(--color-text-secondary)] leading-relaxed mb-8 text-base sm:text-lg">
                     {homepage.challenge.description}
                 </p>
 
@@ -45,7 +45,7 @@ export default function Challenge() {
                     <Button
                         asChild
                         size="lg"
-                        className="bg-brand-primary hover:bg-brand-primary-700 text-white font-semibold px-6 sm:px-8 py-3 text-sm sm:text-base w-full sm:w-auto"
+                        className="bg-[var(--color-brand-primary)] hover:bg-[var(--color-brand-secondary)] text-[var(--color-button-text)] font-semibold px-6 sm:px-8 py-3 text-sm sm:text-base w-full sm:w-auto"
                     >
                         <Link href="/contact">Book an Experience</Link>
                     </Button>
@@ -62,7 +62,7 @@ export default function Challenge() {
 
             {/* Impact Statistics */}
             <motion.div
-                className="relative py-12 sm:py-16 bg-white rounded-3xl shadow-lg"
+                className="relative py-12 sm:py-16 bg-[var(--color-bg-tertiary)] rounded-3xl shadow-lg border border-white/10"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -82,7 +82,7 @@ export default function Challenge() {
                                 <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-brand-primary mb-2">
                                     {stat.number}
                                 </div>
-                                <div className="text-gray-600 font-medium text-sm sm:text-base">
+                                <div className="text-[var(--color-text-tertiary)] font-medium text-sm sm:text-base">
                                     {stat.label}
                                 </div>
                             </motion.div>

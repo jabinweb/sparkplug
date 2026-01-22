@@ -27,7 +27,7 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
       'Innovation': 'bg-brand-secondary-100 text-brand-secondary-700',
       'Policy': 'bg-sosc-red-100 text-sosc-red-700'
     };
-    return colors[category] || 'bg-gray-100 text-gray-800';
+    return colors[category] || 'bg-gray-100 text-[var(--color-text-primary)]';
   };
 
   const relatedPosts = blogPosts
@@ -38,16 +38,16 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
     .slice(0, 3);
 
   return (
-    <div className="bg-white">
+    <div className="bg-[var(--color-bg-primary)]">
       {/* Breadcrumb */}
       <nav className="bg-gray-50 py-4">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center space-x-2 text-sm">
             <Link href="/" className="text-indigo-600 hover:text-indigo-800">Home</Link>
-            <span className="text-gray-500">/</span>
+            <span className="text-[var(--color-text-secondary)]">/</span>
             <Link href="/blog" className="text-indigo-600 hover:text-indigo-800">Blog</Link>
-            <span className="text-gray-500">/</span>
-            <span className="text-gray-900">{post.title}</span>
+            <span className="text-[var(--color-text-secondary)]">/</span>
+            <span className="text-[var(--color-text-primary)]">{post.title}</span>
           </div>
         </div>
       </nav>
@@ -61,16 +61,16 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(post.category)}`}>
                 {post.category}
               </span>
-              <span className="ml-4 text-sm text-gray-500">
+              <span className="ml-4 text-sm text-[var(--color-text-secondary)]">
                 {formatDate(post.publishDate)}
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-6 leading-tight">
               {post.title}
             </h1>
             
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            <p className="text-xl text-[var(--color-text-secondary)] mb-8 leading-relaxed">
               {post.excerpt}
             </p>
             
@@ -81,28 +81,28 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
                 </span>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">{post.author}</p>
-                <p className="text-sm text-gray-500">Author</p>
+                <p className="font-semibold text-[var(--color-text-primary)]">{post.author}</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">Author</p>
               </div>
             </div>
           </header>
 
           {/* Content */}
           <div className="prose prose-lg max-w-none mb-12">
-            <div className="text-gray-700 leading-relaxed whitespace-pre-line">
+            <div className="text-[var(--color-text-secondary)] leading-relaxed whitespace-pre-line">
               {post.content}
             </div>
           </div>
 
           {/* Tags */}
-          <div className="border-t border-gray-200 pt-8 mb-12">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
+          <div className="border-t border-[var(--color-brand-primary)]/20 pt-8 mb-12">
+            <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-4">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag) => (
                 <Link
                   key={tag}
                   href={`/blog/tag/${tag.replace(/\s+/g, '-')}`}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-indigo-100 hover:text-indigo-700 transition-colors"
+                  className="px-3 py-1 bg-gray-100 text-[var(--color-text-secondary)] rounded-full text-sm hover:bg-indigo-100 hover:text-indigo-700 transition-colors"
                 >
                   #{tag}
                 </Link>
@@ -111,10 +111,10 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
           </div>
 
           {/* Share */}
-          <div className="border-t border-gray-200 pt-8 mb-12">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Share this post</h3>
+          <div className="border-t border-[var(--color-brand-primary)]/20 pt-8 mb-12">
+            <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-4">Share this post</h3>
             <div className="flex space-x-4">
-              <button className="flex items-center space-x-2 bg-brand-primary text-white px-4 py-2 rounded-lg hover:bg-brand-primary-700 transition-colors">
+              <button className="flex items-center space-x-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] px-4 py-2 rounded-lg hover:bg-[var(--color-brand-secondary)] transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
                 </svg>
@@ -141,27 +141,27 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
       {relatedPosts.length > 0 && (
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            <h2 className="text-3xl font-bold text-[var(--color-text-primary)] mb-8 text-center">
               Related Posts
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {relatedPosts.map((relatedPost) => (
-                <article key={relatedPost.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <article key={relatedPost.id} className="bg-[var(--color-bg-secondary)] rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="p-6">
                     <div className="flex items-center mb-3">
                       <span className={`px-2 py-1 rounded text-xs font-medium ${getCategoryColor(relatedPost.category)}`}>
                         {relatedPost.category}
                       </span>
-                      <span className="ml-auto text-xs text-gray-500">
+                      <span className="ml-auto text-xs text-[var(--color-text-secondary)]">
                         {formatDate(relatedPost.publishDate)}
                       </span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                    <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-3">
                       <Link href={`/blog/${relatedPost.id}`} className="hover:text-indigo-600 transition-colors">
                         {relatedPost.title}
                       </Link>
                     </h3>
-                    <p className="text-gray-600 text-sm mb-4">
+                    <p className="text-[var(--color-text-secondary)] text-sm mb-4">
                       {relatedPost.excerpt}
                     </p>
                     <Link

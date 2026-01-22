@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import ThemeToggle from './ThemeToggle';
 
 const navigation = [
   { label: "Home", href: "/" },
@@ -16,7 +17,30 @@ const navigation = [
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('dark');
   const pathname = usePathname();
+
+  // Handle mounting and theme
+  useEffect(() => {
+    setMounted(true);
+    // Get theme from ThemeProvider after mount
+    const isDark = document.documentElement.classList.contains('dark');
+    setCurrentTheme(isDark ? 'dark' : 'light');
+    
+    // Watch for theme changes
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setCurrentTheme(isDark ? 'dark' : 'light');
+    });
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    return () => observer.disconnect();
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -40,7 +64,7 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <nav className={`bg-white sticky top-0 z-50 transition-all duration-300 ${
+    <nav className={`bg-[var(--color-bg-tertiary)] sticky top-0 z-50 transition-all duration-300 border-b border-gray-200 dark:border-white/10 ${
       scrolled ? 'shadow-lg' : 'shadow-md'
     }`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
@@ -54,7 +78,7 @@ export default function Header() {
           >
             <Link href="/" className="flex items-center space-x-2 group">
               <Image
-                src="/logos/sparkplug_logo.svg"
+                src={currentTheme === 'light' ? '/logos/sparkplug_light.png' : '/logos/logo.png'}
                 alt="Sparkplug Logo"
                 width={40}
                 height={40}
@@ -77,16 +101,16 @@ export default function Header() {
                 >
                   <Link
                     href={item.href}
-                    className={`relative px-2 xl:px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                    className={`relative px-2 xl:px-3 py-2 rounded-lg text-sm xl:text-base font-medium transition-all duration-300 whitespace-nowrap ${
                       pathname === item.href
-                        ? 'text-brand-primary'
-                        : 'text-gray-700 hover:text-brand-primary'
+                        ? 'text-[var(--color-brand-primary)]'
+                        : 'text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)]'
                     }`}
                   >
                     {item.label}
                     {pathname === item.href && (
                       <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-primary rounded-full"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--color-brand-primary)] rounded-full"
                         layoutId="activeTab"
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
@@ -97,16 +121,17 @@ export default function Header() {
             </div>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button & Theme Toggle */}
           <motion.div 
-            className="hidden lg:block"
+            className="hidden lg:flex items-center gap-3"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
+            <ThemeToggle />
             <Link
               href="/partner"
-              className="bg-brand-primary text-white px-4 xl:px-6 py-2 xl:py-2.5 rounded-lg text-xs xl:text-sm font-semibold hover:bg-brand-primary-700 hover:shadow-lg transition-all duration-300 whitespace-nowrap"
+              className="bg-[var(--color-brand-primary)] text-[var(--color-button-text)] px-4 xl:px-6 py-2 xl:py-2.5 rounded-lg text-sm xl:text-base font-semibold hover:bg-[var(--color-brand-primary-600)] hover:shadow-lg transition-all duration-300 whitespace-nowrap"
             >
               Partner With Us
             </Link>
@@ -116,7 +141,7 @@ export default function Header() {
           <div className="lg:hidden">
             <motion.button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative p-2 rounded-lg text-gray-700 hover:text-brand-primary hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-primary transition-colors"
+              className="relative p-2 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] hover:bg-[var(--color-bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-primary)] transition-colors"
               whileTap={{ scale: 0.95 }}
             >
               <span className="sr-only">{isMenuOpen ? 'Close menu' : 'Open menu'}</span>
@@ -170,13 +195,13 @@ export default function Header() {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl lg:hidden z-50 overflow-y-auto"
+                className="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-[var(--color-bg-primary)] shadow-2xl lg:hidden z-50 overflow-y-auto"
               >
                 {/* Panel Header */}
-                <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-brand-primary/5 to-brand-secondary/5">
+                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10 bg-gradient-to-r from-brand-primary/5 to-brand-secondary/5 dark:from-brand-primary/10 dark:to-brand-secondary/10">
                   <div className="flex items-center space-x-2">
                     <Image
-                      src="/logos/sparkplug_logo.svg"
+                      src={currentTheme === 'light' ? '/logos/sparkplug_light.png' : '/logos/logo.png'}
                       alt="Sparkplug Logo"
                       width={32}
                       height={32}
@@ -185,7 +210,7 @@ export default function Header() {
                   </div>
                   <button
                     onClick={() => setIsMenuOpen(false)}
-                    className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                    className="p-2 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)] transition-colors"
                   >
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -208,7 +233,7 @@ export default function Header() {
                         className={`group block px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                           pathname === item.href
                             ? 'bg-gradient-to-r from-brand-primary to-brand-primary-700 text-white shadow-md'
-                            : 'text-gray-700 hover:bg-gray-50'
+                            : 'text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]'
                         }`}
                         onClick={() => setIsMenuOpen(false)}
                       >
@@ -227,7 +252,7 @@ export default function Header() {
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           ) : (
-                            <svg className="w-4 h-4 text-gray-400 group-hover:text-brand-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-4 h-4 text-[var(--color-text-tertiary)] group-hover:text-brand-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                           )}
@@ -260,12 +285,12 @@ export default function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.3, delay: navigation.length * 0.08 + 0.2 }}
-                  className="px-4 pt-6 pb-4 border-t border-gray-100"
+                  className="px-4 pt-6 pb-4 border-t border-gray-100 dark:border-white/10"
                 >
                   <div className="space-y-3">
                     <a
                       href="mailto:dexter@schoolofsocialchange.org"
-                      className="flex items-center space-x-3 text-sm text-gray-600 hover:text-brand-primary transition-colors group"
+                      className="flex items-center space-x-3 text-sm text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors group"
                     >
                       <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center group-hover:bg-brand-primary/20 transition-colors">
                         <svg className="w-4 h-4 text-brand-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -276,7 +301,7 @@ export default function Header() {
                     </a>
                     <a
                       href="tel:+918010032343"
-                      className="flex items-center space-x-3 text-sm text-gray-600 hover:text-brand-primary transition-colors group"
+                      className="flex items-center space-x-3 text-sm text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors group"
                     >
                       <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center group-hover:bg-brand-primary/20 transition-colors">
                         <svg className="w-4 h-4 text-brand-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">

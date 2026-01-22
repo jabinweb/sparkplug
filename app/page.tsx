@@ -9,7 +9,7 @@ import ClientLogos from '@/components/sections/ClientLogos';
 
 export default function Home() {
   return (
-    <div className="bg-white">
+    <div className="bg-[var(--color-bg-primary)] transition-colors duration-300">
       {/* Hero Section */}
       <Hero />
 

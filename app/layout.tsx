@@ -1,14 +1,38 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import GlobalCTA from "../components/GlobalCTA";
+import ClientLayout from "../components/ClientLayout";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+const supermolot = localFont({
+  src: [
+    {
+      path: "../public/fonts/tt-supermolot-neue-trl/TT Supermolot Neue Trial Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/tt-supermolot-neue-trl/TT Supermolot Neue Trial Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/tt-supermolot-neue-trl/TT Supermolot Neue Trial Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/tt-supermolot-neue-trl/TT Supermolot Neue Trial DemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/tt-supermolot-neue-trl/TT Supermolot Neue Trial Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-supermolot",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -16,7 +40,7 @@ export const metadata: Metadata = {
   description: "High-energy team building experiences, drum circles, and engagement sessions for corporates, events, and communities. Trusted by Google, Microsoft, Deloitte, and more across India.",
   keywords: "team building, employee engagement, drum circles, corporate workshops, experiential events, audience engagement, music therapy, collaboration, India",
   icons: {
-    icon: '/logos/favicon.svg',
+    icon: '/logos/favicon.png',
   },
 };
 
@@ -26,16 +50,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('sparkplug-theme') || 
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${poppins.variable} font-sans antialiased`}
+        className={`${supermolot.variable} font-sans antialiased`}
       >
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <GlobalCTA />
-        <Footer />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

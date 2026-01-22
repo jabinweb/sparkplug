@@ -44,7 +44,7 @@ const StoriesUpdates = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-[var(--color-bg-secondary)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -58,10 +58,10 @@ const StoriesUpdates = () => {
           <div className="inline-flex items-center bg-brand-primary/10 text-brand-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
             📰 Stories & Updates
           </div>
-          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl lg:text-5xl font-bold text-[var(--color-text-primary)] mb-6">
             Real Impact, Real Stories
           </h2>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg text-[var(--color-text-secondary)] max-w-4xl mx-auto leading-relaxed">
             Follow our journey as we work to end education mortality. From classroom transformations 
             to policy breakthroughs, every story matters.
           </p>
@@ -70,7 +70,7 @@ const StoriesUpdates = () => {
         {/* Featured Posts Grid */}
         {/* <div className="mb-16">
           <motion.h3 
-            className="text-2xl font-bold text-gray-900 mb-8"
+            className="text-2xl font-bold text-[var(--color-text-primary)] mb-8"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -91,7 +91,7 @@ const StoriesUpdates = () => {
               >
                 <Card className="h-full border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl overflow-hidden group-hover:scale-[1.02]">
                   <CardContent className="p-0">
-                    <div className="bg-gradient-to-br from-brand-primary to-brand-primary-700 p-8 text-white">
+                    <div className="bg-gradient-to-br from-brand-primary to-brand-primary-700 dark:from-brand-primary-700 dark:to-brand-secondary p-8 text-white">
                       <div className="flex items-center gap-3 mb-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(post.category)} bg-white/20 text-white`}>
                           {post.category}
@@ -100,7 +100,7 @@ const StoriesUpdates = () => {
                           {formatDate(post.publishDate)}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold mb-4 leading-tight group-hover:text-yellow-200 transition-colors">
+                      <h3 className="text-2xl font-bold mb-4 leading-tight group-hover:text-[hsl(60,100%,85%)] transition-colors">
                         {post.title}
                       </h3>
                       <p className="text-white/90 leading-relaxed">
@@ -109,10 +109,10 @@ const StoriesUpdates = () => {
                     </div>
                     <div className="p-8">
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-gray-600 text-sm">By {post.author}</span>
+                        <span className="text-[var(--color-text-tertiary)] text-sm">By {post.author}</span>
                         <div className="flex gap-2">
                           {post.tags.slice(0, 2).map((tag, tagIndex) => (
-                            <span key={tagIndex} className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                            <span key={tagIndex} className="px-2 py-1 bg-[var(--color-bg-tertiary)] text-[var(--color-text-secondary)] rounded text-xs">
                               {tag}
                             </span>
                           ))}
@@ -141,7 +141,7 @@ const StoriesUpdates = () => {
         {/* Recent Updates */}
         <div className="mb-12">
           <motion.h3 
-            className="text-2xl font-bold text-gray-900 mb-8"
+            className="text-2xl font-bold text-[var(--color-text-primary)] mb-8"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -166,21 +166,21 @@ const StoriesUpdates = () => {
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(post.category)}`}>
                         {post.category}
                       </span>
-                      <span className="text-gray-500 text-xs">
+                      <span className="text-[var(--color-text-tertiary)] text-xs">
                         {formatDate(post.publishDate)}
                       </span>
                     </div>
                     
-                    <h4 className="text-lg font-bold text-gray-900 mb-3 leading-tight group-hover:text-brand-primary transition-colors">
+                    <h4 className="text-lg font-bold text-[var(--color-text-primary)] mb-3 leading-tight group-hover:text-[var(--color-brand-primary)] transition-colors">
                       {post.title}
                     </h4>
                     
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">
+                    <p className="text-[var(--color-text-secondary)] text-sm mb-4 leading-relaxed line-clamp-3">
                       {post.excerpt}
                     </p>
                     
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-500 text-xs">By {post.author}</span>
+                      <span className="text-[var(--color-text-tertiary)] text-xs">By {post.author}</span>
                       <Button 
                         asChild
                         variant="ghost" 

@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 
 const GlobalCTA = () => {
   return (
-    <section className="relative py-20 bg-blue-900 overflow-hidden">
+    <section className="relative py-20 bg-gradient-to-br from-[hsl(235,52%,45%)] to-[hsl(235,52%,55%)] overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
@@ -26,17 +26,17 @@ const GlobalCTA = () => {
             transition={{ duration: 0.5 }}
             className="inline-block mb-6"
           >
-            <span className="bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold">
+            <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold border border-white/30">
               ⚡ Let&apos;s Connect
             </span>
           </motion.div>
 
           {/* Main Heading */}
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight text-white">
-            Ready to <span className="text-yellow-400">Sparkplug</span> your audience?
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight !text-white">
+            Ready to <span className="text-[hsl(60,100%,75%)]">Sparkplug</span> your audience?
           </h2>
           
-          <p className="text-xl md:text-2xl mb-10 text-blue-100 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl mb-10 text-white/95 leading-relaxed max-w-3xl mx-auto">
             Let&apos;s create an unforgettable experience that gets your team talking, laughing, and collaborating.
           </p>
 
@@ -46,7 +46,7 @@ const GlobalCTA = () => {
               <Button 
                 asChild
                 size="lg" 
-                className="bg-yellow-400 text-gray-900 hover:bg-yellow-300 font-bold px-10 py-6 text-lg shadow-xl rounded-full"
+                className="bg-white text-[hsl(235,52%,45%)] hover:bg-white/90 font-bold px-10 py-6 text-lg rounded-full"
               >
                 <Link href="/contact">Enquire Now →</Link>
               </Button>
@@ -56,7 +56,7 @@ const GlobalCTA = () => {
                 asChild
                 variant="outline" 
                 size="lg"
-                className="border-2 border-white/30 text-white hover:bg-white/10 font-bold px-10 py-6 text-lg rounded-full bg-transparent"
+                className="border-2 border-white/50 text-white hover:bg-white hover:text-[hsl(235,52%,45%)] font-bold px-10 py-6 text-lg rounded-full bg-transparent transition-all"
               >
                 <Link href="/programs">View Experiences</Link>
               </Button>
@@ -64,7 +64,7 @@ const GlobalCTA = () => {
           </div>
 
           {/* Social Proof */}
-          <div className="text-blue-200">
+          <div className="text-white/90">
             <p className="text-base mb-4 font-medium">Trusted by teams at Google, Deloitte, PepsiCo & more.</p>
             <div className="flex justify-center items-center gap-6 md:gap-10 text-sm flex-wrap">
               <div className="flex items-center gap-2">

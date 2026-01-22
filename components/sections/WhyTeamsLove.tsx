@@ -7,16 +7,16 @@ export default function WhyTeamsLove() {
   const { homepage } = siteContent;
 
   const benefits = [
-    { icon: '🎯', text: 'Zero skill required', color: 'bg-yellow-100 text-yellow-700' },
-    { icon: '💯', text: '100% participation guaranteed', color: 'bg-green-100 text-green-700' },
-    { icon: '⚡', text: 'Breaks barriers instantly', color: 'bg-blue-100 text-blue-700' },
-    { icon: '🤝', text: 'Boosts collaboration and communication', color: 'bg-purple-100 text-purple-700' },
-    { icon: '✨', text: 'Creates lasting memories', color: 'bg-pink-100 text-pink-700' },
-    { icon: '📈', text: 'Works for groups of 10 to 5,000+', color: 'bg-orange-100 text-orange-700' },
+    { icon: '🎯', text: 'Zero skill required', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
+    { icon: '💯', text: '100% participation guaranteed', color: 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]' },
+    { icon: '⚡', text: 'Breaks barriers instantly', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
+    { icon: '🤝', text: 'Boosts collaboration and communication', color: 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]' },
+    { icon: '✨', text: 'Creates lasting memories', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
+    { icon: '📈', text: 'Works for groups of 10 to 5,000+', color: 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]' },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-[var(--color-bg-tertiary)] to-[var(--color-bg-secondary)] text-[var(--color-text-primary)] overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -31,14 +31,14 @@ export default function WhyTeamsLove() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center bg-[var(--color-brand-primary)]/20 text-[var(--color-brand-primary)] px-4 py-2 rounded-full text-sm font-medium mb-6"
           >
             💛 Why Teams Love Us
           </motion.div>
           <h2 className="text-3xl md:text-5xl font-black mb-4">
-            Why Teams Love <span className="text-yellow-400">Sparkplug</span>
+            Why Teams Love <span className="text-[var(--color-brand-secondary)]">Sparkplug</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
             What makes our experiences unforgettable
           </p>
         </motion.div>
@@ -81,7 +81,7 @@ export default function WhyTeamsLove() {
                   >
                     {benefit.icon}
                   </motion.div>
-                  <p className="text-lg font-semibold text-white group-hover:text-yellow-400 transition-colors">
+                  <p className="text-lg font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-primary)] transition-colors">
                     {benefit.text}
                   </p>
                 </div>
@@ -111,7 +111,7 @@ export default function WhyTeamsLove() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <motion.div 
-                className="text-4xl md:text-5xl font-black text-yellow-400 mb-2"
+                className="text-4xl md:text-5xl font-black text-[var(--color-brand-primary)] mb-2"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
@@ -123,7 +123,7 @@ export default function WhyTeamsLove() {
               >
                 {stat.number}
               </motion.div>
-              <div className="text-gray-400 text-sm font-medium">{stat.label}</div>
+              <div className="text-[var(--color-text-tertiary)] text-sm font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>

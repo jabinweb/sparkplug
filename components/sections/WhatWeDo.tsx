@@ -70,13 +70,13 @@ function HorizontalCard({ item, index, isActive, onClick }: {
   return (
     <motion.div
       className={`relative flex-shrink-0 cursor-pointer transition-all duration-500 ${
-        isActive ? 'w-[500px]' : 'w-[100px] md:w-[170px]'
+        isActive ? 'w-[90vw] sm:w-[400px] md:w-[500px]' : 'w-[80px] sm:w-[100px] md:w-[170px]'
       }`}
       onClick={onClick}
       layout
     >
       <motion.div 
-        className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl"
+        className="relative h-[400px] sm:h-[450px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl"
         whileHover={{ y: -10 }}
         transition={{ duration: 0.3 }}
       >
@@ -164,7 +164,7 @@ function HorizontalCard({ item, index, isActive, onClick }: {
 
               {/* Title */}
               <motion.h4
-                className="text-3xl font-black text-white mb-3 drop-shadow-lg"
+                className="text-3xl font-extrabold !text-white mb-3 drop-shadow-lg"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.35 }}
@@ -174,7 +174,7 @@ function HorizontalCard({ item, index, isActive, onClick }: {
 
               {/* Description */}
               <motion.p
-                className="text-white/90 text-base leading-relaxed mb-6"
+                className="text-white/95 text-base leading-relaxed mb-6"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
@@ -207,7 +207,7 @@ function HorizontalCard({ item, index, isActive, onClick }: {
         </AnimatePresence>
 
         {/* Number Indicator */}
-        <div className="absolute top-6 left-6">
+        <div className="absolute top-6 left-6 hidden md:block">
           <span 
             className="text-8xl font-black text-white/10"
             style={{ WebkitTextStroke: '2px rgba(255,255,255,0.2)' }}
@@ -240,13 +240,13 @@ function AnimatedStat({ stat, index }: { stat: { number: string; label: string }
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div 
-        className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 md:p-10 overflow-hidden cursor-pointer"
+        className="relative bg-gradient-to-br from-[var(--color-bg-secondary)] to-[var(--color-bg-tertiary)] rounded-3xl p-8 md:p-10 overflow-hidden cursor-pointer border border-[var(--color-brand-primary)]/10"
         whileHover={{ y: -8, scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         {/* Animated Background Glow */}
         <motion.div
-          className="absolute inset-0 bg-brand-primary/20 blur-2xl"
+          className="absolute inset-0 bg-[var(--color-brand-primary)]/20 blur-2xl"
           animate={{ 
             opacity: isHovered ? 0.4 : 0,
             scale: isHovered ? 1.2 : 1
@@ -255,7 +255,7 @@ function AnimatedStat({ stat, index }: { stat: { number: string; label: string }
         />
         
         {/* Corner Accent */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/30 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-brand-primary)]/30 rounded-full -translate-y-1/2 translate-x-1/2" />
         
         {/* Icon */}
         <motion.div
@@ -266,13 +266,13 @@ function AnimatedStat({ stat, index }: { stat: { number: string; label: string }
           }}
           transition={{ duration: 0.4 }}
         >
-          <IconComponent className="w-8 h-8 text-brand-primary" strokeWidth={1.5} />
+          <IconComponent className="w-8 h-8 text-[var(--color-brand-primary)]" strokeWidth={1.5} />
         </motion.div>
         
         {/* Number */}
         <div className="relative">
           <motion.span 
-            className="text-5xl md:text-6xl font-black text-white block mb-2"
+            className="text-5xl md:text-6xl font-black text-[var(--color-text-primary)] block mb-2"
             animate={{ scale: isHovered ? 1.05 : 1 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -281,7 +281,7 @@ function AnimatedStat({ stat, index }: { stat: { number: string; label: string }
           
           {/* Animated Underline */}
           <motion.div
-            className="h-1 bg-brand-primary rounded-full"
+            className="h-1 bg-[var(--color-brand-primary)] rounded-full"
             initial={{ width: 0 }}
             whileInView={{ width: "60%" }}
             viewport={{ once: true }}
@@ -290,13 +290,13 @@ function AnimatedStat({ stat, index }: { stat: { number: string; label: string }
         </div>
         
         {/* Label */}
-        <p className="text-gray-400 font-medium mt-4 text-sm uppercase tracking-wider">
+        <p className="text-[var(--color-text-secondary)] font-medium mt-4 text-sm uppercase tracking-wider">
           {stat.label}
         </p>
         
         {/* Hover Arrow */}
         <motion.div
-          className="absolute bottom-6 right-6 w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center"
+          className="absolute bottom-6 right-6 w-10 h-10 bg-[var(--color-brand-primary)] rounded-full flex items-center justify-center"
           initial={{ scale: 0 }}
           animate={{ scale: isHovered ? 1 : 0 }}
           transition={{ type: "spring", stiffness: 300 }}
@@ -321,10 +321,10 @@ export default function WhatWeDo() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
-    <section ref={containerRef} className="py-32 bg-[#FAFAFA] overflow-hidden relative">
-      {/* Animated Background Elements */}
+    <section ref={containerRef} className="py-32 bg-[var(--color-bg-primary)] overflow-hidden relative transition-colors duration-300">
+      {/* Animated Background Elements - Only visible in dark mode */}
       <motion.div 
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100"
         style={{ y: backgroundY }}
       >
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-radial from-yellow-100/80 to-transparent rounded-full opacity-60 blur-3xl" />
@@ -350,16 +350,16 @@ export default function WhatWeDo() {
                 viewport={{ once: true }}
               >
                 <motion.span 
-                  className="w-16 h-1 bg-brand-primary rounded-full"
+                  className="w-16 h-1 bg-[var(--color-brand-primary)] rounded-full"
                   initial={{ width: 0 }}
                   whileInView={{ width: 64 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                 />
-                <span className="text-brand-primary font-bold uppercase tracking-[0.2em] text-sm">What We Do</span>
+                <span className="text-[var(--color-brand-primary)] font-bold uppercase tracking-[0.2em] text-sm">What We Do</span>
               </motion.div>
               
-              <h2 className="text-4xl md:text-5xl lg:text-5xl font-black text-gray-900 leading-[1.1]">
+              <h2 className="text-4xl md:text-5xl lg:text-5xl font-black text-[var(--color-text-primary)] leading-[1.1]">
                 <motion.span
                   className="block"
                   initial={{ opacity: 0, y: 30 }}
@@ -389,7 +389,7 @@ export default function WhatWeDo() {
                       <motion.path
                         d="M0 8 Q75 0 150 8 T300 8"
                         fill="none"
-                        stroke="#FFC828"
+                        stroke="var(--color-brand-secondary)"
                         strokeWidth="4"
                         strokeLinecap="round"
                       />
@@ -403,7 +403,7 @@ export default function WhatWeDo() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  Into <span className="text-brand-primary relative">
+                  Into <span className="text-[var(--color-brand-secondary)] relative">
                     Extraordinary
                     <motion.span
                       className="absolute -right-6 -top-3 text-2xl"
@@ -427,7 +427,7 @@ export default function WhatWeDo() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <p className="text-xl text-gray-600 leading-relaxed mb-8">
+              <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed mb-8">
                 {homepage.challenge.description}
               </p>
               <div className="flex items-center gap-4">
@@ -435,7 +435,7 @@ export default function WhatWeDo() {
                   {['🎯', '🎪', '🎭', '🎨'].map((emoji, i) => (
                     <motion.div
                       key={i}
-                      className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-3 border-white flex items-center justify-center text-xl shadow-lg"
+                      className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--color-bg-secondary)] to-[var(--color-bg-tertiary)] border-3 border-gray-200 dark:border-[hsl(235,52%,10%)] flex items-center justify-center text-xl shadow-lg"
                       initial={{ scale: 0, x: -20 }}
                       whileInView={{ scale: 1, x: 0 }}
                       viewport={{ once: true }}
@@ -446,7 +446,7 @@ export default function WhatWeDo() {
                   ))}
                 </div>
                 <motion.span 
-                  className="text-sm text-gray-500 font-medium"
+                  className="text-sm text-[var(--color-text-tertiary)] font-medium"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
@@ -461,28 +461,63 @@ export default function WhatWeDo() {
 
         {/* Horizontal Accordion Cards */}
         <div className="mb-28 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div 
-              className="flex gap-3 justify-center"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              {specializations.map((item, index) => (
-                <HorizontalCard
-                  key={index}
-                  item={item}
-                  index={index}
-                  isActive={activeCard === index}
-                  onClick={() => setActiveCard(index)}
-                />
-              ))}
-            </motion.div>
+          <div className="max-w-7xl mx-auto">
+            {/* Mobile: Single Card Scrollable */}
+            <div className="md:hidden">
+              <motion.div 
+                className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 px-6"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                {specializations.map((item, index) => (
+                  <div key={index} className="snap-start flex-shrink-0 w-[calc(100vw-3rem)]">
+                    <HorizontalCard
+                      item={item}
+                      index={index}
+                      isActive={true}
+                      onClick={() => {}}
+                    />
+                  </div>
+                ))}
+              </motion.div>
+              
+              {/* Mobile Dots Navigation */}
+              <div className="flex justify-center gap-2 mt-6">
+                {specializations.map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-2 w-2 rounded-full bg-[var(--color-brand-primary)]/30"
+                  />
+                ))}
+              </div>
+            </div>
+            
+            {/* Desktop: Horizontal Accordion */}
+            <div className="hidden md:block px-4 sm:px-6 lg:px-8">
+              <motion.div 
+                className="flex gap-3 justify-center"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                {specializations.map((item, index) => (
+                  <HorizontalCard
+                    key={index}
+                    item={item}
+                    index={index}
+                    isActive={activeCard === index}
+                    onClick={() => setActiveCard(index)}
+                  />
+                ))}
+              </motion.div>
+            </div>
           </div>
 
-          {/* Card Navigation Dots */}
-          <div className="flex justify-center gap-3 mt-10">
+          {/* Card Navigation Dots - Desktop Only */}
+          <div className="hidden md:flex justify-center gap-3 mt-10">
             {specializations.map((item, index) => (
               <motion.button
                 key={index}
@@ -490,7 +525,7 @@ export default function WhatWeDo() {
                 className={`h-3 rounded-full transition-all duration-500 ${
                   activeCard === index 
                     ? 'w-10' 
-                    : 'w-3 bg-gray-300 hover:bg-gray-400'
+                    : 'w-3 bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-bg-secondary)]'
                 }`}
                 style={activeCard === index ? { background: item.gradientStyle } : {}}
                 whileHover={{ scale: 1.2 }}
@@ -508,7 +543,7 @@ export default function WhatWeDo() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="inline-block px-5 py-2 bg-gray-900 text-white text-xs font-bold uppercase tracking-widest rounded-full">
+            <span className="inline-block px-5 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] text-xs font-bold uppercase tracking-widest rounded-full border border-[var(--color-brand-primary)]/20">
               Our Impact
             </span>
           </motion.div>
@@ -530,7 +565,7 @@ export default function WhatWeDo() {
           >
             <Link href="/contact">
               <motion.button
-                className="group relative px-12 py-6 bg-gray-900 text-white font-bold text-lg rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300"
+                className="group relative px-12 py-6 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] font-bold text-lg rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -545,7 +580,7 @@ export default function WhatWeDo() {
                   </motion.span>
                 </span>
                 <motion.div
-                  className="absolute inset-0 bg-brand-primary"
+                  className="absolute inset-0 bg-[var(--color-brand-primary-600)]"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: 0 }}
                   transition={{ duration: 0.4 }}
@@ -555,7 +590,7 @@ export default function WhatWeDo() {
             
             <Link href="/programs">
               <motion.button
-                className="px-12 py-6 border-3 border-gray-900 text-gray-900 font-bold text-lg rounded-full hover:bg-gray-900 hover:text-white transition-all duration-300"
+                className="px-12 py-6 border-2 border-[var(--color-brand-primary)] text-[var(--color-brand-primary)] font-bold text-lg rounded-full hover:bg-[var(--color-brand-primary)] hover:text-[var(--color-button-text)] transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

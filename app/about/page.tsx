@@ -22,12 +22,12 @@ export default function AboutPage() {
   const { about } = siteContent;
 
   return (
-    <div className="bg-white">
+    <div className="bg-[var(--color-bg-primary)]">
       {/* Hero Section */}
-      <section className="relative bg-brand-primary text-white py-24 overflow-hidden">
+      <section className="relative bg-[hsl(235,52%,27%)] text-white py-24 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -45,7 +45,7 @@ export default function AboutPage() {
               🎯 Who We Are
             </motion.div>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
               {about.hero.title}
             </h1>
             <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
@@ -56,7 +56,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-[var(--color-bg-primary)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -65,27 +65,27 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center px-4 py-2 bg-brand-primary/10 text-brand-primary rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
               Our Beginning
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">
+            <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
               {about.foundingAspiration.title}
             </h2>
           </motion.div>
           
           <motion.div 
-            className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100"
+            className="bg-gradient-to-br from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)] rounded-3xl p-8 md:p-12 shadow-xl border border-[var(--color-brand-primary)]/10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="prose prose-lg max-w-none">
-              <p className="text-gray-700 leading-relaxed text-lg md:text-xl">
-                <span className="text-3xl font-bold text-brand-primary mr-2 float-left leading-none">S</span>
+              <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl">
+                <span className="text-3xl font-bold text-[var(--color-brand-primary)] mr-2 float-left leading-none">S</span>
                 parkplug was born from a simple idea: <strong>People connect best when they experience something together.</strong>
               </p>
-              <p className="text-gray-700 leading-relaxed text-lg mt-6">
+              <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg mt-6">
                 {about.foundingAspiration.content}
               </p>
             </div>
@@ -94,7 +94,7 @@ export default function AboutPage() {
       </section>
 
       {/* What Makes Us Different */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-[var(--color-bg-secondary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -103,10 +103,10 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center px-4 py-2 bg-brand-primary/10 text-brand-primary rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
               Our Difference
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">
+            <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
               What Makes Sparkplug Different
             </h2>
           </motion.div>
@@ -124,19 +124,19 @@ export default function AboutPage() {
                 variants={fadeInUp}
                 className="group"
               >
-                <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-0 h-full">
+                <div className="bg-[var(--color-bg-primary)] p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-0 h-full">
                   <div className="flex items-start gap-4 mb-4">
                     <motion.div 
-                      className="w-12 h-12 bg-gradient-to-br from-brand-primary to-yellow-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
+                      className="w-12 h-12 bg-gradient-to-br from-[var(--color-brand-primary)] to-[var(--color-brand-secondary)] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
                       whileHover={{ rotate: 5 }}
                     >
                       <span className="text-white text-xl font-bold">{index + 1}</span>
                     </motion.div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors mb-2">
+                      <h3 className="text-xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors mb-2">
                         {value.title}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-[var(--color-text-secondary)] leading-relaxed">
                         {value.description}
                       </p>
                     </div>
@@ -149,7 +149,7 @@ export default function AboutPage() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-[var(--color-bg-primary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             className="grid grid-cols-1 lg:grid-cols-2 gap-12"
@@ -162,10 +162,10 @@ export default function AboutPage() {
               variants={fadeInUp}
               className="group"
             >
-              <div className="bg-gradient-to-br from-brand-primary/5 to-yellow-50 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 h-full">
+              <div className="bg-gradient-to-br from-[var(--color-brand-primary)]/5 to-[var(--color-brand-accent)]/20 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 h-full">
                 <div className="flex items-center mb-6">
                   <motion.div 
-                    className="w-16 h-16 bg-gradient-to-br from-brand-primary to-yellow-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                    className="w-16 h-16 bg-gradient-to-br from-[var(--color-brand-primary)] to-[var(--color-brand-secondary)] rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300"
                     whileHover={{ rotate: 5 }}
                   >
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,9 +173,9 @@ export default function AboutPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors">Our Vision</h3>
+                  <h3 className="text-2xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors">Our Vision</h3>
                 </div>
-                <p className="text-gray-700 leading-relaxed text-lg">
+                <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg">
                   {about.vision}
                 </p>
               </div>
@@ -195,9 +195,9 @@ export default function AboutPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors">Our Mission</h3>
+                  <h3 className="text-2xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors">Our Mission</h3>
                 </div>
-                <p className="text-gray-700 leading-relaxed text-lg">
+                <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg">
                   {about.mission}
                 </p>
               </div>
@@ -207,7 +207,7 @@ export default function AboutPage() {
       </section>
 
       {/* Meet the Founder - Placeholder */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-[var(--color-bg-secondary)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -216,45 +216,17 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <div className="inline-flex items-center px-4 py-2 bg-brand-primary/10 text-brand-primary rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
               Leadership
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">
+            <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
               Meet the Founder
             </h2>
-            <div className="bg-white p-12 rounded-2xl shadow-lg border border-gray-100">
-              <p className="text-gray-500 text-lg italic">
+            <div className="bg-[var(--color-bg-primary)] p-12 rounded-2xl shadow-lg border border-[var(--color-brand-primary)]/10">
+              <p className="text-[var(--color-text-tertiary)] text-lg italic">
                 Coming soon...
               </p>
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-brand-primary text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Ready to Sparkplug your audience?
-            </h2>
-            <p className="text-xl mb-8 opacity-90">
-              Let&apos;s create an unforgettable experience for your team.
-            </p>
-            <a 
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-white text-brand-primary px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
-            >
-              Enquire Now
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
           </motion.div>
         </div>
       </section>

@@ -39,7 +39,7 @@ export default function RootCause() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-24 bg-[var(--color-bg-secondary)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
@@ -55,14 +55,14 @@ export default function RootCause() {
             transition={{ duration: 0.5 }}
             className="inline-block mb-6"
           >
-            <Badge className="bg-yellow-400/10 text-yellow-700 px-6 py-2 text-sm font-bold">
+            <Badge className="bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] px-6 py-2 text-sm font-bold border border-[var(--color-brand-primary)]/20">
               ⚡ What We Do
             </Badge>
           </motion.div>
-          <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 leading-tight">
+          <h2 className="text-4xl md:text-6xl font-black text-[var(--color-text-primary)] mb-6 leading-tight">
             {homepage.causes.title}
           </h2>
-          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto leading-relaxed">
             {homepage.causes.subtitle}
           </p>
         </motion.div>
@@ -80,7 +80,7 @@ export default function RootCause() {
               variants={fadeInUp}
               className="group"
             >
-              <Card className="h-full border-0 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden bg-white">
+              <Card className="h-full border-0 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden bg-[var(--color-bg-tertiary)] border border-white/10">
                 <div className={`h-1 bg-gradient-to-r ${gradients[index]}`}></div>
                 
                 <CardHeader className="pb-4">
@@ -91,7 +91,7 @@ export default function RootCause() {
                   >
                     {serviceIcons[index]}
                   </motion.div>
-                  <CardTitle className="text-xl font-black text-gray-900 mb-2">
+                  <CardTitle className="text-xl font-black text-[var(--color-text-primary)] mb-2">
                     {service.category}
                   </CardTitle>
                 </CardHeader>
@@ -101,9 +101,9 @@ export default function RootCause() {
                     {service.causes.map((item, itemIndex) => (
                       <li 
                         key={itemIndex} 
-                        className="flex items-start text-gray-600"
+                        className="flex items-start text-[var(--color-text-secondary)]"
                       >
-                        <svg className="w-5 h-5 text-yellow-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-[--color-brand-primary] mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <span className="text-sm leading-relaxed">{item}</span>
@@ -123,12 +123,12 @@ export default function RootCause() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="text-lg text-[var(--color-text-secondary)] mb-6">
             Ready to energize your team?
           </p>
           <Link 
             href="/programs"
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+            className="inline-flex items-center gap-2 bg-[var(--color-brand-primary)] hover:bg-[var(--color-brand-primary-600)] text-[var(--color-button-text)] px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
           >
             Explore All Experiences
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

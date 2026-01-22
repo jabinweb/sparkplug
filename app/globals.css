@@ -1,102 +1,163 @@
 @import "tailwindcss";
 
-@theme {
-  /* Sparkplug Brand Colors - Updated to match brand guidelines */
-  --color-brand-primary: hsl(219, 84%, 32%); /* #1E3A8A - Deep Blue */
-  --color-brand-secondary: hsl(45, 100%, 48%); /* #F5B800 - Golden Yellow */
+:root {
+  --radius: 0.65rem;
   
-  /* Brand Primary Variations (Blue Tones) */
-  --color-brand-primary-50: hsl(214, 100%, 97%);
-  --color-brand-primary-100: hsl(214, 95%, 93%);
-  --color-brand-primary-200: hsl(213, 97%, 87%);
-  --color-brand-primary-300: hsl(212, 96%, 78%);
-  --color-brand-primary-400: hsl(213, 94%, 68%);
-  --color-brand-primary-500: hsl(217, 91%, 60%);
-  --color-brand-primary-600: hsl(219, 84%, 32%); /* Main blue */
-  --color-brand-primary-700: hsl(219, 84%, 25%);
-  --color-brand-primary-800: hsl(219, 84%, 20%);
-  --color-brand-primary-900: hsl(219, 84%, 15%);
+  /* Sparkplug Brand Colors - Light Mode: Blue primary, Yellow accent */
+  --color-brand-primary: hsl(235, 52%, 37%);
+  --color-brand-secondary: hsl(235, 52%, 48%); /* Darker for better contrast on white */
+  --color-brand-accent: hsl(60, 100%, 60%); /* Keep yellow for true accents only */
+  --color-brand-primary-50: hsl(235, 52%, 95%);
+  --color-brand-primary-100: hsl(235, 52%, 88%);
+  --color-brand-primary-200: hsl(235, 52%, 75%);
+  --color-brand-primary-300: hsl(235, 52%, 60%);
+  --color-brand-primary-400: hsl(235, 52%, 48%);
+  --color-brand-primary-500: hsl(235, 52%, 37%);
+  --color-brand-primary-600: hsl(235, 52%, 32%);
+  --color-brand-primary-700: hsl(235, 52%, 27%);
+  --color-brand-primary-800: hsl(235, 52%, 22%);
+  --color-brand-primary-900: hsl(235, 52%, 17%);
+  --color-brand-secondary-50: hsl(60, 100%, 97%);
+  --color-brand-secondary-100: hsl(60, 100%, 93%);
+  --color-brand-secondary-200: hsl(60, 100%, 85%);
+  --color-brand-secondary-300: hsl(60, 100%, 75%);
+  --color-brand-secondary-400: hsl(60, 100%, 67%);
+  --color-brand-secondary-500: hsl(60, 100%, 60%);
+  --color-brand-secondary-600: hsl(60, 100%, 50%);
+  --color-brand-secondary-700: hsl(60, 100%, 42%);
+  --color-brand-secondary-800: hsl(60, 100%, 35%);
+  --color-brand-secondary-900: hsl(60, 100%, 28%);
   
-  /* Brand Secondary Variations (Yellow/Gold Tones) */
-  --color-brand-secondary-50: hsl(45, 100%, 96%);
-  --color-brand-secondary-100: hsl(45, 100%, 89%);
-  --color-brand-secondary-200: hsl(45, 100%, 77%);
-  --color-brand-secondary-300: hsl(45, 100%, 65%);
-  --color-brand-secondary-400: hsl(45, 100%, 56%);
-  --color-brand-secondary-500: hsl(45, 100%, 48%); /* Main yellow */
-  --color-brand-secondary-600: hsl(45, 100%, 40%);
-  --color-brand-secondary-700: hsl(45, 100%, 32%);
-  --color-brand-secondary-800: hsl(45, 100%, 24%);
-  --color-brand-secondary-900: hsl(45, 100%, 16%);
+  /* Shadcn UI Variables - Light */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.852 0.199 91.936);
+  --primary-foreground: oklch(0.421 0.095 57.708);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.852 0.199 91.936);
+  --chart-1: oklch(0.905 0.182 98.111);
+  --chart-2: oklch(0.795 0.184 86.047);
+  --chart-3: oklch(0.681 0.162 75.834);
+  --chart-4: oklch(0.554 0.135 66.442);
+  --chart-5: oklch(0.476 0.114 61.907);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.681 0.162 75.834);
+  --sidebar-primary-foreground: oklch(0.987 0.026 102.212);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.852 0.199 91.936);
   
-  /* SOSC Extended Palette */
-  --color-sosc-teal: hsl(188, 85%, 35%); /* #0891B2 - Teal */
-  --color-sosc-green: hsl(159, 95%, 20%); /* #059669 - Green */
-  --color-sosc-red: hsl(0, 74%, 49%); /* #DC2626 - Red/Orange */
-  --color-sosc-black: hsl(0, 0%, 0%); /* #000000 - Black */
-  
-  /* Teal variations */
-  --color-sosc-teal-50: hsl(188, 85%, 95%);
-  --color-sosc-teal-100: hsl(188, 85%, 85%);
-  --color-sosc-teal-500: hsl(188, 85%, 35%);
-  --color-sosc-teal-600: hsl(188, 85%, 30%);
-  --color-sosc-teal-700: hsl(188, 85%, 25%);
-  
-  /* Green variations */
-  --color-sosc-green-50: hsl(159, 95%, 90%);
-  --color-sosc-green-100: hsl(159, 95%, 80%);
-  --color-sosc-green-500: hsl(159, 95%, 20%);
-  --color-sosc-green-600: hsl(159, 95%, 18%);
-  --color-sosc-green-700: hsl(159, 95%, 15%);
-  
-  /* Red variations */
-  --color-sosc-red-50: hsl(0, 74%, 95%);
-  --color-sosc-red-100: hsl(0, 74%, 85%);
-  --color-sosc-red-500: hsl(0, 74%, 49%);
-  --color-sosc-red-600: hsl(0, 74%, 40%);
-  --color-sosc-red-700: hsl(0, 74%, 35%);
-  
-  /* Legacy support aliases */
-  --color-accent: hsl(159, 95%, 20%); /* Green for success/impact */
-  --color-accent-light: hsl(159, 95%, 90%);
-  --color-warm: hsl(0, 74%, 49%); /* Red/orange for urgent CTAs */
-  --color-warm-light: hsl(0, 74%, 95%);
-  
-  /* Neutral colors */
-  --color-gray-50: hsl(210, 40%, 98%);
-  --color-gray-100: hsl(210, 40%, 96%);
-  --color-gray-200: hsl(214, 32%, 91%);
-  --color-gray-300: hsl(213, 27%, 84%);
-  --color-gray-400: hsl(215, 20%, 65%);
-  --color-gray-500: hsl(215, 16%, 47%);
-  --color-gray-600: hsl(215, 19%, 35%);
-  --color-gray-700: hsl(215, 25%, 27%);
-  --color-gray-800: hsl(217, 33%, 17%);
-  --color-gray-900: hsl(222, 84%, 5%);
-  
-  /* Typography */
-  --font-sans: var(--font-poppins), 'Inter', 'Segoe UI', system-ui, sans-serif;
-  
-  /* Spacing and sizing */
-  --radius: 0.75rem;
-  --radius-sm: 0.5rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* Theme Variables - Light */
+  --color-bg-primary: hsl(0, 0%, 100%);
+  --color-bg-secondary: hsl(0, 0%, 98%);
+  --color-bg-tertiary: hsl(0, 0%, 95%);
+  --color-text-primary: hsl(222, 84%, 8%);
+  --color-text-secondary: hsl(215, 30%, 35%);
+  --color-text-tertiary: hsl(215, 20%, 50%);
+  --color-button-text: hsl(0, 0%, 100%); /* White text on blue buttons */
 }
 
-/* Global styles inspired by modern education websites */
+.dark {
+  /* Sparkplug Brand Colors - Dark Mode: Yellow primary, Blue accent */
+  --color-brand-primary: hsl(60, 100%, 60%);
+  --color-brand-secondary: hsl(60, 100%, 60%); /* Yellow for dark mode */
+  --color-brand-accent: hsl(235, 52%, 60%); /* Lighter blue for dark mode accents */
+  --color-brand-primary-50: hsl(60, 100%, 97%);
+  --color-brand-primary-100: hsl(60, 100%, 93%);
+  --color-brand-primary-200: hsl(60, 100%, 85%);
+  --color-brand-primary-300: hsl(60, 100%, 75%);
+  --color-brand-primary-400: hsl(60, 100%, 67%);
+  --color-brand-primary-500: hsl(60, 100%, 60%);
+  --color-brand-primary-600: hsl(60, 100%, 50%);
+  --color-brand-primary-700: hsl(60, 100%, 42%);
+  --color-brand-primary-800: hsl(60, 100%, 35%);
+  --color-brand-primary-900: hsl(60, 100%, 28%);
+  --color-brand-secondary-50: hsl(235, 52%, 95%);
+  --color-brand-secondary-100: hsl(235, 52%, 88%);
+  --color-brand-secondary-200: hsl(235, 52%, 75%);
+  --color-brand-secondary-300: hsl(235, 52%, 60%);
+  --color-brand-secondary-400: hsl(235, 52%, 48%);
+  --color-brand-secondary-500: hsl(235, 52%, 37%);
+  --color-brand-secondary-600: hsl(235, 52%, 32%);
+  --color-brand-secondary-700: hsl(235, 52%, 27%);
+  --color-brand-secondary-800: hsl(235, 52%, 22%);
+  --color-brand-secondary-900: hsl(235, 52%, 17%);
+  
+  /* Shadcn UI Variables - Dark */
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.795 0.184 86.047);
+  --primary-foreground: oklch(0.421 0.095 57.708);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.421 0.095 57.708);
+  --chart-1: oklch(0.905 0.182 98.111);
+  --chart-2: oklch(0.795 0.184 86.047);
+  --chart-3: oklch(0.681 0.162 75.834);
+  --chart-4: oklch(0.554 0.135 66.442);
+  --chart-5: oklch(0.476 0.114 61.907);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.795 0.184 86.047);
+  --sidebar-primary-foreground: oklch(0.987 0.026 102.212);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.421 0.095 57.708);
+  
+  /* Sparkplug Theme Variables - Dark */
+  --color-bg-primary: hsl(235, 52%, 8%);
+  --color-bg-secondary: hsl(235, 52%, 10%);
+  --color-bg-tertiary: hsl(235, 52%, 12%);
+  --color-text-primary: hsl(0, 0%, 100%);
+  --color-text-secondary: hsl(210, 40%, 85%);
+  --color-text-tertiary: hsl(210, 40%, 70%);
+  --color-button-text: hsl(235, 52%, 27%); /* Dark blue text on yellow buttons */
+}
+
+/* Global styles - Sparkplug Brand Guidelines */
 body {
-  font-family: var(--font-poppins), 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-supermolot), 'Supermolot Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-weight: 400;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Headings with brand typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-supermolot), 'Supermolot Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 /* Smooth scrolling */
@@ -114,4 +175,14 @@ html {
 ::selection {
   background-color: var(--color-brand-secondary);
   color: white;
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

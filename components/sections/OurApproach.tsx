@@ -31,9 +31,9 @@ export default function VideoReels() {
   ];
 
   return (
-    <section className="py-24 bg-black relative overflow-hidden">
+    <section className="py-24 bg-[var(--color-bg-secondary)] relative overflow-hidden transition-colors duration-300">
       {/* Background gradient effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg-primary)] via-[var(--color-bg-secondary)] to-[var(--color-bg-tertiary)] opacity-50"></div>
       
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         {/* Header */}
@@ -44,10 +44,10 @@ export default function VideoReels() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight">
+          <h2 className="text-5xl lg:text-6xl font-black text-[var(--color-text-primary)] mb-4 tracking-tight">
             Watch Our Reels
           </h2>
-          <p className="text-lg text-gray-400">
+          <p className="text-base text-[var(--color-text-secondary)]">
             Real moments. Real energy. Real results.
           </p>
         </motion.div>
@@ -64,7 +64,7 @@ export default function VideoReels() {
               className="flex-shrink-0 w-[280px] lg:w-[320px] snap-center"
             >
               <div 
-                className="relative aspect-[9/16] rounded-3xl overflow-hidden cursor-pointer group bg-gray-900"
+                className="relative aspect-[9/16] rounded-3xl overflow-hidden cursor-pointer group bg-[var(--color-bg-tertiary)]"
               >
                 {/* Thumbnail with gradient overlay */}
                 <Image
@@ -99,10 +99,10 @@ export default function VideoReels() {
                 {/* Content - bottom with glassmorphism */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-                    <h3 className="text-white font-bold text-lg mb-2 line-clamp-2">
+                    <h3 className="text-[var(--color-text-primary)] font-bold text-lg mb-2 line-clamp-2">
                       {story.title}
                     </h3>
-                    <p className="text-gray-200 text-sm line-clamp-2">
+                    <p className="text-[var(--color-text-secondary)] text-sm line-clamp-2">
                       {story.description}
                     </p>
                   </div>
@@ -123,12 +123,12 @@ export default function VideoReels() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <button className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-yellow-500/50 transition-all hover:scale-105">
+          {/* <button className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-[var(--color-brand-primary)] to-[var(--color-brand-primary-600)] text-white px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-[var(--color-brand-primary)]/50 transition-all hover:scale-105">
             <span>Watch Full Showreel</span>
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
             </svg>
-          </button>
+          </button> */}
         </motion.div>
       </div>
       
