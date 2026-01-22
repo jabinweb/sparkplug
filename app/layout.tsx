@@ -36,7 +36,7 @@ const supermolot = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Sparkplug - Spark Your Teams. Plug in Connections.",
+  title: "Sparkplug - UNLOCKING PEOPLE POWER",
   description: "High-energy team building experiences, drum circles, and engagement sessions for corporates, events, and communities. Trusted by Google, Microsoft, Deloitte, and more across India.",
   keywords: "team building, employee engagement, drum circles, corporate workshops, experiential events, audience engagement, music therapy, collaboration, India",
   icons: {
