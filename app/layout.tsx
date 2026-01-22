@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import ClientLayout from "../components/ClientLayout";
+import { AuthProvider } from "../components/AuthProvider";
+import ConditionalLayout from "@/components/ConditionalLayout";
 
 const supermolot = localFont({
   src: [
@@ -69,7 +70,9 @@ export default function RootLayout({
       <body
         className={`${supermolot.variable} font-sans antialiased`}
       >
-        <ClientLayout>{children}</ClientLayout>
+        <AuthProvider>
+          <ConditionalLayout>{children}</ConditionalLayout>
+        </AuthProvider>
       </body>
     </html>
   );

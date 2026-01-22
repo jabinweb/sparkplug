@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useFormSubmit } from '@/lib/hooks/useFormSubmit';
 
 interface FormField {
   name: string;
@@ -16,23 +17,40 @@ interface ContactFormProps {
   subtitle?: string;
   fields: FormField[];
   submitText: string;
-  onSubmit: (data: { [key: string]: string }) => void;
-  isSubmitting?: boolean;
+  formType: string; // 'contact', 'newsletter', 'volunteer', etc.
+  successMessage?: string;
+  onSubmit?: (data: { [key: string]: string }) => void;
 }
 
 export default function ContactForm({ 
   title, 
   subtitle, 
   fields, 
-  submitText, 
-  onSubmit, 
-  isSubmitting = false 
+  submitText,
+  formType,
+  successMessage = 'Thank you! Your submission has been received.',
+  onSubmit
 }: ContactFormProps) {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
+  const { submit, isSubmitting, error, success } = useFormSubmit();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    
+    try {
+      await submit(formType, formData);
+      
+      // Call optional onSubmit callback
+      if (onSubmit) {
+        onSubmit(formData);
+      }
+      
+      // Reset form on success
+      setFormData({});
+    } catch (err) {
+      // Error is handled by the hook
+      console.error('Form submission error:', err);
+    }
   };
 
   const handleChange = (name: string, value: string) => {
@@ -47,6 +65,18 @@ export default function ContactForm({
           <p className="text-[var(--color-text-secondary)]">{subtitle}</p>
         )}
       </div>
+
+      {success && (
+        <div className="mb-4 p-4 bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 rounded-md">
+          {successMessage}
+        </div>
+      )}
+
+      {error && (
+        <div className="mb-4 p-4 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 rounded-md">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {fields.map((field) => (

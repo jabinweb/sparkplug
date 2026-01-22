@@ -27,8 +27,6 @@ export default function Home() {
 
       {/* Client Logos & Cities */}
       <ClientLogos />
-
-
     </div>
   );
 }

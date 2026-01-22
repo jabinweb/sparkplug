@@ -4,7 +4,6 @@ import { motion, useMotionValue, animate } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-
 export default function VideoReels() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const constraintsRef = useRef<HTMLDivElement>(null);

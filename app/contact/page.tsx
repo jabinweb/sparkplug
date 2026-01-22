@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useFormSubmit } from '@/lib/hooks/useFormSubmit';
 
 export default function ContactPage() {
   const [contactForm, setContactForm] = useState({
@@ -14,15 +15,16 @@ export default function ContactPage() {
     preferredDate: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const { submit, isSubmitting, error, success } = useFormSubmit();
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // Contact form submission logic would go here
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submit('contact', contactForm);
+      
+      // Reset form on success
       setContactForm({ 
         name: '', 
         organisation: '', 
@@ -33,8 +35,10 @@ export default function ContactPage() {
         preferredDate: '', 
         message: '' 
       });
-      alert('Thank you for your enquiry! We will get back to you soon.');
-    }, 1000);
+    } catch (err) {
+      // Error is handled by the hook
+      console.error('Contact form error:', err);
+    }
   };
 
   return (
@@ -160,6 +164,19 @@ export default function ContactPage() {
                 <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-6">
                   Send Us a Message
                 </h3>
+                
+                {success && (
+                  <div className="mb-6 p-4 bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 rounded-lg">
+                    Thank you for your enquiry! We will get back to you soon.
+                  </div>
+                )}
+
+                {error && (
+                  <div className="mb-6 p-4 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 rounded-lg">
+                    {error}
+                  </div>
+                )}
+                
                 <form onSubmit={handleContactSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>

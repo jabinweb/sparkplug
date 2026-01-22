@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Form Responses Table - Unified for all forms
+model FormResponse {
+  id        String   @id @default(cuid())
+  formType  String   // 'contact', 'newsletter', 'volunteer', 'booking', etc.
+  data      Json     // Flexible JSON field to store all form data
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([formType])
+  @@index([createdAt])
+}
+
+// Site Content Management
+model SiteContent {
+  id        String   @id @default(cuid())
+  section   String   @unique // 'homepage', 'about', 'programs', etc.
+  content   Json     // JSON content for the section
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  updatedBy String?  // Email of admin who updated
+
+  @@index([section])
+}
+
+// Admin Users
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  name          String?
+  role          String   @default("admin") // 'admin', 'editor', etc.
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([email])
+}
+
+// Blog Posts (if you want to manage them via backend)
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String   @db.Text
+  category    String
+  author      String
+  publishDate DateTime
+  featured    Boolean  @default(false)
+  tags        String[] // Array of tags
+  thumbnail   String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([publishDate])
+}
