@@ -15,11 +15,17 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname()
   const router = useRouter()
 
+  console.log('AdminLayout: Status', status, 'Pathname', pathname)
+
   useEffect(() => {
     if (status === 'unauthenticated') {
+      console.log('AdminLayout: Redirecting to login')
       router.push('/auth/login')
+    } else if (status === 'authenticated' && pathname === '/admin') {
+      console.log('AdminLayout: Redirecting to dashboard')
+      router.push('/admin/dashboard')
     }
-  }, [status, router])
+  }, [status, pathname, router])
 
   if (status === 'loading') {
     return (

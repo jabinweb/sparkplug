@@ -1,8 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import { prisma } from './prisma'
 import { cache } from 'react'
-import siteContent from '../content/site-content.json'
-
-const prisma = new PrismaClient()
 
 // Cache function to prevent multiple DB calls during a single request
 export const getContent = cache(async (section: string) => {
@@ -12,12 +9,10 @@ export const getContent = cache(async (section: string) => {
       select: { content: true }
     })
     
-    // Fallback to static JSON if DB is empty
-    return content?.content || (siteContent as any)[section] || null
+    return content?.content || null
   } catch (error) {
     console.error(`Error fetching content for section ${section}:`, error)
-    // Fallback to static JSON on error
-    return (siteContent as any)[section] || null
+    return null
   }
 })
 
@@ -29,15 +24,19 @@ export const getAllSiteContent = cache(async () => {
     })
     
     // Transform array into object for easy access
-    const dbContent = allContent.reduce((acc, item) => {
-      acc[item.section] = item.content
+    const siteContent = allContent.reduce((acc, item) => {
+      // Flatten "site" section if it contains nested data
+      if (item.section === 'site' && typeof item.content === 'object') {
+        Object.assign(acc, item.content)
+      } else {
+        acc[item.section] = item.content
+      }
       return acc
     }, {} as Record<string, any>)
     
-    // Merge with static JSON as fallback
-    return { ...siteContent, ...dbContent }
+    return siteContent
   } catch (error) {
     console.error('Error fetching all site content:', error)
-    return siteContent
+    return {}
   }
 })

@@ -1,7 +1,7 @@
-'use client';
-
-import siteContent from '../../content/site-content.json';
+import { getAllSiteContent } from '@/lib/getContent';
 import { motion } from 'framer-motion';
+
+export const revalidate = 0;
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -18,8 +18,9 @@ const staggerContainer = {
   }
 };
 
-export default function AboutPage() {
-  const { about } = siteContent;
+export default async function AboutPage() {
+  const siteContent = await getAllSiteContent();
+  const about = (siteContent as any).about || (siteContent as any).site?.about || {};
 
   return (
     <div className="bg-[var(--color-bg-primary)]">
@@ -118,7 +119,7 @@ export default function AboutPage() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            {about.values.map((value, index) => (
+            {(about.values || []).map((value: any, index: number) => (
               <motion.div
                 key={index}
                 variants={fadeInUp}

@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import siteContent from '../../content/site-content.json';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Drum, Users, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+
+interface SignatureExperiencesProps {
+  siteContent: any;
+}
 
 const experiences = [
   {
@@ -52,8 +55,8 @@ const experiences = [
   }
 ];
 
-export default function SignatureExperiences() {
-  const { homepage } = siteContent;
+export default function SignatureExperiences({ siteContent }: SignatureExperiencesProps) {
+  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import VisualContentEditor from '@/components/VisualContentEditor'
 
 interface SiteContent {
   id: string
@@ -20,6 +21,7 @@ export default function ContentEditorPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+  const [editorMode, setEditorMode] = useState<'visual' | 'json'>('visual')
 
   useEffect(() => {
     fetchContent()
@@ -44,7 +46,7 @@ export default function ContentEditorPage() {
     }
   }
 
-  const handleSave = async () => {
+  const handleSaveJSON = async () => {
     setIsSaving(true)
     setMessage(null)
 
@@ -76,6 +78,25 @@ export default function ContentEditorPage() {
     }
   }
 
+  const handleSaveVisual = async (updatedContent: any) => {
+    const response = await fetch('/api/content', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        section: 'site',
+        content: updatedContent,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to save')
+    }
+
+    fetchContent()
+  }
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('en-IN', {
       dateStyle: 'medium',
@@ -87,29 +108,35 @@ export default function ContentEditorPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[var(--color-text-primary)] mb-2">
-          Site Content Editor
+          Content Editor
         </h1>
         <p className="text-[var(--color-text-secondary)]">
           Edit and manage website content
         </p>
       </div>
 
-      {/* Section Selector */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
-          Select Section
-        </label>
-        <select
-          value={section}
-          onChange={(e) => setSection(e.target.value)}
-          className="px-4 py-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg focus:ring-2 focus:ring-[var(--color-brand-primary)] focus:border-transparent"
+      {/* Editor Mode Toggle */}
+      <div className="mb-6 flex gap-2">
+        <button
+          onClick={() => setEditorMode('visual')}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            editorMode === 'visual'
+              ? 'bg-[var(--color-brand-primary)] text-[var(--color-button-text)]'
+              : 'bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+          }`}
         >
-          <option value="site">Site Content</option>
-          <option value="homepage">Homepage</option>
-          <option value="about">About Page</option>
-          <option value="programs">Programs Page</option>
-          <option value="contact">Contact Page</option>
-        </select>
+          📝 Visual Editor
+        </button>
+        <button
+          onClick={() => setEditorMode('json')}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            editorMode === 'json'
+              ? 'bg-[var(--color-brand-primary)] text-[var(--color-button-text)]'
+              : 'bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+          }`}
+        >
+          {'{ }'} JSON Editor
+        </button>
       </div>
 
       {/* Editor */}
@@ -122,62 +149,79 @@ export default function ContentEditorPage() {
           </div>
         )}
 
-        {message && (
-          <div className={`mb-4 p-4 rounded-lg ${
-            message.type === 'success' 
-              ? 'bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300'
-              : 'bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300'
-          }`}>
-            {message.text}
+        {editorMode === 'visual' ? (
+          <div>
+            {content ? (
+              <VisualContentEditor 
+                initialContent={content.content}
+                onSave={handleSaveVisual}
+              />
+            ) : (
+              <div className="text-center py-8 text-[var(--color-text-secondary)]">
+                Loading...
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            {message && (
+              <div className={`mb-4 p-4 rounded-lg ${
+                message.type === 'success' 
+                  ? 'bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300'
+                  : 'bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300'
+              }`}>
+                {message.text}
+              </div>
+            )}
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
+                Content (JSON Format)
+              </label>
+              <textarea
+                value={editedContent}
+                onChange={(e) => setEditedContent(e.target.value)}
+                rows={20}
+                className="w-full px-4 py-3 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg focus:ring-2 focus:ring-[var(--color-brand-primary)] focus:border-transparent font-mono text-sm"
+                placeholder="Enter JSON content..."
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => {
+                  try {
+                    const formatted = JSON.stringify(JSON.parse(editedContent), null, 2)
+                    setEditedContent(formatted)
+                    setMessage({ type: 'success', text: 'JSON formatted' })
+                  } catch {
+                    setMessage({ type: 'error', text: 'Invalid JSON' })
+                  }
+                }}
+                className="px-4 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] rounded-lg hover:text-[var(--color-text-primary)] transition-colors"
+              >
+                Format JSON
+              </button>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={fetchContent}
+                  disabled={isLoading}
+                  className="px-6 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] rounded-lg hover:text-[var(--color-text-primary)] transition-colors"
+                >
+                  Reset
+                </button>
+                <button
+                  onClick={handleSaveJSON}
+                  disabled={isSaving}
+                  className="px-6 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] rounded-lg font-semibold hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50"
+                >
+                  {isSaving ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </div>
           </div>
         )}
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
-            Content (JSON Format)
-          </label>
-          <textarea
-            value={editedContent}
-            onChange={(e) => setEditedContent(e.target.value)}
-            rows={20}
-            className="w-full px-4 py-3 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg focus:ring-2 focus:ring-[var(--color-brand-primary)] focus:border-transparent font-mono text-sm"
-            placeholder="Enter JSON content..."
-          />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => {
-              try {
-                const formatted = JSON.stringify(JSON.parse(editedContent), null, 2)
-                setEditedContent(formatted)
-                setMessage({ type: 'success', text: 'JSON formatted' })
-              } catch {
-                setMessage({ type: 'error', text: 'Invalid JSON' })
-              }
-            }}
-            className="px-4 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] rounded-lg hover:text-[var(--color-text-primary)] transition-colors"
-          >
-            Format JSON
-          </button>
-
-          <div className="flex gap-3">
-            <button
-              onClick={fetchContent}
-              disabled={isLoading}
-              className="px-6 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] rounded-lg hover:text-[var(--color-text-primary)] transition-colors"
-            >
-              Reset
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="px-6 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] rounded-lg font-semibold hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50"
-            >
-              {isSaving ? 'Saving...' : 'Save Changes'}
-            </button>
-          </div>
-        </div>
       </div>
 
       {/* Help Section */}
@@ -186,9 +230,9 @@ export default function ContentEditorPage() {
           ℹ️ Content Editor Guide
         </h3>
         <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
-          <li>• Edit content in JSON format</li>
-          <li>• Use "Format JSON" to beautify your JSON</li>
-          <li>• Click "Save Changes" to update the content</li>
+          <li>• <strong>Visual Editor:</strong> User-friendly forms for editing content</li>
+          <li>• <strong>JSON Editor:</strong> Advanced mode for developers</li>
+          <li>• Changes are saved immediately and appear on the website</li>
           <li>• Version history is automatically tracked</li>
         </ul>
       </div>

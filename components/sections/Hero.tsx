@@ -1,12 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import siteContent from '../../content/site-content.json';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 
-export default function Hero() {
-  const { homepage } = siteContent;
+interface HeroProps {
+  siteContent: any;
+}
+
+export default function Hero({ siteContent }: HeroProps) {
+  // Handle both nested and flat structures
+  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
 
   return (
     <section className="relative bg-[var(--color-bg-primary)] py-12 sm:py-16 lg:py-24 transition-colors duration-300">
@@ -22,7 +26,7 @@ export default function Hero() {
           >
             {/* Main Headline */}
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--color-text-primary)] mb-4 sm:mb-6 leading-tight">
-              {homepage.hero.title.split(' ').map((word, wordIndex) => 
+              {(homepage.hero?.title || 'Welcome').split(' ').map((word: string, wordIndex: number) => 
                 word.toLowerCase() === 'people' || word.toLowerCase() === 'power' ? (
                   <span key={wordIndex} className="text-[var(--color-brand-secondary)] font-black drop-shadow-lg">{word} </span>
                 ) : (
@@ -33,12 +37,12 @@ export default function Hero() {
 
             {/* Subheading */}
             <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-[var(--color-text-secondary)] mb-4">
-              {homepage.hero.subtitle}
+              {homepage.hero?.subtitle || ''}
             </p>
 
             {/* Description */}
             <p className="text-base sm:text-lg text-[var(--color-text-secondary)] mb-6 sm:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-              {homepage.hero.description}
+              {homepage.hero?.description || ''}
             </p>
 
             {/* CTA Button */}

@@ -16,23 +16,30 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('Login: Form submitted', { email: formData.email })
     setError('')
     setIsLoading(true)
 
     try {
+      console.log('Login: Calling signIn...')
       const result = await signIn('credentials', {
         email: formData.email,
         password: formData.password,
         redirect: false,
       })
 
+      console.log('Login: SignIn result', result)
+
       if (result?.error) {
+        console.log('Login: Error', result.error)
         setError('Invalid credentials')
       } else {
+        console.log('Login: Success, redirecting to dashboard')
         router.push('/admin/dashboard')
         router.refresh()
       }
     } catch (err) {
+      console.error('Login: Exception', err)
       setError('An error occurred. Please try again.')
     } finally {
       setIsLoading(false)

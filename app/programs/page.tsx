@@ -1,12 +1,12 @@
-'use client';
-
-import siteContent from '../../content/site-content.json';
+import { getAllSiteContent } from '@/lib/getContent';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+export const revalidate = 0;
 
-export default function ExperiencesPage() {
-  const { programs } = siteContent;
+export default async function ExperiencesPage() {
+  const siteContent = await getAllSiteContent();
+  const programs = (siteContent as any).programs || (siteContent as any).site?.programs || {};
 
   return (
     <div className="bg-[var(--color-bg-primary)]">

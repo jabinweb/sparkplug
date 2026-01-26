@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { auth } from '@/auth'
+import { revalidatePath } from 'next/cache'
 import fs from 'fs/promises'
 import path from 'path'
 
@@ -41,7 +42,10 @@ export async function GET(request: NextRequest) {
 // Update content (protected - requires auth)
 export async function PUT(request: NextRequest) {
   try {
+    console.log('[Content API] PUT request received')
     const session = await auth()
+    
+    console.log('[Content API] Session:', session ? 'authenticated' : 'not authenticated')
     
     if (!session?.user) {
       return NextResponse.json(
@@ -53,6 +57,9 @@ export async function PUT(request: NextRequest) {
     const body = await request.json()
     const { section, content } = body
 
+    console.log('[Content API] Updating section:', section)
+    console.log('[Content API] Content keys:', Object.keys(content || {}))
+
     if (!section || !content) {
       return NextResponse.json(
         { error: 'Section and content are required' },
@@ -60,6 +67,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
+    console.log('[Content API] Upserting to database...')
     const updatedContent = await prisma.siteContent.upsert({
       where: { section },
       update: {
@@ -74,23 +82,37 @@ export async function PUT(request: NextRequest) {
       },
     })
 
-    // Sync to JSON file for static site generation
+    console.log('[Content API] Database updated, version:', updatedContent.version)
+
+    // Sync to JSON file as backup (optional)
     try {
+      console.log('[Content API] Starting JSON backup sync...')
       const allContent = await prisma.siteContent.findMany({
         select: { section: true, content: true }
       })
       
       const siteContent: Record<string, any> = {}
+      
       allContent.forEach(item => {
-        siteContent[item.section] = item.content
+        if (item.section === 'site' && typeof item.content === 'object') {
+          Object.assign(siteContent, item.content)
+        } else {
+          siteContent[item.section] = item.content
+        }
       })
       
       const contentPath = path.join(process.cwd(), 'content', 'site-content.json')
       await fs.writeFile(contentPath, JSON.stringify(siteContent, null, 2), 'utf-8')
+      
+      console.log('[Content API] ✅ JSON backup saved')
     } catch (syncError) {
-      console.error('Warning: Failed to sync JSON file:', syncError)
-      // Continue even if JSON sync fails
+      console.error('[Content API] ⚠️ JSON backup failed:', syncError)
     }
+
+    // Revalidate all pages to show updated content immediately
+    console.log('[Content API] Revalidating pages...')
+    revalidatePath('/', 'layout')
+    console.log('[Content API] ✅ Pages revalidated')
 
     return NextResponse.json(updatedContent)
   } catch (error) {

@@ -2,10 +2,13 @@
 
 import { motion, useAnimationControls } from 'framer-motion';
 import { useEffect, useRef } from 'react';
-import siteContent from '../../content/site-content.json';
 
-export default function ClientLogos() {
-  const { homepage } = siteContent;
+interface ClientLogosProps {
+  siteContent: any;
+}
+
+export default function ClientLogos({ siteContent }: ClientLogosProps) {
+  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
   
   const clients = homepage.clients?.logos || ['Google', 'Deloitte', 'PepsiCo', 'EY', 'PwC', 'Microsoft', 'Flipkart', 'ICICI', 'Nestlé', 'IPL'];
   const cities = homepage.clients?.cities || ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Pune', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Goa'];

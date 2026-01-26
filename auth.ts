@@ -12,34 +12,48 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        console.log('Auth: authorize called')
+        
         if (!credentials?.email || !credentials?.password) {
+          console.log('Auth: Missing credentials')
           return null
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email as string
+        try {
+          console.log('Auth: Looking up user:', credentials.email)
+          
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email as string
+            }
+          })
+
+          if (!user) {
+            console.log('Auth: User not found')
+            return null
           }
-        })
 
-        if (!user) {
+          console.log('Auth: Comparing password')
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password as string,
+            user.passwordHash
+          )
+
+          if (!isPasswordValid) {
+            console.log('Auth: Invalid password')
+            return null
+          }
+
+          console.log('Auth: Success for user:', user.email)
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role
+          }
+        } catch (error) {
+          console.error('Auth: Error during authorization:', error)
           return null
-        }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        )
-
-        if (!isPasswordValid) {
-          return null
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role
         }
       }
     })
@@ -51,17 +65,22 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role
+        token.id = user.id
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.role = token.role as string
+        session.user.id = token.id as string
       }
       return session
     }
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+  trustHost: true,
+  debug: true,
 })

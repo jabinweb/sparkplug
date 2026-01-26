@@ -3,8 +3,30 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 const GlobalCTA = () => {
+  const [ctaData, setCtaData] = useState({
+    title: "Ready to Sparkplug your audience?",
+    buttonText: "Enquire Now",
+    buttonLink: "/contact"
+  });
+
+  useEffect(() => {
+    // Fetch CTA data from static JSON (fallback)
+    import('../content/site-content.json').then((content) => {
+      const data = content.default as any;
+      const cta = data.cta || data.site?.cta;
+      if (cta) {
+        setCtaData({
+          title: cta.title || "Ready to Sparkplug your audience?",
+          buttonText: cta.buttonText || "Enquire Now",
+          buttonLink: cta.buttonLink || "/contact"
+        });
+      }
+    });
+  }, []);
+
   return (
     <section className="relative py-20 bg-gradient-to-br from-[hsl(235,52%,45%)] to-[hsl(235,52%,55%)] overflow-hidden">
       {/* Background Elements */}
@@ -33,7 +55,7 @@ const GlobalCTA = () => {
 
           {/* Main Heading */}
           <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight !text-white">
-            Ready to <span className="text-[hsl(60,100%,75%)]">Sparkplug</span> your audience?
+            {ctaData.title}
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-white/95 leading-relaxed max-w-3xl mx-auto">
@@ -48,7 +70,7 @@ const GlobalCTA = () => {
                 size="lg" 
                 className="bg-white text-[hsl(235,52%,45%)] hover:bg-white/90 font-bold px-10 py-6 text-lg rounded-full"
               >
-                <Link href="/contact">Enquire Now →</Link>
+                <Link href={ctaData.buttonLink}>{ctaData.buttonText} →</Link>
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

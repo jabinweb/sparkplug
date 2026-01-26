@@ -1,11 +1,14 @@
 'use client';
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import siteContent from '../../content/site-content.json';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { Drum, Users, Music, Rocket, Monitor } from 'lucide-react';
+
+interface WhatWeDoProps {
+  siteContent: any;
+}
 
 const specializations = [
   {
@@ -308,8 +311,8 @@ function AnimatedStat({ stat, index }: { stat: { number: string; label: string }
   );
 }
 
-export default function WhatWeDo() {
-  const { homepage } = siteContent;
+export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
+  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
   const [activeCard, setActiveCard] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -428,7 +431,7 @@ export default function WhatWeDo() {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed mb-8">
-                {homepage.challenge.description}
+                {homepage.challenge?.description || ''}
               </p>
               <div className="flex items-center gap-4">
                 <div className="flex -space-x-4">
@@ -549,7 +552,7 @@ export default function WhatWeDo() {
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {homepage.challenge.statistics.map((stat, index) => (
+            {(homepage.challenge?.statistics || []).map((stat: any, index: number) => (
               <AnimatedStat key={index} stat={stat} index={index} />
             ))}
           </div>

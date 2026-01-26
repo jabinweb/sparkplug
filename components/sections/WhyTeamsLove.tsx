@@ -1,10 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import siteContent from '../../content/site-content.json';
 
-export default function WhyTeamsLove() {
-  const { homepage } = siteContent;
+interface WhyTeamsLoveProps {
+  siteContent: any;
+}
+
+export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
+  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
 
   const benefits = [
     { icon: '🎯', text: 'Zero skill required', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
