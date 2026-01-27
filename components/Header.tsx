@@ -26,6 +26,11 @@ export default function Header() {
     logoDark: '/logos/logo.png',
     logoLight: '/logos/sparkplug_light.png'
   };
+  
+  const contactInfo = (siteContentJson as any).contact?.info || {
+    email: 'connect@sparkplug.in',
+    phone: '+91 99743 70747'
+  };
 
   // Handle mounting and theme
   useEffect(() => {
@@ -300,7 +305,7 @@ export default function Header() {
                 >
                   <div className="space-y-3">
                     <a
-                      href="mailto:connect@sparkplug.in"
+                      href={`mailto:${contactInfo.email}`}
                       className="flex items-center space-x-3 text-sm text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors group"
                     >
                       <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center group-hover:bg-brand-primary/20 transition-colors">
@@ -308,10 +313,10 @@ export default function Header() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                       </div>
-                      <span>connect@sparkplug.in</span>
+                      <span>{contactInfo.email}</span>
                     </a>
                     <a
-                      href="tel:+919974370747"
+                      href={`tel:${contactInfo.phone?.replace(/\s/g, '')}`}
                       className="flex items-center space-x-3 text-sm text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors group"
                     >
                       <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center group-hover:bg-brand-primary/20 transition-colors">
@@ -319,7 +324,7 @@ export default function Header() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                         </svg>
                       </div>
-                      <span>+91 99743 70747</span>
+                      <span>{contactInfo.phone}</span>
                     </a>
                   </div>
                 </motion.div>
