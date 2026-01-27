@@ -143,7 +143,7 @@ export default function PrivacyPolicyPage() {
                   <li>Request data portability</li>
                 </ul>
                 <p className="text-[var(--color-text-secondary)] leading-relaxed mt-4">
-                  To exercise these rights, please contact us at dexter@schoolofsocialchange.org.
+                  To exercise these rights, please contact us at connect@sparkplug.in.
                 </p>
               </section>
 
