@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface ContentEditorProps {
   initialContent: any
@@ -8,6 +9,7 @@ interface ContentEditorProps {
 }
 
 export default function VisualContentEditor({ initialContent, onSave }: ContentEditorProps) {
+  const router = useRouter()
   const [selectedSection, setSelectedSection] = useState('homepage')
   const [content, setContent] = useState(initialContent)
   const [isSaving, setIsSaving] = useState(false)
@@ -54,7 +56,13 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
     setMessage(null)
     try {
       await onSave(content)
-      setMessage({ type: 'success', text: 'Content saved successfully!' })
+      setMessage({ type: 'success', text: 'Content saved successfully! Refreshing website...' })
+      
+      // Refresh the router to reload all data including JSON file
+      // This ensures Header/Footer get the latest logo changes
+      setTimeout(() => {
+        router.refresh()
+      }, 500)
     } catch (error) {
       setMessage({ type: 'error', text: 'Failed to save content' })
     } finally {
@@ -232,27 +240,39 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
                   placeholder="Image URL or upload new"
                 />
               </div>
-              <div className="relative">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file) {
-                      handleImageUpload(path, file)
-                      e.target.value = '' // Reset input
-                    }
-                  }}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  disabled={isUploading}
-                />
-                <button
-                  type="button"
-                  disabled={isUploading}
-                  className="px-4 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] rounded-lg text-sm hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isUploading ? 'Uploading...' : 'Upload'}
-                </button>
+              <div className="flex gap-2">
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) {
+                        handleImageUpload(path, file)
+                        e.target.value = '' // Reset input
+                      }
+                    }}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    disabled={isUploading}
+                  />
+                  <button
+                    type="button"
+                    disabled={isUploading}
+                    className="px-4 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] rounded-lg text-sm hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isUploading ? 'Uploading...' : 'Upload'}
+                  </button>
+                </div>
+                {value && (
+                  <button
+                    type="button"
+                    onClick={() => updateField(path, '')}
+                    className="px-3 py-2 bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 rounded-lg text-sm transition-colors"
+                    title="Remove image"
+                  >
+                    ✕
+                  </button>
+                )}
               </div>
             </div>
             {value && (
