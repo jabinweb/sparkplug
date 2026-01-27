@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
+import siteContentJson from '@/content/site-content.json';
 
 const navigation = [
   { label: "Home", href: "/" },
@@ -20,6 +21,11 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('dark');
   const pathname = usePathname();
+  
+  const branding = (siteContentJson as any).site?.branding || {
+    logoDark: '/logos/logo.png',
+    logoLight: '/logos/sparkplug_light.png'
+  };
 
   // Handle mounting and theme
   useEffect(() => {
@@ -78,7 +84,7 @@ export default function Header() {
           >
             <Link href="/" className="flex items-center space-x-2 group">
               <Image
-                src={currentTheme === 'light' ? '/logos/sparkplug_light.png' : '/logos/logo.png'}
+                src={currentTheme === 'light' ? branding.logoLight : branding.logoDark}
                 alt="Sparkplug Logo"
                 width={40}
                 height={40}
@@ -201,7 +207,7 @@ export default function Header() {
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10 bg-gradient-to-r from-brand-primary/5 to-brand-secondary/5 dark:from-brand-primary/10 dark:to-brand-secondary/10">
                   <div className="flex items-center space-x-2">
                     <Image
-                      src={currentTheme === 'light' ? '/logos/sparkplug_light.png' : '/logos/logo.png'}
+                      src={currentTheme === 'light' ? branding.logoLight : branding.logoDark}
                       alt="Sparkplug Logo"
                       width={32}
                       height={32}

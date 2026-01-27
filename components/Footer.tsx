@@ -3,12 +3,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import siteContentJson from '@/content/site-content.json';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('dark');
+  
+  const branding = (siteContentJson as any).site?.branding || {
+    logoDark: '/logos/logo.png',
+    logoLight: '/logos/sparkplug_light.png'
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -62,7 +68,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="w-full flex flex-col space-y-6">
             <div className="">
-              <Image src={currentTheme === 'light' ? '/logos/sparkplug_light.png' : '/logos/logo.png'} alt="Sparkplug Logo" width={150} height={50} />
+              <Image src={currentTheme === 'light' ? branding.logoLight : branding.logoDark} alt="Sparkplug Logo" width={150} height={50} />
             </div>
             <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
               High-energy audience engagement experiences for teams, corporates, and communities across India.

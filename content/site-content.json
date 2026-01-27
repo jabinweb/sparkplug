@@ -11,7 +11,12 @@
   },
   "site": {
     "name": "Sparkplug",
-    "tagline": "UNLOCKING PEOPLE POWER jhvhjhvjv",
+    "tagline": "UNLOCKING PEOPLE POWER ",
+    "branding": {
+      "favicon": "/logos/favicon.png",
+      "logoDark": "/logos/logo.png",
+      "logoLight": "/logos/sparkplug_light.png"
+    },
     "shortName": "Sparkplug",
     "description": "High-energy audience engagement experiences for teams, corporates, and communities across India, built around rhythm, collaboration, and pure human energy."
   },
