@@ -21,11 +21,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     if (status === 'unauthenticated') {
       console.log('AdminLayout: Redirecting to login')
       router.push('/auth/login')
-    } else if (status === 'authenticated' && pathname === '/admin') {
-      console.log('AdminLayout: Redirecting to dashboard')
-      router.push('/admin/dashboard')
     }
-  }, [status, pathname, router])
+  }, [status, router])
 
   if (status === 'loading') {
     return (
