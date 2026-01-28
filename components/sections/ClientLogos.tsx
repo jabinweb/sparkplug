@@ -82,7 +82,7 @@ export default function ClientLogos({ siteContent }: ClientLogosProps) {
         >
           <p className="text-[var(--color-text-secondary)] mb-6 font-medium">Delivering experiences across</p>
           <div className="flex flex-wrap justify-center gap-3">
-            {cities.map((city, index) => (
+            {cities.map((city: string, index: number) => (
               <motion.span
                 key={index}
                 className="bg-[var(--color-bg-tertiary)] px-4 py-2 rounded-full text-[var(--color-text-primary)] font-medium border border-[var(--color-brand-primary)]/10 hover:bg-[var(--color-brand-primary)] hover:text-[var(--color-button-text)] transition-all cursor-default"
