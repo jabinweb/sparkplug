@@ -130,12 +130,17 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/programs" className="text-gray-300 hover:text-brand-primary transition-colors duration-300 text-base">
+                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
                   Experiences
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors duration-300 text-base">
+                <Link href="/blog" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
                   Contact
                 </Link>
               </li>
@@ -147,27 +152,27 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6 text-[var(--color-text-primary)]">Experiences</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors duration-300 text-base">
+                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
                   Corporate Drum Circles
                 </Link>
               </li>
               <li>
-                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors duration-300 text-base">
+                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
                   Team-Building Workshops
                 </Link>
               </li>
               <li>
-                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors duration-300 text-base">
+                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
                   Workplace Culture Sessions
                 </Link>
               </li>
               <li>
-                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors duration-300 text-base">
+                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
                   Community Experiences
                 </Link>
               </li>
               <li>
-                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-brand-primary transition-colors duration-300 text-base">
+                <Link href="/programs" className="text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] transition-colors duration-300 text-base">
                   Custom Experiences
                 </Link>
               </li>
