@@ -10,20 +10,24 @@ export default async function GetInvolvedPage() {
   return (
     <div className="bg-[var(--color-bg-primary)]">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[hsl(235,52%,27%)] to-[hsl(235,52%,35%)] text-white py-20 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[hsl(235,52%,27%)] to-[hsl(235,52%,35%)] text-white py-24 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <span className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium rounded-full mb-8">
+              🤝 Partner With Us
+            </span>
+            
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
               {getInvolved.hero?.title || 'Get Involved'}
             </h1>
-            <p className="text-xl md:text-2xl mb-4 font-light">
+            <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
               {getInvolved.hero?.subtitle || ''}
             </p>
-            <p className="text-lg max-w-3xl mx-auto">
+            <p className="text-lg max-w-3xl mx-auto text-white/90">
               {getInvolved.hero?.description || ''}
             </p>
           </div>
