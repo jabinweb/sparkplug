@@ -7,6 +7,7 @@ interface Stats {
   totalForms: number
   totalBlogPosts: number
   recentForms: number
+  totalUsers: number
 }
 
 export default function AdminDashboardPage() {
@@ -14,6 +15,7 @@ export default function AdminDashboardPage() {
     totalForms: 0,
     totalBlogPosts: 0,
     recentForms: 0,
+    totalUsers: 0,
   })
   const [isLoading, setIsLoading] = useState(true)
 
@@ -23,18 +25,21 @@ export default function AdminDashboardPage() {
 
   const fetchStats = async () => {
     try {
-      const [formsRes, blogsRes] = await Promise.all([
+      const [formsRes, blogsRes, usersRes] = await Promise.all([
         fetch('/api/forms?limit=1'),
         fetch('/api/blog?limit=1'),
+        fetch('/api/admin/users'),
       ])
 
       const formsData = await formsRes.json()
       const blogsData = await blogsRes.json()
+      const usersData = await usersRes.json()
 
       setStats({
         totalForms: formsData.total || 0,
         totalBlogPosts: blogsData.total || 0,
         recentForms: formsData.responses?.length || 0,
+        totalUsers: usersData.users?.length || 0,
       })
     } catch (error) {
       console.error('Error fetching stats:', error)
@@ -74,8 +79,16 @@ export default function AdminDashboardPage() {
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
         </svg>
+    {
+      title: 'Manage Users',
+      description: 'Add or edit admin users and permissions',
+      href: '/admin/users',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
       ),
-      color: 'purple',
+      color: 'orange',
     },
   ]
 
@@ -91,7 +104,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-[var(--color-bg-secondary)] p-6 rounded-lg shadow-md border border-[var(--color-brand-primary)]/20">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-[var(--color-text-secondary)]">
@@ -113,6 +126,39 @@ export default function AdminDashboardPage() {
 
         <div className="bg-[var(--color-bg-secondary)] p-6 rounded-lg shadow-md border border-[var(--color-brand-primary)]/20">
           <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-[var(--color-text-secondary)]">
+              Blog Posts
+            </h3>
+            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-[var(--color-text-primary)]">
+            {isLoading ? '...' : stats.totalBlogPosts}
+          </p>
+          <Link href="/admin/blog" className="text-sm text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] mt-2 inline-block">
+            Manage posts →
+          </Link>
+        </div>
+
+        <div className="bg-[var(--color-bg-secondary)] p-6 rounded-lg shadow-md border border-[var(--color-brand-primary)]/20">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-[var(--color-text-secondary)]">
+              Admin Users
+            </h3>
+            <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+              <svg className="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-[var(--color-text-primary)]">
+            {isLoading ? '...' : stats.totalUsers}
+          </p>
+          <Link href="/admin/users" className="text-sm text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] mt-2 inline-block">
+            Manage usere="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-[var(--color-text-secondary)]">
               Blog Posts
             </h3>
@@ -155,7 +201,7 @@ export default function AdminDashboardPage() {
         <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
           Quick Actions
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {quickActions.map((action) => (
             <Link
               key={action.title}
