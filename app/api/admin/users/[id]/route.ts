@@ -4,9 +4,9 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // GET - Fetch single user
@@ -21,8 +21,10 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     const user = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: {
         id: true,
         email: true,
@@ -59,6 +61,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     const body = await request.json();
     const { email, password, name, role } = body;
 
@@ -72,7 +75,7 @@ export async function PUT(
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
       select: {
         id: true,
@@ -105,12 +108,14 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     // Prevent user from deleting themselves
     const currentUser = await prisma.user.findUnique({
       where: { email: session.user?.email || '' }
     });
 
-    if (currentUser?.id === params.id) {
+    if (currentUser?.id === id) {
       return NextResponse.json(
         { error: 'You cannot delete your own account' },
         { status: 400 }
@@ -118,7 +123,7 @@ export async function DELETE(
     }
 
     await prisma.user.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ success: true });
