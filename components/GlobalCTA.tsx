@@ -7,9 +7,13 @@ import { useEffect, useState } from 'react';
 
 const GlobalCTA = () => {
   const [ctaData, setCtaData] = useState({
+    badge: "⚡ Let's Connect",
     title: "Ready to Sparkplug your audience?",
+    description: "Let's create an unforgettable experience that gets your team talking, laughing, and collaborating.",
     buttonText: "Enquire Now",
-    buttonLink: "/contact"
+    buttonLink: "/contact",
+    secondaryButtonText: "View Experiences",
+    secondaryButtonLink: "/programs"
   });
 
   useEffect(() => {
@@ -19,9 +23,13 @@ const GlobalCTA = () => {
       const cta = data.cta || data.site?.cta;
       if (cta) {
         setCtaData({
+          badge: cta.badge || "⚡ Let's Connect",
           title: cta.title || "Ready to Sparkplug your audience?",
+          description: cta.description || "Let's create an unforgettable experience that gets your team talking, laughing, and collaborating.",
           buttonText: cta.buttonText || "Enquire Now",
-          buttonLink: cta.buttonLink || "/contact"
+          buttonLink: cta.buttonLink || "/contact",
+          secondaryButtonText: cta.secondaryButtonText || "View Experiences",
+          secondaryButtonLink: cta.secondaryButtonLink || "/programs"
         });
       }
     });
@@ -49,7 +57,7 @@ const GlobalCTA = () => {
             className="inline-block mb-6"
           >
             <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold border border-white/30">
-              ⚡ Let&apos;s Connect
+              {ctaData.badge}
             </span>
           </motion.div>
 
@@ -59,7 +67,7 @@ const GlobalCTA = () => {
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-white/95 leading-relaxed max-w-3xl mx-auto">
-            Let&apos;s create an unforgettable experience that gets your team talking, laughing, and collaborating.
+            {ctaData.description}
           </p>
 
           {/* CTA Buttons */}
@@ -80,7 +88,7 @@ const GlobalCTA = () => {
                 size="lg"
                 className="border-2 border-white/50 text-white hover:bg-white hover:text-[hsl(235,52%,45%)] font-bold px-10 py-6 text-lg rounded-full bg-transparent transition-all"
               >
-                <Link href="/programs">View Experiences</Link>
+                <Link href={ctaData.secondaryButtonLink}>{ctaData.secondaryButtonText}</Link>
               </Button>
             </motion.div>
           </div>

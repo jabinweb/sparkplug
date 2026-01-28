@@ -1,8 +1,12 @@
 {
   "cta": {
-    "title": "Ready to Sparkplug your audience kjhkjhjhgjk?",
+    "badge": "⚡ Let's Connect",
+    "title": "Ready to Sparkplug your audience?",
+    "description": "Let's create an unforgettable experience that gets your team talking, laughing, and collaborating.",
+    "buttonText": "Enquire Now",
     "buttonLink": "/contact",
-    "buttonText": "Enquire Now"
+    "secondaryButtonText": "View Experiences",
+    "secondaryButtonLink": "/programs"
   },
   "blog": {
     "title": "Stories & Updates",

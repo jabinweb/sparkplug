@@ -1,18 +1,19 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import blogPosts from '../../../content/blog-posts.json';
+import { getBlogPost, getBlogPosts } from '@/lib/getBlogPosts';
+
+export const revalidate = 0;
 
 export default async function BlogPost({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const postId = parseInt(id);
-  const post = blogPosts.find(p => p.id === postId);
+  const post = await getBlogPost(id);
 
   if (!post) {
     notFound();
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+  const formatDate = (date: Date | string) => {
+    return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -21,17 +22,19 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
 
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
-      'Programs': 'bg-brand-primary-100 text-brand-primary-800',
-      'Research': 'bg-sosc-green-100 text-sosc-green-700',
-      'Impact': 'bg-sosc-teal-100 text-sosc-teal-700',
-      'Innovation': 'bg-brand-secondary-100 text-brand-secondary-700',
-      'Policy': 'bg-sosc-red-100 text-sosc-red-700'
+      'Experiences': 'bg-yellow-100 text-yellow-800',
+      'Insights': 'bg-blue-100 text-blue-700',
+      'Activities': 'bg-green-100 text-green-700',
+      'Innovation': 'bg-purple-100 text-purple-700',
+      'Case Studies': 'bg-orange-100 text-orange-700'
     };
     return colors[category] || 'bg-gray-100 text-[var(--color-text-primary)]';
   };
 
-  const relatedPosts = blogPosts
-    .filter(p => p.id !== post.id && (
+  // Get related posts
+  const allPosts = await getBlogPosts({ limit: 100 });
+  const relatedPosts = allPosts
+    .filter(p => p.slug !== post.slug && (
       p.category === post.category || 
       p.tags.some(tag => post.tags.includes(tag))
     ))
@@ -157,7 +160,7 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
                       </span>
                     </div>
                     <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-3">
-                      <Link href={`/blog/${relatedPost.id}`} className="hover:text-indigo-600 transition-colors">
+                      <Link href={`/blog/${relatedPost.slug}`} className="hover:text-indigo-600 transition-colors">
                         {relatedPost.title}
                       </Link>
                     </h3>
@@ -165,7 +168,7 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
                       {relatedPost.excerpt}
                     </p>
                     <Link
-                      href={`/blog/${relatedPost.id}`}
+                      href={`/blog/${relatedPost.slug}`}
                       className="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
                     >
                       Read More →

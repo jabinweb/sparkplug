@@ -1,14 +1,17 @@
 import Link from 'next/link';
-import siteContent from '../../content/site-content.json';
-import blogPosts from '../../content/blog-posts.json';
+import { getAllSiteContent } from '@/lib/getContent';
+import { getFeaturedBlogPosts, getRecentBlogPosts } from '@/lib/getBlogPosts';
 
-export default function BlogPage() {
-  const { blog } = siteContent;
-  const featuredPosts = blogPosts.filter(post => post.featured);
-  const recentPosts = blogPosts.slice(0, 6);
+export const revalidate = 0;
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+export default async function BlogPage() {
+  const siteContent = await getAllSiteContent();
+  const blog = (siteContent as any).blog || {};
+  const featuredPosts = await getFeaturedBlogPosts();
+  const recentPosts = await getRecentBlogPosts(6);
+
+  const formatDate = (date: Date | string) => {
+    return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -63,7 +66,7 @@ export default function BlogPage() {
                       </span>
                     </div>
                     <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
-                      <Link href={`/blog/${post.id}`} className="hover:text-[var(--color-brand-secondary)] transition-colors">
+                      <Link href={`/blog/${post.slug}`} className="hover:text-[var(--color-brand-secondary)] transition-colors">
                         {post.title}
                       </Link>
                     </h3>
@@ -73,7 +76,7 @@ export default function BlogPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">By {post.author}</span>
                       <Link
-                        href={`/blog/${post.id}`}
+                        href={`/blog/${post.slug}`}
                         className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium transition-colors"
                       >
                         Read More →
@@ -113,7 +116,7 @@ export default function BlogPage() {
                     </span>
                   </div>
                   <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-3 line-clamp-2">
-                    <Link href={`/blog/${post.id}`} className="hover:text-[var(--color-brand-secondary)] transition-colors">
+                    <Link href={`/blog/${post.slug}`} className="hover:text-[var(--color-brand-secondary)] transition-colors">
                       {post.title}
                     </Link>
                   </h3>
@@ -123,7 +126,7 @@ export default function BlogPage() {
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">By {post.author}</span>
                     <Link
-                      href={`/blog/${post.id}`}
+                      href={`/blog/${post.slug}`}
                       className="text-sm text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium transition-colors"
                     >
                       Read More
@@ -144,8 +147,8 @@ export default function BlogPage() {
             <div>
               <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-6">Categories</h3>
               <div className="space-y-3">
-                {Array.from(new Set(blogPosts.map(post => post.category))).map((category) => {
-                  const postCount = blogPosts.filter(post => post.category === category).length;
+                {Array.from(new Set(recentPosts.map(post => post.category))).map((category) => {
+                  const postCount = recentPosts.filter(post => post.category === category).length;
                   return (
                     <Link
                       key={category}
@@ -164,7 +167,7 @@ export default function BlogPage() {
             <div>
               <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-6">Popular Tags</h3>
               <div className="flex flex-wrap gap-2">
-                {Array.from(new Set(blogPosts.flatMap(post => post.tags))).map((tag) => (
+                {Array.from(new Set(recentPosts.flatMap(post => post.tags))).map((tag) => (
                   <Link
                     key={tag}
                     href={`/blog/tag/${tag.replace(/\s+/g, '-')}`}
