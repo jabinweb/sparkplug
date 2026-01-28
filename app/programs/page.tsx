@@ -137,13 +137,6 @@ export default async function ExperiencesPage() {
           />
         </div>
       </section>
-
-      {/* Custom Experiences */}
-      <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <CustomExperience />
-        </div>
-      </section>
     </div>
   );
 }
