@@ -1,22 +1,8 @@
 import { getAllSiteContent } from '@/lib/getContent';
-import { motion } from 'framer-motion';
+import { AnimatedSection, AnimatedCard } from '@/components/animations/AnimatedSection';
+import { ValueCard, VisionMissionCard } from '@/components/about/AboutCards';
 
 export const revalidate = 0;
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
-};
-
-const staggerContainer = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
 
 export default async function AboutPage() {
   const siteContent = await getAllSiteContent();
@@ -31,55 +17,40 @@ export default async function AboutPage() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+          <AnimatedSection className="text-center" type="fadeInUp">
+            <AnimatedSection
+              type="scaleIn"
+              delay={0.2}
               className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium rounded-full mb-8"
             >
               🎯 Who We Are
-            </motion.div>
+            </AnimatedSection>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
-              {about.hero.title}
+              {about.hero?.title}
             </h1>
             <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
-              {about.hero.subtitle}
+              {about.hero?.subtitle}
             </p>
-          </motion.div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Our Story */}
       <section className="py-20 bg-[var(--color-bg-primary)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
+          <AnimatedSection className="text-center mb-16" viewport={true}>
             <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
               Our Beginning
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
-              {about.foundingAspiration.title}
+              {about.foundingAspiration?.title}
             </h2>
-          </motion.div>
+          </AnimatedSection>
           
-          <motion.div 
+          <AnimatedCard 
             className="bg-gradient-to-br from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)] rounded-3xl p-8 md:p-12 shadow-xl border border-[var(--color-brand-primary)]/10"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            delay={0.2}
           >
             <div className="prose prose-lg max-w-none">
               <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl">
@@ -87,136 +58,61 @@ export default async function AboutPage() {
                 parkplug was born from a simple idea: <strong>People connect best when they experience something together.</strong>
               </p>
               <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg mt-6">
-                {about.foundingAspiration.content}
+                {about.foundingAspiration?.content}
               </p>
             </div>
-          </motion.div>
+          </AnimatedCard>
         </div>
       </section>
 
       {/* What Makes Us Different */}
       <section className="py-20 bg-[var(--color-bg-secondary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
+          <AnimatedSection className="text-center mb-16" viewport={true}>
             <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
               Our Difference
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
               What Makes Sparkplug Different
             </h2>
-          </motion.div>
+          </AnimatedSection>
           
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {(about.values || []).map((value: any, index: number) => (
-              <motion.div
+              <ValueCard 
                 key={index}
-                variants={fadeInUp}
-                className="group"
-              >
-                <div className="bg-[var(--color-bg-primary)] p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-0 h-full">
-                  <div className="flex items-start gap-4 mb-4">
-                    <motion.div 
-                      className="w-12 h-12 bg-gradient-to-br from-[var(--color-brand-primary)] to-[var(--color-brand-secondary)] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
-                      whileHover={{ rotate: 5 }}
-                    >
-                      <span className="text-white text-xl font-bold">{index + 1}</span>
-                    </motion.div>
-                    <div>
-                      <h3 className="text-xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors mb-2">
-                        {value.title}
-                      </h3>
-                      <p className="text-[var(--color-text-secondary)] leading-relaxed">
-                        {value.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                title={value.title}
+                description={value.description}
+                index={index}
+              />
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Vision & Mission */}
       <section className="py-20 bg-[var(--color-bg-primary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-          >
-            <motion.div 
-              variants={fadeInUp}
-              className="group"
-            >
-              <div className="bg-gradient-to-br from-[var(--color-brand-primary)]/5 to-[var(--color-brand-accent)]/20 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 h-full">
-                <div className="flex items-center mb-6">
-                  <motion.div 
-                    className="w-16 h-16 bg-gradient-to-br from-[var(--color-brand-primary)] to-[var(--color-brand-secondary)] rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ rotate: 5 }}
-                  >
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  </motion.div>
-                  <h3 className="text-2xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors">Our Vision</h3>
-                </div>
-                <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg">
-                  {about.vision}
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              variants={fadeInUp}
-              className="group"
-            >
-              <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 h-full">
-                <div className="flex items-center mb-6">
-                  <motion.div 
-                    className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ rotate: 5 }}
-                  >
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </motion.div>
-                  <h3 className="text-2xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors">Our Mission</h3>
-                </div>
-                <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg">
-                  {about.mission}
-                </p>
-              </div>
-            </motion.div>
-          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <VisionMissionCard
+              type="vision"
+              title="Our Vision"
+              content={about.vision}
+            />
+            
+            <VisionMissionCard
+              type="mission"
+              title="Our Mission"
+              content={about.mission}
+            />
+          </div>
         </div>
       </section>
 
       {/* Meet the Founder - Placeholder */}
       <section className="py-20 bg-[var(--color-bg-secondary)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
+          <AnimatedSection className="text-center" viewport={true}>
             <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
               Leadership
             </div>
@@ -228,7 +124,7 @@ export default async function AboutPage() {
                 Coming soon...
               </p>
             </div>
-          </motion.div>
+          </AnimatedSection>
         </div>
       </section>
     </div>
