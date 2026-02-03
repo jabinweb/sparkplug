@@ -84,10 +84,13 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
     try {
       const formData = new FormData()
       formData.append('file', file)
+      formData.append('folder', 'images') // Organize images in their own folder
+      formData.append('isPublic', 'true') // Make images publicly accessible
+      formData.append('description', `Image for ${path.join(' > ')}`)
 
       console.log('Uploading file:', file.name, file.type)
 
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/api/files', {
         method: 'POST',
         body: formData,
       })

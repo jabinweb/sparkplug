@@ -9,7 +9,13 @@ interface WhyTeamsLoveProps {
 export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
   const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
 
-  const benefits = [
+  // Use JSON data if available
+  const jsonBenefits = homepage.whyTeamsLove?.items || [];
+  const benefits = jsonBenefits.length > 0 ? jsonBenefits.map((item: string, idx: number) => ({
+    icon: ['🎯', '💯', '⚡', '🤝', '✨', '📈'][idx] || '⚡',
+    text: item,
+    color: idx % 2 === 0 ? 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' : 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]'
+  })) : [
     { icon: '🎯', text: 'Zero skill required', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
     { icon: '💯', text: '100% participation guaranteed', color: 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]' },
     { icon: '⚡', text: 'Breaks barriers instantly', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
@@ -61,7 +67,7 @@ export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
             }
           }}
         >
-          {benefits.map((benefit, index) => (
+          {benefits.map((benefit: { icon: string; text: string; color: string }, index: number) => (
             <motion.div
               key={index}
               variants={{

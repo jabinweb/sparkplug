@@ -34,7 +34,7 @@ export default function ClientLogos({ siteContent }: ClientLogosProps) {
             🇮🇳 Taking Energy Nationwide
           </motion.div>
           <h2 className="text-3xl md:text-5xl font-black text-[var(--color-text-primary)] mb-4">
-            Across Brands. Across Cities. Across <span className="text-[var(--color-brand-secondary)]">India.</span>
+            {homepage.clients?.title || 'Taking Energy Nationwide. Across Brands. Across Cities. Across India.'}
           </h2>
         </motion.div>
 

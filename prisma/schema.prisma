@@ -71,3 +71,26 @@ model BlogPost {
   @@index([category])
   @@index([publishDate])
 }
+
+// File Management
+model File {
+  id           String   @id @default(cuid())
+  filename     String   // Sanitized filename
+  originalName String   // Original filename uploaded by user
+  mimeType     String
+  size         Int
+  url          String   // Full URL to access the file
+  path         String   // Relative path on server
+  folder       String   @default("default")
+  uploadedBy   String   // User ID who uploaded the file
+  isPublic     Boolean  @default(false)
+  description  String?  @db.Text
+  metadata     Json?    // Additional metadata (e.g., dimensions for images, duration for videos)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([folder])
+  @@index([uploadedBy])
+  @@index([createdAt])
+  @@index([filename])
+}

@@ -61,7 +61,16 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const currentExperience = experiences[activeIndex];
+  // Use JSON data if available, otherwise fallback to hardcoded
+  const jsonExperiences = homepage.signatureExperiences?.items || [];
+  const experiencesData = jsonExperiences.length > 0 ? jsonExperiences.map((exp: any, idx: number) => ({
+    ...experiences[idx],
+    title: exp.name,
+    tagline: exp.tagline,
+    description: exp.description
+  })) : experiences;
+
+  const currentExperience = experiencesData[activeIndex];
   const currentImages = currentExperience.images;
 
   // Reset image index when experience changes
@@ -119,7 +128,7 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left: Experience Tabs */}
           <div className="space-y-3">
-            {experiences.map((exp, index) => {
+            {experiencesData.map((exp: any, index: number) => {
               const IconComponent = exp.icon;
               const isActive = activeIndex === index;
               
@@ -281,7 +290,7 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
 
             {/* Thumbnail Dots */}
             <div className="flex justify-center gap-2 mt-4">
-              {currentImages.map((_, imgIndex) => (
+              {currentImages.map((_: string, imgIndex: number) => (
                 <motion.button
                   key={imgIndex}
                   onClick={() => {

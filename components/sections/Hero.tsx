@@ -56,8 +56,8 @@ export default function Hero({ siteContent }: HeroProps) {
                 size="lg" 
                 className="bg-[var(--color-brand-primary)] hover:bg-[var(--color-brand-primary-600)] text-[var(--color-button-text)] px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
               >
-                <Link href="/contact" className="block">
-                  ⚡ Book an Experience
+                <Link href={homepage.hero?.buttonLink || '/contact'} className="block">
+                  ⚡ {homepage.hero?.buttonText || 'Book an Experience'}
                 </Link>
               </Button>
             </motion.div>
@@ -69,7 +69,7 @@ export default function Hero({ siteContent }: HeroProps) {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="text-sm sm:text-base text-[var(--color-text-tertiary)]"
             >
-              Trusted by teams at <span className="font-semibold text-[var(--color-text-primary)]">Google</span>, <span className="font-semibold text-[var(--color-text-primary)]">Deloitte</span>, <span className="font-semibold text-[var(--color-text-primary)]">PepsiCo</span> & more.
+              {homepage.hero?.trustedBy || 'Trusted by teams at Google, Deloitte, PepsiCo & more.'}
             </motion.p>
           </motion.div>
 

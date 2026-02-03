@@ -1,10 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useFormSubmit } from '@/lib/hooks/useFormSubmit';
 
 export default function ContactPage() {
+  const [contactData, setContactData] = useState<any>(null);
+  
+  useEffect(() => {
+    fetch('/api/content').then(res => res.json()).then(data => {
+      setContactData(data.contact || {});
+    }).catch(() => {});
+  }, []);
   const [contactForm, setContactForm] = useState({
     name: '',
     organisation: '',
@@ -61,13 +68,13 @@ export default function ContactPage() {
             </span>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
-              Plan Your Experience
+              {contactData?.hero?.title || 'Plan Your Experience'}
             </h1>
             <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
-              Tell us a little about your event, and we&apos;ll craft something perfect for your team.
+              {contactData?.hero?.subtitle || 'Tell us a little about your event, and we\'ll craft something perfect for your team.'}
             </p>
             <p className="text-lg max-w-3xl mx-auto text-white/90">
-              Send us a message and let&apos;s create something unforgettable.
+              {contactData?.hero?.description || 'Send us a message and let\'s create something unforgettable.'}
             </p>
           </motion.div>
         </div>
@@ -99,10 +106,10 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">Email Us</h3>
                     <a 
-                      href="mailto:connect@sparkplug.in"
+                      href={`mailto:${contactData?.info?.email || 'connect@sparkplug.in'}`}
                       className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium text-lg"
                     >
-                      connect@sparkplug.in
+                      {contactData?.info?.email || 'connect@sparkplug.in'}
                     </a>
                   </div>
                 </div>
@@ -117,12 +124,12 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">Reach via Instagram</h3>
                     <a 
-                      href="https://instagram.com/thesparkplugin"
+                      href={contactData?.info?.instagramUrl || 'https://instagram.com/thesparkplugin'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium text-lg"
                     >
-                      @thesparkplugin
+                      {contactData?.info?.instagram || '@thesparkplugin'}
                     </a>
                   </div>
                 </div>
@@ -136,9 +143,20 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">WhatsApp Us</h3>
-                    <p className="text-[var(--color-text-tertiary)] italic">
-                      Coming soon
-                    </p>
+                    {contactData?.info?.whatsapp && contactData.info.whatsapp !== 'Coming soon' ? (
+                      <a 
+                        href={`https://wa.me/${contactData.info.whatsapp.replace(/\D/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium text-lg"
+                      >
+                        {contactData.info.whatsapp}
+                      </a>
+                    ) : (
+                      <p className="text-[var(--color-text-tertiary)] italic">
+                        {contactData?.info?.whatsapp || 'Coming soon'}
+                      </p>
+                    )}
                   </div>
                 </div>
 

@@ -370,54 +370,7 @@ export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
                 >
-                  We Turn
-                </motion.span>
-                <motion.span 
-                  className="block relative"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                  <span className="relative">
-                    Ordinary Teams
-                    <motion.svg
-                      className="absolute -bottom-2 left-0 w-full h-4"
-                      viewBox="0 0 300 12"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      whileInView={{ pathLength: 1, opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.6 }}
-                    >
-                      <motion.path
-                        d="M0 8 Q75 0 150 8 T300 8"
-                        fill="none"
-                        stroke="var(--color-brand-secondary)"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                      />
-                    </motion.svg>
-                  </span>
-                </motion.span>
-                <motion.span 
-                  className="block"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  Into <span className="text-[var(--color-brand-secondary)] relative">
-                    Extraordinary
-                    <motion.span
-                      className="absolute -right-6 -top-3 text-2xl"
-                      initial={{ scale: 0, rotate: -45 }}
-                      whileInView={{ scale: 1, rotate: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ type: "spring", delay: 0.8 }}
-                    >
-                      ⚡
-                    </motion.span>
-                  </span>
+                  {homepage.challenge?.subtitle || 'We Turn Teams Into a Connected Force'}
                 </motion.span>
               </h2>
             </motion.div>

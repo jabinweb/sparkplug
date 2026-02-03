@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "../components/AuthProvider";
 import ConditionalLayout from "@/components/ConditionalLayout";
+import { Toaster } from "sonner";
 
 const supermolot = localFont({
   src: [
@@ -72,6 +73,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <ConditionalLayout>{children}</ConditionalLayout>
+          <Toaster position="top-right" richColors />
         </AuthProvider>
       </body>
     </html>

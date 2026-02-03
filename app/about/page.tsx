@@ -73,12 +73,12 @@ export default async function AboutPage() {
               Our Difference
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
-              What Makes Sparkplug Different
+              {about.whatMakesDifferent?.title || 'What Makes Sparkplug Different'}
             </h2>
           </AnimatedSection>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {(about.values || []).map((value: any, index: number) => (
+            {((about.whatMakesDifferent?.items || about.values || []) as any[]).map((value: any, index: number) => (
               <ValueCard 
                 key={index}
                 title={value.title}
@@ -117,11 +117,11 @@ export default async function AboutPage() {
               Leadership
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
-              Meet the Founder
+              {about.founder?.title || 'Meet the Founder'}
             </h2>
             <div className="bg-[var(--color-bg-primary)] p-12 rounded-2xl shadow-lg border border-[var(--color-brand-primary)]/10">
-              <p className="text-[var(--color-text-tertiary)] text-lg italic">
-                Coming soon...
+              <p className="text-[var(--color-text-secondary)] text-lg">
+                {about.founder?.content || 'Coming soon...'}
               </p>
             </div>
           </AnimatedSection>
