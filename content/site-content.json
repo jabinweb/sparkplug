@@ -2,11 +2,11 @@
   "cta": {
     "badge": "⚡ Let's Connect",
     "title": "Ready to Sparkplug your audience?",
-    "description": "Let's create an unforgettable experience that gets your team talking, laughing, and collaborating.",
-    "buttonText": "Enquire Now",
     "buttonLink": "/contact",
-    "secondaryButtonText": "View Experiences",
-    "secondaryButtonLink": "/programs"
+    "buttonText": "Enquire Now",
+    "description": "Let's create an unforgettable experience that gets your team talking, laughing, and collaborating.",
+    "secondaryButtonLink": "/programs",
+    "secondaryButtonText": "View Experiences"
   },
   "blog": {
     "title": "Stories & Updates",
@@ -110,9 +110,9 @@
     "hero": {
       "title": "UNLOCKING PEOPLE POWER",
       "subtitle": "Energise. Connect. Transform your people.",
-      "buttonText": "Book an Experience",
-      "buttonLink": "/contact",
       "trustedBy": "Trusted by teams at Google, Deloitte, PepsiCo & more.",
+      "buttonLink": "/contact",
+      "buttonText": "Book an Experience",
       "description": "With our high-energy audience engagement experiences for teams, corporates, and communities across India, built around rhythm, collaboration, and pure human energy."
     },
     "causes": {
@@ -170,7 +170,7 @@
         "Nestlé",
         "IPL"
       ],
-      "title": "Taking Energy Nationwide. Across Brands. Across Cities. Across India.",
+      "title": "Across Brands. Across Cities. Across India.",
       "cities": [
         "Mumbai",
         "Delhi",

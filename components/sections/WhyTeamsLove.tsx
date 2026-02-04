@@ -47,9 +47,9 @@ export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
           <h2 className="text-3xl md:text-5xl font-black mb-4">
             Why Teams Love <span className="text-[var(--color-brand-secondary)]">Sparkplug</span>
           </h2>
-          <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+          {/* <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
             What makes our experiences unforgettable
-          </p>
+          </p> */}
         </motion.div>
 
         {/* Benefits Grid with Staggered Animation */}

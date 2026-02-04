@@ -110,7 +110,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Meet the Founder - Placeholder */}
-      <section className="py-20 bg-[var(--color-bg-secondary)]">
+      {/* <section className="py-20 bg-[var(--color-bg-secondary)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="text-center" viewport={true}>
             <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
@@ -126,7 +126,7 @@ export default async function AboutPage() {
             </div>
           </AnimatedSection>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

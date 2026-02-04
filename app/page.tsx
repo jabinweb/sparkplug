@@ -22,14 +22,16 @@ export default async function Home() {
       {/* Signature Experiences - Interactive Cards */}
       <SignatureExperiences siteContent={siteContent} />
 
+      {/* Why Teams Love Us - Animated Benefits */}
+      <WhyTeamsLove siteContent={siteContent} />
+      
+      {/* Client Logos & Cities */}
+      <ClientLogos siteContent={siteContent} />
+
+
       {/* Video Reels - Showcase our events */}
       <VideoReels siteContent={siteContent} />
 
-      {/* Why Teams Love Us - Animated Benefits */}
-      <WhyTeamsLove siteContent={siteContent} />
-
-      {/* Client Logos & Cities */}
-      <ClientLogos siteContent={siteContent} />
     </div>
   );
 }

@@ -100,7 +100,7 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
   };
 
   return (
-    <section className="py-24 bg-[var(--color-bg-primary)] overflow-hidden transition-colors duration-300">
+    <section className="pb-24 bg-[var(--color-bg-primary)] overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -119,9 +119,9 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
             <span className="w-12 h-1 bg-[var(--color-brand-secondary)] rounded-full" />
             <span className="text-[var(--color-brand-secondary)] font-bold uppercase tracking-widest text-sm">Signature Experiences</span>
           </motion.div>
-          <h2 className="text-3xl md:text-4xl font-black text-[var(--color-text-primary)]">
+          {/* <h2 className="text-3xl md:text-4xl font-black text-[var(--color-text-primary)]">
             Experiences That Transform
-          </h2>
+          </h2> */}
         </motion.div>
 
         {/* Interactive Experience Selector */}
