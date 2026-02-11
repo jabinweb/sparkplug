@@ -57,7 +57,7 @@ export function VisionMissionCard({ type, title, content }: VisionMissionCardPro
       className="group"
     >
       <div className={`${isVision ? 'bg-gradient-to-br from-[var(--color-brand-primary)]/5 to-[var(--color-brand-accent)]/20' : 'bg-gradient-to-br from-[var(--color-brand-secondary)]/5 to-[var(--color-brand-accent)]/20'} p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-0 h-full`}>
-        <div className="flex items-center mb-6">
+        <div className="flex items-center justify-center mb-6">
           <motion.div 
             className={`w-16 h-16 ${isVision ? 'bg-gradient-to-br from-[var(--color-brand-primary)] to-[var(--color-brand-secondary)]' : 'bg-gradient-to-br from-[var(--color-brand-secondary)] to-[var(--color-brand-accent)]'} rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
             whileHover={{ rotate: 5 }}

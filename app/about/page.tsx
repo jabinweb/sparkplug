@@ -39,14 +39,14 @@ export default async function AboutPage() {
       {/* Our Story */}
       <section className="py-20 bg-[var(--color-bg-primary)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-16" viewport={true}>
+          {/* <AnimatedSection className="text-center mb-16" viewport={true}>
             <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
               Our Beginning
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
               {about.foundingAspiration?.title}
             </h2>
-          </AnimatedSection>
+          </AnimatedSection> */}
           
           <AnimatedCard 
             className="bg-gradient-to-br from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)] rounded-3xl p-8 md:p-12 shadow-xl border border-[var(--color-brand-primary)]/10"
@@ -65,12 +65,32 @@ export default async function AboutPage() {
         </div>
       </section>
 
+            {/* Vision & Mission */}
+      <section className="py-20 bg-[var(--color-bg-primary)]">
+ 
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <VisionMissionCard
+              type="vision"
+              title="Our Vision"
+              content={about.vision}
+            />
+            
+            <VisionMissionCard
+              type="mission"
+              title="Our Mission"
+              content={about.mission}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* What Makes Us Different */}
       <section className="py-20 bg-[var(--color-bg-secondary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="text-center mb-16" viewport={true}>
             <div className="inline-flex items-center px-4 py-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] rounded-full text-sm font-medium mb-6">
-              Our Difference
+              Built Differently
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 leading-tight">
               {about.whatMakesDifferent?.title || 'What Makes Sparkplug Different'}
@@ -90,24 +110,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Vision & Mission */}
-      <section className="py-20 bg-[var(--color-bg-primary)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <VisionMissionCard
-              type="vision"
-              title="Our Vision"
-              content={about.vision}
-            />
-            
-            <VisionMissionCard
-              type="mission"
-              title="Our Mission"
-              content={about.mission}
-            />
-          </div>
-        </div>
-      </section>
+
 
       {/* Meet the Founder - Placeholder */}
       {/* <section className="py-20 bg-[var(--color-bg-secondary)]">

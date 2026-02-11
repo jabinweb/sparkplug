@@ -41,9 +41,9 @@ export default async function GetInvolvedPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">
               {getInvolved.booking?.title || 'Book an Experience'}
             </h2>
-            <p className="text-lg text-[var(--color-text-secondary)] max-w-3xl mx-auto">
+            {/* <p className="text-lg text-[var(--color-text-secondary)] max-w-3xl mx-auto">
               {getInvolved.booking?.description || ''}
-            </p>
+            </p> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -91,9 +91,9 @@ export default async function GetInvolvedPage() {
           </div>
 
           <div className="text-center mt-12">
-            <p className="text-lg text-[var(--color-text-secondary)] mb-6">
+            {/* <p className="text-lg text-[var(--color-text-secondary)] mb-6">
               Ready to create meaningful change together?
-            </p>
+            </p> */}
             <a
               href="mailto:partnerships@sparkplug.in"
               className="bg-[var(--color-brand-primary)] text-[var(--color-button-text)] px-8 py-3 rounded-lg font-semibold hover:bg-[var(--color-brand-primary)]/80 transition-colors inline-block"

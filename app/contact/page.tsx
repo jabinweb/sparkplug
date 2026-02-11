@@ -73,9 +73,9 @@ export default function ContactPage() {
             <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
               {contactData?.hero?.subtitle || 'Tell us a little about your event, and we\'ll craft something perfect for your team.'}
             </p>
-            <p className="text-lg max-w-3xl mx-auto text-white/90">
+            {/* <p className="text-lg max-w-3xl mx-auto text-white/90">
               {contactData?.hero?.description || 'Send us a message and let\'s create something unforgettable.'}
-            </p>
+            </p> */}
           </motion.div>
         </div>
       </section>
@@ -110,6 +110,26 @@ export default function ContactPage() {
                       className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium text-lg"
                     >
                       {contactData?.info?.email || 'connect@sparkplug.in'}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Linkedin */}
+                <div className="flex items-start">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">Reach via Linkedin</h3>
+                    <a 
+                      href={contactData?.info?.linkedinurl || 'https://instagram.com/thesparkplugin'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium text-lg"
+                    >
+                      {contactData?.info?.instagram || '@thesparkplugin'}
                     </a>
                   </div>
                 </div>
@@ -160,22 +180,8 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* Coverage */}
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-[var(--color-brand-secondary)] rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">Coverage</h3>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed">
-                      Pan-India Coverage<br />
-                      Available for in-person and virtual experiences
-                    </p>
-                  </div>
-                </div>
+
+         
               </div>
             </motion.div>
 

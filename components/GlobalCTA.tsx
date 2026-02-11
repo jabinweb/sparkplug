@@ -65,10 +65,10 @@ const GlobalCTA = () => {
           <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight !text-white">
             {ctaData.title}
           </h2>
-          
+{/*           
           <p className="text-xl md:text-2xl mb-10 text-white/95 leading-relaxed max-w-3xl mx-auto">
             {ctaData.description}
-          </p>
+          </p> */}
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
