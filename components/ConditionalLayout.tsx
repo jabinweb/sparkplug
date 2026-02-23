@@ -4,15 +4,25 @@ import { usePathname } from 'next/navigation'
 import ClientLayout from './ClientLayout'
 import { ReactNode } from 'react'
 
-export default function ConditionalLayout({ children }: { children: ReactNode }) {
+export default function ConditionalLayout({
+  children,
+  siteContent,
+}: {
+  children: ReactNode
+  siteContent: any
+}) {
   const pathname = usePathname()
 
-  // Don't apply ClientLayout for admin and auth routes
-  const isAdminOrAuth = pathname?.startsWith('/admin') || pathname?.startsWith('/auth')
+  const isAdminOrAuth =
+    pathname?.startsWith('/admin') || pathname?.startsWith('/auth')
 
   if (isAdminOrAuth) {
     return <>{children}</>
   }
 
-  return <ClientLayout>{children}</ClientLayout>
+  return (
+    <ClientLayout siteContent={siteContent}>
+      {children}
+    </ClientLayout>
+  )
 }

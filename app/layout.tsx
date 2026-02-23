@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "../components/AuthProvider";
 import ConditionalLayout from "@/components/ConditionalLayout";
 import { Toaster } from "sonner";
+import { getAllSiteContent } from "@/lib/getContent"; // ✅ SERVER ONLY
 
 const supermolot = localFont({
   src: [
@@ -39,18 +40,23 @@ const supermolot = localFont({
 
 export const metadata: Metadata = {
   title: "Sparkplug - UNLOCKING PEOPLE POWER",
-  description: "High-energy team building experiences, drum circles, and engagement sessions for corporates, events, and communities. Trusted by Google, Microsoft, Deloitte, and more across India.",
-  keywords: "team building, employee engagement, drum circles, corporate workshops, experiential events, audience engagement, music therapy, collaboration, India",
+  description:
+    "High-energy team building experiences, drum circles, and engagement sessions for corporates, events, and communities.",
   icons: {
-    icon: '/logos/favicon.png',
+    icon: "/logos/favicon.png",
   },
 };
 
-export default function RootLayout({
+// ✅ Make layout async
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+
+  // ✅ Prisma runs ONLY here (server safe)
+  const siteContent = await getAllSiteContent();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -68,11 +74,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${supermolot.variable} font-sans antialiased`}
-      >
+
+      <body className={`${supermolot.variable} font-sans antialiased`}>
         <AuthProvider>
-          <ConditionalLayout>{children}</ConditionalLayout>
+          {/* ✅ Pass data down */}
+          <ConditionalLayout siteContent={siteContent}>
+            {children}
+          </ConditionalLayout>
+
           <Toaster position="top-right" richColors />
         </AuthProvider>
       </body>
