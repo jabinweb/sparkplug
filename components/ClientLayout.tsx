@@ -19,7 +19,7 @@ export default function ClientLayout({
         {children}
       </main>
       <GlobalCTA />
-      <Footer />
+      <Footer siteContent={siteContent} />
     </ThemeProvider>
   )
 }
