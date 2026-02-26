@@ -73,27 +73,29 @@ export default function Header({ siteContent }: { siteContent: any }) {
   }, [isMenuOpen]);
 
   return (
-    <nav className={`bg-[var(--color-bg-tertiary)] sticky top-0 z-50 transition-all duration-300 border-b border-gray-200 dark:border-white/10 ${
-      scrolled ? 'shadow-lg' : 'shadow-md'
-    }`}>
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-14 sm:h-16 md:h-18">
+    <nav className={`bg-[var(--color-bg-tertiary)] sticky top-0 z-50 transition-all duration-300 border-b border-gray-200 dark:border-white/10 ${scrolled ? 'shadow-lg' : 'shadow-md'
+      }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 sm:h-20">
 
           {/* Logo */}
           <motion.div
-            className="flex-shrink-0"
+            className="flex-shrink-0 h-16 flex items-center"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/" className="flex items-center space-x-2 group">
-              <Image
-                src={currentTheme === 'light' ? branding.logoLight : branding.logoDark}
-                alt="Sparkplug Logo"
-                width={40}
-                height={40}
-                className="w-auto h-10 sm:h-10 md:h-12 transition-transform duration-300 group-hover:scale-105"
-              />
+            <Link href="/" className="flex items-center group h-16 w-52 overflow-hidden">
+              <div className="h-full flex items-center justify-start">
+                <Image
+                  src={currentTheme === 'light' ? branding.logoLight : branding.logoDark}
+                  alt="Sparkplug Logo"
+                  width={400}
+                  height={400}
+                  className="w-auto h-32 object-contain object-left transition-transform duration-300 group-hover:scale-105"
+                  priority
+                />
+              </div>
             </Link>
           </motion.div>
 
@@ -109,11 +111,10 @@ export default function Header({ siteContent }: { siteContent: any }) {
                 >
                   <Link
                     href={item.href}
-                    className={`relative px-2 xl:px-3 py-2 rounded-lg text-sm xl:text-base font-medium transition-all duration-300 whitespace-nowrap ${
-                      pathname === item.href
-                        ? 'text-[var(--color-brand-primary)]'
-                        : 'text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)]'
-                    }`}
+                    className={`relative px-2 xl:px-3 py-2 rounded-lg text-sm xl:text-base font-medium transition-all duration-300 whitespace-nowrap ${pathname === item.href
+                      ? 'text-[var(--color-brand-primary)]'
+                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)]'
+                      }`}
                   >
                     {item.label}
                     {pathname === item.href && (

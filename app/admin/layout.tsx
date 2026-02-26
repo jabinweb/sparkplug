@@ -99,9 +99,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-[var(--color-bg-primary)]">
+      <div className="h-screen flex flex-col bg-[var(--color-bg-primary)] overflow-hidden">
         {/* Top Navigation Bar */}
-        <nav className="bg-[var(--color-bg-secondary)] border-b border-[var(--color-brand-primary)]/20">
+        <nav className="h-16 flex-none bg-[var(--color-bg-secondary)] border-b border-[var(--color-brand-primary)]/20 z-50">
           <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
               <div className="flex items-center">
@@ -151,9 +151,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </div>
         </nav>
 
-        <div className="flex">
+        <div className="flex flex-1 overflow-hidden">
           {/* Sidebar */}
-          <aside className="w-64 min-h-[calc(100vh-4rem)] bg-[var(--color-bg-secondary)] border-r border-[var(--color-brand-primary)]/20">
+          <aside className="w-64 flex-none bg-[var(--color-bg-secondary)] border-r border-[var(--color-brand-primary)]/20 overflow-y-auto hidden md:block">
             <nav className="p-4 space-y-1">
               {navigation.map((item) => {
                 const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
@@ -175,9 +175,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </nav>
           </aside>
 
-          {/* Main Content */}
-          <main className="flex-1 p-8">
-            {children}
+          {/* Main Content Area */}
+          <main className="flex-1 overflow-y-auto bg-[var(--color-bg-primary)]">
+            <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+              {children}
+            </div>
           </main>
         </div>
       </div>

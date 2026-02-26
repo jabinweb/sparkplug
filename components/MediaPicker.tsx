@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Upload, Image as ImageIcon, Search, Loader2 } from "lucide-react"
 import Image from "next/image"
+import { useRef } from "react"
 
 interface MediaItem {
   id: string
@@ -31,6 +32,8 @@ export function MediaPicker({ onSelect, selectedUrl, folder = "all" }: MediaPick
   const [searchTerm, setSearchTerm] = useState("")
   const [uploading, setUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const filteredMedia = media.filter(item =>
     item.originalName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -68,11 +71,18 @@ export function MediaPicker({ onSelect, selectedUrl, folder = "all" }: MediaPick
     }
   }
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+  const handleFileUpload = async (fileOrEvent: React.ChangeEvent<HTMLInputElement> | File) => {
+    let file: File | undefined
+    
+    if ('target' in fileOrEvent) {
+      file = fileOrEvent.target.files?.[0]
+    } else {
+      file = fileOrEvent
+    }
+
     if (!file) return
 
-    console.log('File selected:', file.name, file.type, file.size)
+    console.log('File processing:', file.name, file.type, file.size)
 
     // Check if it's an image
     if (!file.type.startsWith('image/')) {
@@ -131,7 +141,29 @@ export function MediaPicker({ onSelect, selectedUrl, folder = "all" }: MediaPick
     } finally {
       setUploading(false)
       setUploadProgress(0)
-      event.target.value = ''
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    }
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    
+    const file = e.dataTransfer.files?.[0]
+    if (file) {
+      await handleFileUpload(file)
     }
   }
 
@@ -157,8 +189,18 @@ export function MediaPicker({ onSelect, selectedUrl, folder = "all" }: MediaPick
         
         <div className="flex-1 overflow-hidden flex flex-col space-y-4 pt-4">
           {/* Upload Section */}
-          <div className="border-2 border-dashed border-[var(--color-brand-primary)]/30 rounded-lg p-3 sm:p-6 bg-[var(--color-bg-secondary)]">
-            <div className="text-center">
+          <div 
+            className={`border-2 border-dashed transition-all duration-200 rounded-lg p-3 sm:p-6 cursor-pointer ${
+              isDragging 
+                ? 'border-[var(--color-brand-primary)] bg-[var(--color-brand-primary)]/5 scale-[1.01]' 
+                : 'border-[var(--color-brand-primary)]/30 bg-[var(--color-bg-secondary)] hover:border-[var(--color-brand-primary)]/50'
+            }`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <div className="text-center pointer-events-none">
               {uploading ? (
                 <div className="space-y-3">
                   <Loader2 className="mx-auto h-8 w-8 sm:h-10 sm:w-10 text-[var(--color-brand-primary)] animate-spin" />
@@ -175,30 +217,37 @@ export function MediaPicker({ onSelect, selectedUrl, folder = "all" }: MediaPick
                 </div>
               ) : (
                 <>
-                  <Upload className="mx-auto h-8 w-8 sm:h-10 sm:w-10 text-[var(--color-brand-primary)] mb-3" />
+                  <Upload className={`mx-auto h-8 w-8 sm:h-10 sm:w-10 mb-3 transition-colors ${
+                    isDragging ? 'text-[var(--color-brand-primary)]' : 'text-[var(--color-brand-primary)]/60'
+                  }`} />
                   <div className="space-y-2">
-                    <p className="text-sm sm:text-base font-medium text-[var(--color-text-primary)]">Upload new image</p>
+                    <p className="text-sm sm:text-base font-medium text-[var(--color-text-primary)]">
+                      {isDragging ? 'Drop to upload' : 'Upload new image'}
+                    </p>
                     <p className="text-xs sm:text-sm text-[var(--color-text-secondary)]">
                       Supports JPG, PNG, WebP, SVG up to 10MB
                     </p>
                   </div>
-                  <label className="mt-4 block">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                      disabled={uploading}
-                      className="hidden"
-                    />
-                    <Button 
-                      type="button" 
-                      disabled={uploading}
-                      className="w-full sm:w-auto mt-3 bg-[var(--color-brand-primary)] hover:bg-[var(--color-brand-primary-600)] text-[var(--color-button-text)]"
-                      size="sm"
-                    >
-                      Choose File
-                    </Button>
-                  </label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                  <Button 
+                    type="button" 
+                    disabled={uploading}
+                    className="w-full sm:w-auto mt-4 bg-[var(--color-brand-primary)] hover:bg-[var(--color-brand-primary-600)] text-[var(--color-button-text)] pointer-events-auto"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fileInputRef.current?.click();
+                    }}
+                  >
+                    Choose File
+                  </Button>
                 </>
               )}
             </div>
