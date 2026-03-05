@@ -1,33 +1,32 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, useCallback } from 'react'
 import VisualContentEditor from '@/components/VisualContentEditor'
 
-interface SiteContent {
-  id: string
-  section: string
-  content: any
-  version: number
-  updatedAt: string
-  updatedBy: string | null
-}
+type JsonObject = Record<string, unknown>
 
 export default function ContentEditorPage() {
-  const router = useRouter()
   const [section, setSection] = useState('site')
-  const [content, setContent] = useState<any>(null)
+  const [content, setContent] = useState<{ content: JsonObject; version: number; updatedAt: string; updatedBy: string | null } | null>(null)
   const [editedContent, setEditedContent] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
   const [editorMode, setEditorMode] = useState<'visual' | 'json'>('visual')
+  const sectionOptions = [
+    { value: 'site', label: 'Site (Full Visual Content)' },
+    { value: 'homepage', label: 'Homepage' },
+    { value: 'about', label: 'About' },
+    { value: 'programs', label: 'Programs' },
+    { value: 'contact', label: 'Contact' },
+    { value: 'getInvolved', label: 'Get Involved / Partner' },
+    { value: 'cta', label: 'Global CTA' },
+    { value: 'navigation', label: 'Navigation' },
+    { value: 'blog', label: 'Blog Settings' },
+    { value: 'testimonials', label: 'Testimonials' },
+  ]
 
-  useEffect(() => {
-    fetchContent()
-  }, [section])
-
-  const fetchContent = async () => {
+  const fetchContent = useCallback(async () => {
     setIsLoading(true)
     try {
       const response = await fetch(`/api/content?section=${section}`)
@@ -44,7 +43,11 @@ export default function ContentEditorPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [section])
+
+  useEffect(() => {
+    fetchContent()
+  }, [fetchContent])
 
   const handleSaveJSON = async () => {
     setIsSaving(true)
@@ -78,14 +81,14 @@ export default function ContentEditorPage() {
     }
   }
 
-  const handleSaveVisual = async (updatedContent: any) => {
+  const handleSaveVisual = async (updatedContent: JsonObject) => {
     const response = await fetch('/api/content', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        section: 'site',
+        section,
         content: updatedContent,
       }),
     })
@@ -118,7 +121,10 @@ export default function ContentEditorPage() {
       {/* Editor Mode Toggle */}
       <div className="mb-6 flex gap-2">
         <button
-          onClick={() => setEditorMode('visual')}
+          onClick={() => {
+            setEditorMode('visual')
+            setSection('site')
+          }}
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             editorMode === 'visual'
               ? 'bg-[var(--color-brand-primary)] text-[var(--color-button-text)]'
@@ -137,6 +143,30 @@ export default function ContentEditorPage() {
         >
           {'{ }'} JSON Editor
         </button>
+      </div>
+
+      {/* Section Selector */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
+          Content Section
+        </label>
+        <select
+          value={section}
+          onChange={(e) => setSection(e.target.value)}
+          disabled={editorMode === 'visual'}
+          className="w-full max-w-md px-4 py-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg focus:ring-2 focus:ring-[var(--color-brand-primary)] focus:border-transparent disabled:opacity-60"
+        >
+          {sectionOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {editorMode === 'visual' && (
+          <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
+            Visual editor works on the `site` section (full nested content model).
+          </p>
+        )}
       </div>
 
       {/* Editor */}

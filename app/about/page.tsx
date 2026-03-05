@@ -1,17 +1,55 @@
 import { getAllSiteContent } from '@/lib/getContent';
 import { AnimatedSection, AnimatedCard } from '@/components/animations/AnimatedSection';
 import { ValueCard, VisionMissionCard } from '@/components/about/AboutCards';
+import Image from 'next/image';
 
 export const revalidate = 0;
 
+type AboutValueItem = {
+  title?: string;
+  description?: string;
+};
+
+type AboutContent = {
+  hero?: {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+  };
+  foundingAspiration?: {
+    title?: string;
+    lead?: string;
+    content?: string;
+    image?: string;
+    storyImage?: string;
+  };
+  vision?: string;
+  mission?: string;
+  values?: AboutValueItem[];
+  whatMakesDifferent?: {
+    title?: string;
+    items?: AboutValueItem[];
+  };
+  founder?: {
+    title?: string;
+    content?: string;
+  };
+};
+
 export default async function AboutPage() {
   const siteContent = await getAllSiteContent();
-  const about = (siteContent as any).about || (siteContent as any).site?.about || {};
+  const siteContentRecord = siteContent as Record<string, unknown>;
+  const siteSection = siteContentRecord.site as { about?: AboutContent } | undefined;
+  const about = (siteContentRecord.about as AboutContent | undefined) || siteSection?.about || {};
+  const storyImage =
+    about.foundingAspiration?.image ||
+    about.foundingAspiration?.storyImage ||
+    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80';
 
   return (
     <div className="bg-[var(--color-bg-primary)]">
       {/* Hero Section */}
-      <section className="relative bg-[hsl(235,52%,27%)] text-white py-24 overflow-hidden">
+      <section className="relative bg-[hsl(235,52%,27%)] text-white pt-24 pb-16 sm:pb-24 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
@@ -48,18 +86,33 @@ export default async function AboutPage() {
             </h2>
           </AnimatedSection> */}
           
-          <AnimatedCard 
+          <AnimatedCard
             className="bg-gradient-to-br from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)] rounded-3xl p-8 md:p-12 shadow-xl border border-[var(--color-brand-primary)]/10"
             delay={0.2}
           >
-            <div className="prose prose-lg max-w-none">
-              <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl">
-                <span className="text-3xl font-bold text-[var(--color-brand-primary)] mr-2 float-left leading-none">S</span>
-                parkplug was born from a simple idea: <strong>People connect best when they experience something together.</strong>
-              </p>
-              <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg mt-6">
-                {about.foundingAspiration?.content}
-              </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden border border-[var(--color-brand-primary)]/20 shadow-lg">
+                <Image
+                  src={storyImage}
+                  alt={about.foundingAspiration?.title || 'Our Story'}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="prose prose-lg max-w-none">
+                {about.foundingAspiration?.lead && (
+                  <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl">
+                    {about.foundingAspiration.lead}
+                  </p>
+                )}
+                {about.foundingAspiration?.content && (
+                  <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg mt-6">
+                    {about.foundingAspiration.content}
+                  </p>
+                )}
+              </div>
             </div>
           </AnimatedCard>
         </div>
@@ -73,13 +126,13 @@ export default async function AboutPage() {
             <VisionMissionCard
               type="vision"
               title="Our Vision"
-              content={about.vision}
+              content={about.vision || ''}
             />
             
             <VisionMissionCard
               type="mission"
               title="Our Mission"
-              content={about.mission}
+              content={about.mission || ''}
             />
           </div>
         </div>
@@ -98,11 +151,11 @@ export default async function AboutPage() {
           </AnimatedSection>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {((about.whatMakesDifferent?.items || about.values || []) as any[]).map((value: any, index: number) => (
+            {(about.whatMakesDifferent?.items || about.values || []).map((value: AboutValueItem, index: number) => (
               <ValueCard 
                 key={index}
-                title={value.title}
-                description={value.description}
+                title={value.title || ''}
+                description={value.description || ''}
                 index={index}
               />
             ))}

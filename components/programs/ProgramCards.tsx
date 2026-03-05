@@ -51,7 +51,7 @@ export function ProgramCard({
         <p className="text-[var(--color-text-secondary)] text-lg leading-relaxed mb-6">
           {description}
         </p>
-        <p className="text-[var(--color-text-secondary)] font-medium mb-6">
+        {/* <p className="text-[var(--color-text-secondary)] font-medium mb-6">
           <span className="text-[var(--color-brand-primary)]">Perfect for:</span> {perfectFor}
         </p>
         <div className="mb-8">
@@ -66,7 +66,7 @@ export function ProgramCard({
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
       <div className={order.includes('order-2') ? 'order-2 lg:order-1 relative' : 'relative'}>
         <div className={`${gradientColors} rounded-3xl p-8 h-80 flex items-center justify-center`}>

@@ -56,6 +56,8 @@
     "mission": "To design high-energy experiences that transform how teams connect and collaborate. We create memorable moments through drum circles, workshops, and engagement sessions that leave participants energized, inspired, and ready to work better together.",
     "foundingAspiration": {
       "title": "Our Story",
+      "lead": "Sparkplug was born from a simple idea: People connect best when they experience something together.",
+      "image": "",
       "content": "After years of working with corporates and communities, we saw the same thing: people open up in engagement that didn't feel forced, boring, or predictable. So we built Sparkplug — a space where music, rhythm, and intentional facilitation come together to energise teams and spark meaningful connection."
     },
     "whatMakesDifferent": {
@@ -303,6 +305,18 @@
         ],
         "perfectFor": "Onboarding, leadership development, and cross-functional collaboration.",
         "description": "Our collaboration-focused workshops help teams communicate better, build trust, and solve problems creatively. These are not typical corporate games. These are high-engagement, gamified experiences developed to bring out teamwork naturally."
+      },
+      {
+        "name": "Leadership Retreats",
+        "tagline": "Strategic alignment with high-energy facilitation",
+        "idealFor": [
+          "Leadership offsites",
+          "Strategic planning sessions",
+          "Cross-functional alignment",
+          "Culture and vision workshops"
+        ],
+        "perfectFor": "CXO retreats, manager summits, annual planning meets, and transformation kickoffs.",
+        "description": "Designed for leadership teams that need clarity, trust, and momentum. These retreats combine rhythm-led engagement with guided collaboration to unlock honest conversations, stronger alignment, and actionable outcomes."
       },
       {
         "name": "Workplace Culture Experiences",
