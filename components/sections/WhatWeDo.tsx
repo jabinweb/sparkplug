@@ -5,70 +5,96 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { Drum, Users, Music, Rocket, Monitor } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 interface WhatWeDoProps {
-  siteContent: any;
+  siteContent: SiteContent;
 }
 
-const specializations = [
+type SpecializationCard = {
+  title: string;
+  shortTitle: string;
+  description: string;
+  image: string;
+  icon: LucideIcon;
+  gradient: string;
+  gradientStyle: string;
+  stats?: string;
+};
+
+type SpecializationItem = {
+  category?: string;
+  shortTitle?: string;
+  description?: string;
+  causes?: string[];
+  stats?: string;
+  badge?: string;
+};
+
+type ChallengeStat = {
+  number?: string;
+  label?: string;
+};
+
+type HomepageContent = {
+  causes?: { items?: SpecializationItem[] };
+  challenge?: {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    ctaText?: string;
+    emojiStack?: string[];
+    statistics?: ChallengeStat[];
+  };
+};
+
+type SiteContent = {
+  homepage?: HomepageContent;
+  site?: { homepage?: HomepageContent };
+};
+
+const specializationVisuals = [
   {
-    title: "Corporate Drum Circles",
-    shortTitle: "Drum Circles",
-    description: "High-energy music-led experiences where everyone becomes part of the beat. Unite your team through rhythm.",
     image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=600&fit=crop",
     icon: Drum,
     gradient: "from-amber-500 via-orange-500 to-yellow-400",
-    gradientStyle: "linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #fbbf24 100%)",
-    stats: "Most Popular"
+    gradientStyle: "linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #fbbf24 100%)"
   },
   {
-    title: "Team-Building Workshops",
-    shortTitle: "Workshops",
-    description: "Interactive sessions designed for teamwork, creativity, and trust — without the awkward icebreakers.",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop",
     icon: Users,
     gradient: "from-cyan-400 via-blue-500 to-indigo-500",
-    gradientStyle: "linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #6366f1 100%)",
-    stats: "500+ Sessions"
+    gradientStyle: "linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #6366f1 100%)"
   },
   {
-    title: "Musical Therapy",
-    shortTitle: "Therapy",
-    description: "Stress-relief sessions, rhythm energizers, and creativity boosters that transform workplace wellness.",
     image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=600&fit=crop",
     icon: Music,
     gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
-    gradientStyle: "linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #d946ef 100%)",
-    stats: "Wellness Focus"
+    gradientStyle: "linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #d946ef 100%)"
   },
   {
-    title: "Leadership Retreats",
-    shortTitle: "Retreats",
-    description: "Strategic team alignment and high-energy leadership sessions that inspire and motivate.",
     image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=600&fit=crop",
     icon: Rocket,
     gradient: "from-emerald-400 via-teal-500 to-cyan-500",
-    gradientStyle: "linear-gradient(135deg, #34d399 0%, #14b8a6 50%, #06b6d4 100%)",
-    stats: "Executive Level"
+    gradientStyle: "linear-gradient(135deg, #34d399 0%, #14b8a6 50%, #06b6d4 100%)"
   },
   {
-    title: "Virtual Sessions",
-    shortTitle: "Virtual",
-    description: "Remote team engagement through interactive virtual experiences that bridge distances.",
     image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=800&h=600&fit=crop",
     icon: Monitor,
     gradient: "from-pink-400 via-rose-500 to-red-500",
-    gradientStyle: "linear-gradient(135deg, #f472b6 0%, #f43f5e 50%, #ef4444 100%)",
-    stats: "Remote Ready"
+    gradientStyle: "linear-gradient(135deg, #f472b6 0%, #f43f5e 50%, #ef4444 100%)"
   }
 ];
 
+const MotionLink = motion.create(Link);
+
 // Horizontal Scroll Card
-function HorizontalCard({ item, index, isActive, onClick }: { 
-  item: typeof specializations[0]; 
+function HorizontalCard({ item, index, isActive, onClick, ctaText }: { 
+  item: SpecializationCard; 
   index: number;
   isActive: boolean;
   onClick: () => void;
+  ctaText: string;
 }) {
   return (
     <motion.div
@@ -146,14 +172,16 @@ function HorizontalCard({ item, index, isActive, onClick }: {
               transition={{ delay: 0.2 }}
             >
               {/* Badge */}
-              <motion.span
-                className="inline-block self-start px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full mb-4 border border-white/30"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                {item.stats}
-              </motion.span>
+              {item.stats ? (
+                <motion.span
+                  className="inline-block self-start px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full mb-4 border border-white/30"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {item.stats}
+                </motion.span>
+              ) : null}
 
               {/* Icon */}
               <motion.div
@@ -186,25 +214,30 @@ function HorizontalCard({ item, index, isActive, onClick }: {
               </motion.p>
 
               {/* Learn More Link */}
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.45 }}
-              >
-                <Link 
-                  href="/programs" 
-                  className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold px-6 py-3 rounded-full transition-all duration-300 border border-white/30"
+              {ctaText ? (
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.45 }}
                 >
-                  Learn More 
-                  <motion.span
-                    className="inline-block"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1, repeat: Infinity }}
+                  <MotionLink 
+                    href="/programs" 
+                    className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold px-6 py-3 rounded-full transition-all duration-300 border border-white/30"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    →
-                  </motion.span>
-                </Link>
-              </motion.div>
+                    {ctaText}
+                    <motion.span
+                      className="inline-block"
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1, repeat: Infinity, repeatType: 'loop' }}
+                    >
+                      {'->'}
+                    </motion.span>
+                  </MotionLink>
+                </motion.div>
+              ) : null}
+
             </motion.div>
           )}
         </AnimatePresence>
@@ -223,96 +256,32 @@ function HorizontalCard({ item, index, isActive, onClick }: {
   );
 }
 
-// Stats icons using Lucide
-import { Target, UsersRound, MapPin } from 'lucide-react';
-const StatIcons = [Target, UsersRound, MapPin];
-
-// Animated Stat Card
-function AnimatedStat({ stat, index }: { stat: { number: string; label: string }; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const IconComponent = StatIcons[index];
-  
-  return (
-    <motion.div
-      className="relative"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.15 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <motion.div 
-        className="relative bg-gradient-to-br from-[var(--color-bg-secondary)] to-[var(--color-bg-tertiary)] rounded-3xl p-8 md:p-10 overflow-hidden cursor-pointer border border-[var(--color-brand-primary)]/10"
-        whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      >
-        {/* Animated Background Glow */}
-        <motion.div
-          className="absolute inset-0 bg-[var(--color-brand-primary)]/20 blur-2xl"
-          animate={{ 
-            opacity: isHovered ? 0.4 : 0,
-            scale: isHovered ? 1.2 : 1
-          }}
-          transition={{ duration: 0.4 }}
-        />
-        
-        {/* Corner Accent */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-brand-primary)]/30 rounded-full -translate-y-1/2 translate-x-1/2" />
-        
-        {/* Icon */}
-        <motion.div
-          className="mb-4"
-          animate={{ 
-            rotate: isHovered ? [0, -10, 10, 0] : 0,
-            scale: isHovered ? 1.2 : 1
-          }}
-          transition={{ duration: 0.4 }}
-        >
-          <IconComponent className="w-8 h-8 text-[var(--color-brand-primary)]" strokeWidth={1.5} />
-        </motion.div>
-        
-        {/* Number */}
-        <div className="relative">
-          <motion.span 
-            className="text-5xl md:text-6xl font-black text-[var(--color-text-primary)] block mb-2"
-            animate={{ scale: isHovered ? 1.05 : 1 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            {stat.number}
-          </motion.span>
-          
-          {/* Animated Underline */}
-          <motion.div
-            className="h-1 bg-[var(--color-brand-primary)] rounded-full"
-            initial={{ width: 0 }}
-            whileInView={{ width: "60%" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
-          />
-        </div>
-        
-        {/* Label */}
-        <p className="text-[var(--color-text-secondary)] font-medium mt-4 text-sm uppercase tracking-wider">
-          {stat.label}
-        </p>
-        
-        {/* Hover Arrow */}
-        <motion.div
-          className="absolute bottom-6 right-6 w-10 h-10 bg-[var(--color-brand-primary)] rounded-full flex items-center justify-center"
-          initial={{ scale: 0 }}
-          animate={{ scale: isHovered ? 1 : 0 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          <span className="text-black font-bold">→</span>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
 export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
-  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
+  const homepage = siteContent.homepage || siteContent.site?.homepage || {};
+  const rawSpecializations = Array.isArray(homepage.causes?.items) ? homepage.causes.items : [];
+  const specializations = rawSpecializations.map((item: SpecializationItem, index: number) => {
+    const visuals = specializationVisuals[index] || specializationVisuals[index % specializationVisuals.length];
+    const title = item.category || '';
+    const shortTitle = item.shortTitle || title.split(' ').slice(0, 2).join(' ');
+    const description = item.description || (Array.isArray(item.causes) ? item.causes.slice(0, 2).join(' - ') : '');
+    const stats = item.stats || item.badge || '';
+
+    return {
+      title,
+      shortTitle,
+      description,
+      image: visuals?.image || '',
+      icon: visuals?.icon || Monitor,
+      gradient: visuals?.gradient || 'from-slate-500 to-slate-700',
+      gradientStyle: visuals?.gradientStyle || 'linear-gradient(135deg, #64748b 0%, #334155 100%)',
+      stats
+    };
+  });
+  const stats = Array.isArray(homepage.challenge?.statistics) ? homepage.challenge.statistics : [];
+  const participantStat = stats.find((stat: ChallengeStat) => String(stat?.label || '').toLowerCase().includes('participant')) || stats[0];
+  const participationText = participantStat ? `${participantStat.number} ${participantStat.label}` : '';
+  const challengeTitle = homepage.challenge?.title || '';
+  const challengeCtaText = homepage.challenge?.ctaText || 'Learn More';
   const [activeCard, setActiveCard] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -359,7 +328,10 @@ export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                 />
-                <span className="text-[var(--color-brand-primary)] font-bold uppercase tracking-[0.2em] text-sm">What We Do</span>
+                <span className="inline-flex items-center gap-2 text-[var(--color-brand-primary)] font-bold uppercase text-sm">
+                  <span aria-hidden="true">⚡</span>
+                  <span className="tracking-[0.2em]">{challengeTitle}</span>
+                </span>
               </motion.div>
               
               <h2 className="text-4xl md:text-5xl lg:text-5xl font-black text-[var(--color-text-primary)] leading-[1.1]">
@@ -370,7 +342,7 @@ export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
                 >
-                  {homepage.challenge?.subtitle || 'We Turn Teams Into a Connected Force'}
+                  {homepage.challenge?.subtitle || ''}
                 </motion.span>
               </h2>
             </motion.div>
@@ -401,15 +373,17 @@ export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
                     </motion.div>
                   ))}
                 </div>
-                <motion.span 
-                  className="text-sm text-[var(--color-text-tertiary)] font-medium"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.8 }}
-                >
-                  Join 70,000+ happy participants
-                </motion.span>
+                {participationText ? (
+                  <motion.span 
+                    className="text-sm text-[var(--color-text-tertiary)] font-medium"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.8 }}
+                  >
+                    {`Join ${participationText}`}
+                  </motion.span>
+                ) : null}
               </div>
             </motion.div>
           </div>
@@ -434,6 +408,7 @@ export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
                       index={index}
                       isActive={true}
                       onClick={() => {}}
+                      ctaText={challengeCtaText}
                     />
                   </div>
                 ))}
@@ -466,6 +441,7 @@ export default function WhatWeDo({ siteContent }: WhatWeDoProps) {
                     index={index}
                     isActive={activeCard === index}
                     onClick={() => setActiveCard(index)}
+                    ctaText={challengeCtaText}
                   />
                 ))}
               </motion.div>

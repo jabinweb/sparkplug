@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { MediaPicker } from './MediaPicker'
+import { RichTextEditor } from './RichTextEditor'
 
 type ContentObject = Record<string, unknown>
 
@@ -19,17 +20,31 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
   const [isSaving, setIsSaving] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const defaultContactSection: ContentObject = {
+    hero: {
+      title: '',
+      subtitle: '',
+      description: '',
+    },
+    info: {
+      email: '',
+      phone: '',
+      location: '',
+      instagramUrl: '',
+      linkedinurl: '',
+      whatsapp: '',
+    },
+  }
 
   const sections: Record<string, string> = {
     homepage: 'Homepage',
-    about: 'About Page',
+    about: 'About Page (Hero, Story, Team)',
     programs: 'Programs/Experiences',
     contact: 'Contact Page',
-    cta: 'Call to Action',
-    site: 'Site Info & Branding',
+    cta: 'Global CTA',
+    site: 'General Site Settings',
     navigation: 'Navigation Menu',
     getInvolved: 'Get Involved/Partner',
-    blog: 'Blog Settings',
     testimonials: 'Testimonials',
   }
 
@@ -51,7 +66,7 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
     }
 
     if (typeof current !== 'object' || current === null) return
-    ;(current as Record<string, unknown>)[path[path.length - 1]] = value
+      ; (current as Record<string, unknown>)[path[path.length - 1]] = value
     setContent(newContent)
   }
 
@@ -82,6 +97,14 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
       setIsSaving(false)
     }
   }
+
+  useEffect(() => {
+    if (selectedSection !== 'contact') return
+    const existing = content.contact
+    if (!existing || typeof existing !== 'object' || Array.isArray(existing)) {
+      updateField(['contact'], defaultContactSection)
+    }
+  }, [selectedSection, content])
 
   const formatLabel = (key: string) =>
     key
@@ -125,9 +148,19 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
 
   const addArrayItem = (path: string[], itemType: 'string' | 'object') => {
     const currentArray = getField(path)
-    if (!Array.isArray(currentArray)) return
+    const pathKey = path.join('.')
+    const newItem: unknown =
+      itemType === 'string'
+        ? ''
+        : pathKey.endsWith('homepage.causes.items')
+          ? { category: '', causes: [''] }
+          : {}
 
-    const newItem: unknown = itemType === 'string' ? '' : {}
+    if (!Array.isArray(currentArray)) {
+      updateField(path, [newItem])
+      return
+    }
+
     updateField(path, [...currentArray, newItem])
   }
 
@@ -139,11 +172,30 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
     updateField(path, newArray)
   }
 
+  const moveArrayItem = (path: string[], index: number, direction: 'up' | 'down') => {
+    const currentArray = getField(path)
+    if (!Array.isArray(currentArray)) return
+
+    const newArray = [...currentArray]
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+
+    if (targetIndex < 0 || targetIndex >= newArray.length) return
+
+    [newArray[index], newArray[targetIndex]] = [newArray[targetIndex], newArray[index]]
+    updateField(path, newArray)
+  }
+
   const renderInput = (path: string[], value: unknown, label: string): React.ReactNode => {
     const key = path.join('.')
 
     if (Array.isArray(value)) {
-      const itemType = value.length > 0 && typeof value[0] === 'string' ? 'string' : 'object'
+      const lastKey = path[path.length - 1] || ''
+      const itemType =
+        value.length > 0 && typeof value[0] === 'string'
+          ? 'string'
+          : lastKey === 'causes'
+            ? 'string'
+            : 'object'
 
       return (
         <div key={key} className="space-y-2">
@@ -153,55 +205,56 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
             </label>
             <button
               onClick={() => addArrayItem(path, itemType)}
-              className="px-3 py-1 text-xs bg-[var(--color-brand-primary)] text-white rounded hover:bg-[var(--color-brand-secondary)] transition-colors"
+              className="px-3 py-1 text-xs bg-[var(--color-brand-primary)] text-white dark:text-gray-900 rounded hover:bg-[var(--color-brand-secondary)] transition-colors"
             >
               + Add Item
             </button>
           </div>
-          <div className="pl-4 border-l-2 border-[var(--color-brand-primary)]/20 space-y-2">
+          <div className="pl-4 border-l-2 border-[var(--color-brand-primary)]/20 space-y-4 py-2">
             {value.map((item, index) => (
-              <div key={`${key}.${index}`} className="relative group">
-                {typeof item === 'string' ? (
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={item}
-                      onChange={(e) => {
-                        const newArray = [...value]
-                        newArray[index] = e.target.value
-                        updateField(path, newArray)
-                      }}
-                      className="flex-1 px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg text-sm"
-                      placeholder={`Item ${index + 1}`}
-                    />
+              <div key={`${key}.${index}`} className="relative bg-[var(--color-bg-tertiary)]/50 rounded-xl p-4 border border-[var(--color-brand-primary)]/5 group">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold text-[var(--color-brand-primary)] uppercase tracking-wider">
+                    {label} #{index + 1}
+                  </span>
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => moveArrayItem(path, index, 'up')}
+                      disabled={index === 0}
+                      className="p-1.5 bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] disabled:opacity-30 rounded-lg transition-colors border border-[var(--color-brand-primary)]/10"
+                      title="Move Up"
+                    >
+                      ↑
+                    </button>
+                    <button
+                      onClick={() => moveArrayItem(path, index, 'down')}
+                      disabled={index === value.length - 1}
+                      className="p-1.5 bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] disabled:opacity-30 rounded-lg transition-colors border border-[var(--color-brand-primary)]/10"
+                      title="Move Down"
+                    >
+                      ↓
+                    </button>
                     <button
                       onClick={() => removeArrayItem(path, index)}
-                      className="px-3 py-2 bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 rounded-lg text-sm transition-colors"
-                      title="Remove item"
+                      className="p-1.5 bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors border border-red-500/10"
+                      title="Remove Item"
                     >
-                      X
+                      ✕
                     </button>
                   </div>
+                </div>
+
+                {typeof item === 'string' ? (
+                  renderInput([...path, index.toString()], item, `${label} #${index + 1}`)
                 ) : (
-                  <div className="bg-[var(--color-bg-primary)] p-3 rounded-lg space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs font-semibold text-[var(--color-text-secondary)]">
-                        {label} #{index + 1}
-                      </div>
-                      <button
-                        onClick={() => removeArrayItem(path, index)}
-                        className="px-2 py-1 bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 rounded text-xs transition-colors"
-                      >
-                        Remove
-                      </button>
-                    </div>
+                  <div className="space-y-4">
                     {renderObject([...path, index.toString()], item as ContentObject)}
                   </div>
                 )}
               </div>
             ))}
             {value.length === 0 && (
-              <div className="text-sm text-[var(--color-text-secondary)] italic">
+              <div className="text-sm text-[var(--color-text-secondary)] italic p-4 bg-[var(--color-bg-tertiary)]/30 rounded-lg text-center border border-dashed border-[var(--color-brand-primary)]/20">
                 No items yet. Click &quot;Add Item&quot; to get started.
               </div>
             )}
@@ -211,13 +264,20 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
     }
 
     if (typeof value === 'object' && value !== null) {
+      const isTopLevel = path.length === 2; // e.g., ["homepage", "hero"]
+
       return (
-        <div key={key} className="space-y-3">
-          <label className="block text-sm font-semibold text-[var(--color-text-primary)]">{label}</label>
-          <div className="pl-4 border-l-2 border-[var(--color-brand-primary)]/30 space-y-3">
+        <details key={key} className="group/details bg-[var(--color-bg-tertiary)]/30 rounded-xl border border-[var(--color-brand-primary)]/10 overflow-hidden" open={isTopLevel}>
+          <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-[var(--color-brand-primary)]/5 transition-colors list-none">
+            <div className="flex items-center gap-3">
+              <span className="text-lg transition-transform group-open/details:rotate-90">▶</span>
+              <span className="font-bold text-[var(--color-text-primary)]">{label}</span>
+            </div>
+          </summary>
+          <div className="p-4 pt-0 space-y-4">
             {renderObject(path, value as ContentObject)}
           </div>
-        </div>
+        </details>
       )
     }
 
@@ -229,9 +289,13 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
         keyLower.includes('logo') ||
         keyLower.includes('icon') ||
         keyLower.includes('image') ||
+        keyLower.includes('photo') ||
+        keyLower.includes('thumbnail') ||
         keyLower.includes('favicon') ||
         pathString.includes('logo') ||
         pathString.includes('icon') ||
+        pathString.includes('photo') ||
+        pathString.includes('image') ||
         pathString.includes('branding') ||
         (value.startsWith('/') &&
           (value.endsWith('.png') ||
@@ -242,6 +306,12 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
             value.endsWith('.ico')))
 
       const isLongText = value.length > 100
+      const isRichText =
+        keyLower.includes('content') ||
+        keyLower.includes('description') ||
+        keyLower.includes('vision') ||
+        keyLower.includes('mission') ||
+        keyLower.includes('lead')
 
       if (isImage) {
         return (
@@ -253,7 +323,7 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
                   type="text"
                   value={value}
                   onChange={(e) => updateField(path, e.target.value)}
-                  className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg text-sm"
+                  className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/30 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-brand-primary)] outline-none"
                   placeholder="Image URL"
                 />
               </div>
@@ -276,7 +346,7 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
                   <button
                     type="button"
                     disabled={isUploading}
-                    className="px-4 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] rounded-lg text-sm hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                    className="px-4 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] dark:text-gray-900 rounded-lg text-sm hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                   >
                     {isUploading ? 'Uploading...' : 'Upload New'}
                   </button>
@@ -311,23 +381,34 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
 
       return (
         <div key={key}>
-          <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">{label}</label>
-          {isLongText ? (
-            <textarea
+          {isRichText ? (
+            <RichTextEditor
               value={value}
-              onChange={(e) => updateField(path, e.target.value)}
-              rows={3}
-              className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg text-sm"
+              onChange={(newValue) => updateField(path, newValue)}
+              label={label}
               placeholder={`Enter ${label.toLowerCase()}`}
             />
           ) : (
-            <input
-              type="text"
-              value={value}
-              onChange={(e) => updateField(path, e.target.value)}
-              className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg text-sm"
-              placeholder={`Enter ${label.toLowerCase()}`}
-            />
+            <>
+              <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">{label}</label>
+              {isLongText ? (
+                <textarea
+                  value={value}
+                  onChange={(e) => updateField(path, e.target.value)}
+                  rows={3}
+                  className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/20 rounded-lg text-sm"
+                  placeholder={`Enter ${label.toLowerCase()}`}
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={value}
+                  onChange={(e) => updateField(path, e.target.value)}
+                  className="w-full px-3 py-2 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] border border-[var(--color-brand-primary)]/30 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-brand-primary)] outline-none"
+                  placeholder={`Enter ${label.toLowerCase()}`}
+                />
+              )}
+            </>
           )}
         </div>
       )
@@ -348,12 +429,114 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
   }
 
   const renderObject = (basePath: string[], obj: ContentObject): React.ReactNode[] => {
-    return Object.keys(obj).map((key) => {
+    const nodes: React.ReactNode[] = []
+    const pathKey = basePath.join('.')
+
+    if (pathKey.startsWith('homepage.causes.items.') && typeof obj === 'object' && obj !== null) {
+      if (!('category' in obj)) {
+        nodes.push(
+          <button
+            key={`${pathKey}.addCategory`}
+            type="button"
+            onClick={() => updateField([...basePath, 'category'], '')}
+            className="px-3 py-1 text-xs bg-[var(--color-brand-primary)] text-white dark:text-gray-900 rounded hover:bg-[var(--color-brand-secondary)] transition-colors"
+          >
+            + Add Category
+          </button>
+        )
+      }
+      if (!('causes' in obj)) {
+        nodes.push(
+          <button
+            key={`${pathKey}.addCauses`}
+            type="button"
+            onClick={() => updateField([...basePath, 'causes'], [''])}
+            className="px-3 py-1 text-xs bg-[var(--color-brand-primary)] text-white dark:text-gray-900 rounded hover:bg-[var(--color-brand-secondary)] transition-colors"
+          >
+            + Add Causes List
+          </button>
+        )
+      }
+    }
+
+    if (pathKey.startsWith('homepage.signatureExperiences.items.') && typeof obj === 'object' && obj !== null) {
+      if (!('image' in obj)) {
+        nodes.push(
+          <button
+            key={`${pathKey}.addImage`}
+            type="button"
+            onClick={() => updateField([...basePath, 'image'], '')}
+            className="px-3 py-1 text-xs bg-[var(--color-brand-primary)] text-white dark:text-gray-900 rounded hover:bg-[var(--color-brand-secondary)] transition-colors mr-2"
+          >
+            + Add Image
+          </button>
+        )
+      }
+    }
+
+    const isProgramExperience = pathKey.startsWith('programs.experiences.')
+    const isContactInfo = pathKey === 'contact.info'
+    const orderedKeys = isProgramExperience
+      ? [
+          'badge',
+          'name',
+          'tagline',
+          'description',
+          'perfectFor',
+          'idealFor',
+          'modules',
+          'icon',
+        ]
+      : []
+
+    if (isContactInfo) {
+      const contactKeys = ['email', 'phone', 'location', 'instagramUrl', 'linkedinurl', 'whatsapp']
+      const seen = new Set<string>()
+      contactKeys.forEach((key) => {
+        seen.add(key)
+        const value = obj[key]
+        const path = [...basePath, key]
+        const label = formatLabel(key)
+        nodes.push(renderInput(path, value ?? '', label))
+      })
+
+      Object.keys(obj).forEach((key) => {
+        if (seen.has(key)) return
+        const value = obj[key]
+        const path = [...basePath, key]
+        const label = formatLabel(key)
+        nodes.push(renderInput(path, value, label))
+      })
+      return nodes
+    }
+
+    if (isProgramExperience) {
+      const seen = new Set<string>()
+      orderedKeys.forEach((key) => {
+        seen.add(key)
+        const value = obj[key]
+        const path = [...basePath, key]
+        const label = formatLabel(key)
+        nodes.push(renderInput(path, value ?? '', label))
+      })
+
+      Object.keys(obj).forEach((key) => {
+        if (seen.has(key)) return
+        const value = obj[key]
+        const path = [...basePath, key]
+        const label = formatLabel(key)
+        nodes.push(renderInput(path, value, label))
+      })
+      return nodes
+    }
+
+    Object.keys(obj).forEach((key) => {
       const value = obj[key]
       const path = [...basePath, key]
       const label = formatLabel(key)
-      return renderInput(path, value, label)
+      nodes.push(renderInput(path, value, label))
     })
+    return nodes
   }
 
   const renderEditor = () => {
@@ -376,11 +559,10 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
     <div>
       {message && (
         <div
-          className={`mb-4 p-4 rounded-lg ${
-            message.type === 'success'
-              ? 'bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300'
-              : 'bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300'
-          }`}
+          className={`mb-4 p-4 rounded-lg ${message.type === 'success'
+            ? 'bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300'
+            : 'bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300'
+            }`}
         >
           {message.text}
         </div>
@@ -410,7 +592,7 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="px-6 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] rounded-lg font-semibold hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50"
+          className="px-6 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] dark:text-gray-900 rounded-lg font-semibold hover:bg-[var(--color-brand-secondary)] transition-colors disabled:opacity-50"
         >
           {isSaving ? 'Saving...' : 'Save Changes'}
         </button>

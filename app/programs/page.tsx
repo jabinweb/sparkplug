@@ -48,16 +48,17 @@ export default async function ExperiencesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <AnimatedSection className="text-center" type="fadeInUp">
             <AnimatedSection type="scaleIn" delay={0.2} className="inline-block mb-6">
-              <span className="bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-full text-sm font-semibold">
-                {heroBadge}
+              <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-full text-sm font-semibold">
+                <span aria-hidden="true">🎵</span>
+                <span>{heroBadge}</span>
               </span>
             </AnimatedSection>
 
             <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight !text-white">
-              {programs.hero?.title || 'Our Experiences'}
+              {programs.hero?.title }
             </h1>
             <p className="text-2xl md:text-3xl mb-6 font-semibold !text-white">
-              {programs.hero?.subtitle || 'High-Energy Engagement That Transforms'}
+              {programs.hero?.subtitle }
             </p>
             <p className="text-lg md:text-xl max-w-3xl mx-auto !text-white/90 leading-relaxed">
               {programs.hero?.description ||
@@ -81,7 +82,7 @@ export default async function ExperiencesPage() {
                 description={experience.description || ''}
                 perfectFor=""
                 idealFor={experience.modules || []}
-                badge={experience.badge || (index === 0 ? 'Signature Experience' : `Experience: ${experience.name || ''}`)}
+                badge={experience.badge || ''}
                 badgeColor={
                   index % 3 === 0
                     ? 'bg-[var(--color-brand-accent)]/20 text-[var(--color-brand-secondary)]'
@@ -113,7 +114,7 @@ export default async function ExperiencesPage() {
                 description={experience.description || ''}
                 perfectFor={experience.perfectFor || ''}
                 idealFor={experience.idealFor || []}
-                badge={experience.badge || (index === 0 ? 'Signature Experience' : `Experience: ${experience.name || ''}`)}
+                badge={experience.badge || ''}
                 badgeColor={
                   index % 3 === 0
                     ? 'bg-[var(--color-brand-accent)]/20 text-[var(--color-brand-secondary)]'

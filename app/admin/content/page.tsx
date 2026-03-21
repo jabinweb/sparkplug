@@ -14,16 +14,8 @@ export default function ContentEditorPage() {
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
   const [editorMode, setEditorMode] = useState<'visual' | 'json'>('visual')
   const sectionOptions = [
-    { value: 'site', label: 'Site (Full Visual Content)' },
-    { value: 'homepage', label: 'Homepage' },
-    { value: 'about', label: 'About' },
-    { value: 'programs', label: 'Programs' },
-    { value: 'contact', label: 'Contact' },
-    { value: 'getInvolved', label: 'Get Involved / Partner' },
-    { value: 'cta', label: 'Global CTA' },
-    { value: 'navigation', label: 'Navigation' },
+    { value: 'site', label: 'Website Content (Master)' },
     { value: 'blog', label: 'Blog Settings' },
-    { value: 'testimonials', label: 'Testimonials' },
   ]
 
   const fetchContent = useCallback(async () => {
@@ -55,7 +47,7 @@ export default function ContentEditorPage() {
 
     try {
       const parsedContent = JSON.parse(editedContent)
-      
+
       const response = await fetch('/api/content', {
         method: 'PUT',
         headers: {
@@ -125,21 +117,19 @@ export default function ContentEditorPage() {
             setEditorMode('visual')
             setSection('site')
           }}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            editorMode === 'visual'
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${editorMode === 'visual'
               ? 'bg-[var(--color-brand-primary)] text-[var(--color-button-text)]'
               : 'bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
-          }`}
+            }`}
         >
           📝 Visual Editor
         </button>
         <button
           onClick={() => setEditorMode('json')}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            editorMode === 'json'
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${editorMode === 'json'
               ? 'bg-[var(--color-brand-primary)] text-[var(--color-button-text)]'
               : 'bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
-          }`}
+            }`}
         >
           {'{ }'} JSON Editor
         </button>
@@ -164,7 +154,7 @@ export default function ContentEditorPage() {
         </select>
         {editorMode === 'visual' && (
           <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
-            Visual editor works on the `site` section (full nested content model).
+            Visual editor works on the unified website content model.
           </p>
         )}
       </div>
@@ -182,7 +172,7 @@ export default function ContentEditorPage() {
         {editorMode === 'visual' ? (
           <div>
             {content ? (
-              <VisualContentEditor 
+              <VisualContentEditor
                 initialContent={content.content}
                 onSave={handleSaveVisual}
               />
@@ -195,11 +185,10 @@ export default function ContentEditorPage() {
         ) : (
           <div>
             {message && (
-              <div className={`mb-4 p-4 rounded-lg ${
-                message.type === 'success' 
+              <div className={`mb-4 p-4 rounded-lg ${message.type === 'success'
                   ? 'bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300'
                   : 'bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300'
-              }`}>
+                }`}>
                 {message.text}
               </div>
             )}
@@ -255,15 +244,27 @@ export default function ContentEditorPage() {
       </div>
 
       {/* Help Section */}
-      <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-        <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2">
-          ℹ️ Content Editor Guide
+      <div className="mt-6 bg-[#f8fafc] dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+        <h3 className="text-base font-bold text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
+          <span className="text-blue-500">ℹ️</span> Content Editor Guide
         </h3>
-        <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
-          <li>• <strong>Visual Editor:</strong> User-friendly forms for editing content</li>
-          <li>• <strong>JSON Editor:</strong> Advanced mode for developers</li>
-          <li>• Changes are saved immediately and appear on the website</li>
-          <li>• Version history is automatically tracked</li>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600 dark:text-slate-400">
+          <li className="flex items-start gap-3">
+            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0" />
+            <span><strong className="text-slate-900 dark:text-slate-200 block mb-1">Visual Editor</strong> User-friendly interactive forms. Perfect for most updates.</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0" />
+            <span><strong className="text-slate-900 dark:text-slate-200 block mb-1">JSON Editor</strong> Direct data access. Recommended for advanced structural changes.</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+            <span><strong className="text-slate-900 dark:text-slate-200 block mb-1">Live Updates</strong> Changes save instantly and revalidate the entire site automatically.</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-500 flex-shrink-0" />
+            <span><strong className="text-slate-900 dark:text-slate-200 block mb-1">Media Management</strong> Integrated uploads for logos, hero videos, and experience photos.</span>
+          </li>
         </ul>
       </div>
     </div>

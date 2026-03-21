@@ -3,13 +3,14 @@
 import { usePathname } from 'next/navigation'
 import ClientLayout from './ClientLayout'
 import { ReactNode } from 'react'
+import type { SiteContent } from '@/types/site-content'
 
 export default function ConditionalLayout({
   children,
   siteContent,
 }: {
   children: ReactNode
-  siteContent: any
+  siteContent: SiteContent
 }) {
   const pathname = usePathname()
 

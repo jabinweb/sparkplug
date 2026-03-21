@@ -29,9 +29,10 @@ export function ValueCard({ title, description, index }: ValueCardProps) {
             <h3 className="text-xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors mb-2">
               {title}
             </h3>
-            <p className="text-[var(--color-text-secondary)] leading-relaxed">
-              {description}
-            </p>
+            <p 
+          className="text-[var(--color-text-secondary)] leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
           </div>
         </div>
       </div>
@@ -75,9 +76,10 @@ export function VisionMissionCard({ type, title, content }: VisionMissionCardPro
           </motion.div>
           <h3 className="text-2xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-brand-secondary)] transition-colors">{title}</h3>
         </div>
-        <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg">
-          {content}
-        </p>
+        <div 
+          className="text-[var(--color-text-secondary)] leading-relaxed text-lg"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
       </div>
     </motion.div>
   );

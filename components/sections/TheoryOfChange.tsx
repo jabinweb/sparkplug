@@ -1,4 +1,27 @@
-import siteContent from '../../content/site-content.json';
+type TheoryStep = {
+  step?: string;
+  title?: string;
+  description?: string;
+};
+
+type TheoryOfChangeContent = {
+  title?: string;
+  description?: string;
+  steps?: TheoryStep[];
+};
+
+type HomepageContent = {
+  theoryOfChange?: TheoryOfChangeContent;
+};
+
+type SiteContent = {
+  homepage?: HomepageContent;
+  site?: { homepage?: HomepageContent };
+};
+
+interface TheoryOfChangeProps {
+  siteContent: SiteContent;
+}
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 
@@ -17,8 +40,10 @@ const staggerContainer = {
   }
 };
 
-export default function TheoryOfChange() {
-    const { homepage } = siteContent;
+export default function TheoryOfChange({ siteContent }: TheoryOfChangeProps) {
+    const homepage = siteContent.homepage || siteContent.site?.homepage || {};
+    const theory = homepage.theoryOfChange || {};
+    const steps = Array.isArray(theory.steps) ? theory.steps : [];
   return (
           <section className="py-24 bg-[var(--color-bg-primary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,13 +55,16 @@ export default function TheoryOfChange() {
             transition={{ duration: 0.6 }}
           >
             <Badge className="inline-flex items-center bg-brand-primary/10 text-brand-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
-              Theory of Change
+              <span className="inline-flex items-center gap-2">
+                <span aria-hidden="true">🧭</span>
+                <span>Theory of Change</span>
+              </span>
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8 max-w-4xl mx-auto leading-tight">
-              {homepage.theoryOfChange.title}
+              {theory.title || ''}
             </h2>
             <p className="text-lg text-[var(--color-text-secondary)] max-w-4xl mx-auto font-light leading-relaxed">
-              {homepage.theoryOfChange.description}
+              {theory.description || ''}
             </p>
           </motion.div>
           
@@ -48,7 +76,7 @@ export default function TheoryOfChange() {
             viewport={{ once: true }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {homepage.theoryOfChange.steps.map((step, index) => {
+              {steps.map((step, index) => {
                 // Define secondary colors for each step
                 const secondaryColors = [
                   { bg: 'rgba(75, 183, 154, 0.08)', hover: 'rgba(75, 183, 154, 0.15)', accent: '#4BB79A' }, // Teal Green

@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
+import { useTheme } from '@/lib/theme-provider';
 
 const navigation = [
   { label: "Home", href: "/" },
@@ -24,6 +25,7 @@ type HeaderSiteContent = {
 };
 
 export default function Header({ siteContent }: { siteContent: HeaderSiteContent }) {
+  const { theme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -71,18 +73,13 @@ export default function Header({ siteContent }: { siteContent: HeaderSiteContent
           >
             <Link href="/" className="flex items-center space-x-2 group">
               <Image
-                src={logoLight}
+                src={theme === 'dark' ? logoDark : logoLight}
                 alt="Sparkplug Logo"
                 width={40}
                 height={40}
-                className="block dark:hidden w-auto h-10 sm:h-10 md:h-12 transition-transform duration-300 group-hover:scale-105"
-              />
-              <Image
-                src={logoDark}
-                alt="Sparkplug Logo"
-                width={40}
-                height={40}
-                className="hidden dark:block w-auto h-10 sm:h-10 md:h-12 transition-transform duration-300 group-hover:scale-105"
+                className="transition-transform duration-300 group-hover:scale-105"
+                style={{ width: 'auto', height: '3.3rem' }}
+                priority
               />
             </Link>
           </motion.div>
@@ -197,18 +194,12 @@ export default function Header({ siteContent }: { siteContent: HeaderSiteContent
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10">
                   <Image
-                    src={logoLight}
+                    src={theme === 'dark' ? logoDark : logoLight}
                     alt="Logo"
                     width={32}
                     height={32}
-                    className="block dark:hidden h-8 w-auto"
-                  />
-                  <Image
-                    src={logoDark}
-                    alt="Logo"
-                    width={32}
-                    height={32}
-                    className="hidden dark:block h-8 w-auto"
+                    className="w-auto"
+                    style={{ width: 'auto', height: '2.5rem' }}
                   />
 
                   <button

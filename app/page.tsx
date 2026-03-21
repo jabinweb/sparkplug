@@ -24,13 +24,12 @@ export default async function Home() {
 
       {/* Why Teams Love Us - Animated Benefits */}
       <WhyTeamsLove siteContent={siteContent} />
-      
-      {/* Client Logos & Cities */}
-      <ClientLogos siteContent={siteContent} />
-
 
       {/* Video Reels - Showcase our events */}
       <VideoReels siteContent={siteContent} />
+      
+      {/* Client Logos & Cities */}
+      <ClientLogos siteContent={siteContent} />
 
     </div>
   );

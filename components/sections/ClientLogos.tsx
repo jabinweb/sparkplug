@@ -1,17 +1,41 @@
 'use client';
 
-import { motion, useAnimationControls } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+
+type ClientsContent = {
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  trustedBy?: string;
+  logos?: string[];
+  cities?: string[];
+};
+
+type HomepageContent = {
+  clients?: ClientsContent;
+};
+
+type SiteContent = {
+  homepage?: HomepageContent;
+  site?: { homepage?: HomepageContent };
+};
 
 interface ClientLogosProps {
-  siteContent: any;
+  siteContent: SiteContent;
 }
 
 export default function ClientLogos({ siteContent }: ClientLogosProps) {
-  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
+  const homepage = siteContent.homepage || siteContent.site?.homepage || {};
+  const clientsTitle = homepage.clients?.title || '';
+  const clientsBadge = homepage.clients?.badge || homepage.clients?.subtitle || '';
+  const clientsTrustedBy = homepage.clients?.trustedBy || '';
   
-  const clients = homepage.clients?.logos || ['Google', 'Deloitte', 'PepsiCo', 'EY', 'PwC', 'Microsoft', 'Flipkart', 'ICICI', 'Nestlé', 'IPL'];
-  const cities = homepage.clients?.cities || ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Pune', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Goa'];
+  const clients = Array.isArray(homepage.clients?.logos) ? homepage.clients.logos : [];
+  const cities = Array.isArray(homepage.clients?.cities) ? homepage.clients.cities : [];
+
+  if (!clientsTitle && clients.length == 0 && cities.length == 0) {
+    return null;
+  }
 
   return (
     <section className="py-20 bg-[var(--color-bg-primary)] overflow-hidden transition-colors duration-300">
@@ -24,23 +48,27 @@ export default function ClientLogos({ siteContent }: ClientLogosProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] px-4 py-2 rounded-full text-sm font-medium mb-6 border border-[var(--color-brand-primary)]/20"
-          >
-            🇮🇳 Taking Energy Nationwide
-          </motion.div>
+                    {clientsBadge ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] px-4 py-2 rounded-full text-sm font-medium mb-6 border border-[var(--color-brand-primary)]/20"
+            >
+              <span>{clientsBadge}</span>
+            </motion.div>
+          ) : null}
           <h2 className="text-3xl md:text-5xl font-black text-[var(--color-text-primary)] mb-4">
-            {homepage.clients?.title || 'Across Brands. Across Cities. Across India.'}
+            {clientsTitle}
           </h2>
         </motion.div>
 
         {/* Clients Marquee */}
         <div className="mb-12">
-          <p className="text-center text-[var(--color-text-secondary)] mb-6 font-medium">Trusted by teams at</p>
+          {clientsTrustedBy ? (
+            <p className="text-center text-[var(--color-text-secondary)] mb-6 font-medium">{clientsTrustedBy}</p>
+          ) : null}
           <div className="relative">
             {/* Gradient overlays */}
             {/* <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--color-bg-primary)] to-transparent z-10"></div>

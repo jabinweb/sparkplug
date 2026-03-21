@@ -32,7 +32,7 @@ export const getAllSiteContent = cache(async () => {
         acc[item.section] = item.content
       }
       return acc
-    }, {} as Record<string, any>)
+    }, {} as Record<string, unknown>)
     
     return siteContent
   } catch (error) {

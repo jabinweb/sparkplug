@@ -6,16 +6,46 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Drum, Users, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 
+type SignatureExperienceItem = {
+  name?: string;
+  tagline?: string;
+  description?: string;
+  image?: string;
+};
+
+type SignatureExperiencesContent = {
+  title?: string;
+  ctaText?: string;
+  items?: SignatureExperienceItem[];
+};
+
+type HomepageContent = {
+  signatureExperiences?: SignatureExperiencesContent;
+};
+
+type SiteContent = {
+  homepage?: HomepageContent;
+  site?: { homepage?: HomepageContent };
+};
+
+type ExperienceView = {
+  title: string;
+  tagline: string;
+  description: string;
+  icon: typeof Drum;
+  color: string;
+  bgColor: string;
+  accentColor: string;
+  images: string[];
+};
+
 interface SignatureExperiencesProps {
-  siteContent: any;
+  siteContent: SiteContent;
 }
 
-const experiences = [
+const experienceVisuals = [
   {
     icon: Drum,
-    title: 'Corporate Drum Circles',
-    tagline: 'Where suits, interns, and senior leaders drop their roles and pick up a drum.',
-    description: 'Everyone becomes part of the same beat.',
     color: 'from-amber-500 to-orange-500',
     bgColor: 'bg-amber-50',
     accentColor: '#f59e0b',
@@ -27,9 +57,6 @@ const experiences = [
   },
   {
     icon: Users,
-    title: 'Team-Building Workshops',
-    tagline: 'Interactive sessions designed to unlock creativity, teamwork, and trust',
-    description: 'Without the awkward icebreakers.',
     color: 'from-blue-500 to-indigo-600',
     bgColor: 'bg-blue-50',
     accentColor: '#3b82f6',
@@ -41,9 +68,6 @@ const experiences = [
   },
   {
     icon: Sparkles,
-    title: 'Culture & Engagement',
-    tagline: 'High-energy modules that boost morale, belonging, and on-ground participation.',
-    description: 'Build a culture of connection.',
     color: 'from-purple-500 to-pink-600',
     bgColor: 'bg-purple-50',
     accentColor: '#a855f7',
@@ -56,31 +80,35 @@ const experiences = [
 ];
 
 export default function SignatureExperiences({ siteContent }: SignatureExperiencesProps) {
-  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
+  const homepage = siteContent.homepage || siteContent.site?.homepage || {};
+  const signatureTitle = homepage.signatureExperiences?.title || '';
+  const signatureCtaText = homepage.signatureExperiences?.ctaText || '';
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Use JSON data if available, otherwise fallback to hardcoded
-  const jsonExperiences = homepage.signatureExperiences?.items || [];
-  const experiencesData = jsonExperiences.length > 0 ? jsonExperiences.map((exp: any, idx: number) => ({
-    ...experiences[idx],
-    title: exp.name,
-    tagline: exp.tagline,
-    description: exp.description
-  })) : experiences;
+  // Use JSON data only
+  const jsonExperiences = Array.isArray(homepage.signatureExperiences?.items)
+    ? homepage.signatureExperiences.items
+    : [];
+  const experiencesData: ExperienceView[] = jsonExperiences.map((exp: SignatureExperienceItem, idx: number) => {
+    const defaultVisuals = experienceVisuals[idx % experienceVisuals.length];
+    return {
+      ...defaultVisuals,
+      title: exp.name || '',
+      tagline: exp.tagline || '',
+      description: exp.description || '',
+      // Use exp.image if available, otherwise use defaults from experienceVisuals
+      images: exp.image ? [exp.image] : defaultVisuals.images
+    };
+  });
 
-  const currentExperience = experiencesData[activeIndex];
-  const currentImages = currentExperience.images;
-
-  // Reset image index when experience changes
-  useEffect(() => {
-    setCurrentImageIndex(0);
-  }, [activeIndex]);
+  const currentExperience = experiencesData[activeIndex] || experiencesData[0] || null;
+  const currentImages = currentExperience?.images || [];
 
   // Auto-play slider
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying || currentImages.length === 0) return;
     
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % currentImages.length);
@@ -90,14 +118,20 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
   }, [isAutoPlaying, currentImages.length, activeIndex]);
 
   const nextImage = () => {
+    if (currentImages.length === 0) return;
     setIsAutoPlaying(false);
     setCurrentImageIndex((prev) => (prev + 1) % currentImages.length);
   };
 
   const prevImage = () => {
+    if (currentImages.length === 0) return;
     setIsAutoPlaying(false);
     setCurrentImageIndex((prev) => (prev - 1 + currentImages.length) % currentImages.length);
   };
+
+  if (experiencesData.length === 0) {
+    return null;
+  }
 
   return (
     <section className="pb-24 bg-[var(--color-bg-primary)] overflow-hidden transition-colors duration-300">
@@ -117,7 +151,10 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
             viewport={{ once: true }}
           >
             <span className="w-12 h-1 bg-[var(--color-brand-secondary)] rounded-full" />
-            <span className="text-[var(--color-brand-secondary)] font-bold uppercase tracking-widest text-sm">Signature Experiences</span>
+            <span className="inline-flex items-center gap-2 text-[var(--color-brand-secondary)] font-bold uppercase text-sm">
+              <span aria-hidden="true">✨</span>
+              <span className="tracking-widest">{signatureTitle}</span>
+            </span>
           </motion.div>
           {/* <h2 className="text-3xl md:text-4xl font-black text-[var(--color-text-primary)]">
             Experiences That Transform
@@ -128,14 +165,17 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left: Experience Tabs */}
           <div className="space-y-3">
-            {experiencesData.map((exp: any, index: number) => {
+            {experiencesData.map((exp: ExperienceView, index: number) => {
               const IconComponent = exp.icon;
               const isActive = activeIndex === index;
               
               return (
                 <motion.button
                   key={index}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => {
+                    setActiveIndex(index);
+                    setCurrentImageIndex(0);
+                  }}
                   className={`w-full text-left p-5 rounded-2xl transition-all duration-300 border-2 ${
                     isActive 
                       ? 'bg-[var(--color-bg-tertiary)] shadow-xl border-[var(--color-brand-primary)]' 
@@ -185,13 +225,15 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
                             <p className="text-[var(--color-text-tertiary)] text-sm mt-1 italic">
                               {exp.description}
                             </p>
-                            <Link 
-                              href="/programs"
-                              className="inline-flex items-center gap-2 mt-4 text-sm font-bold text-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary-600)] transition-colors"
-                            >
-                              Learn More
-                              <ChevronRight className="w-4 h-4" />
-                            </Link>
+                            {signatureCtaText ? (
+                              <Link 
+                                href="/programs"
+                                className="inline-flex items-center gap-2 mt-4 text-sm font-bold text-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary-600)] transition-colors"
+                              >
+                                {signatureCtaText}
+                                <ChevronRight className="w-4 h-4" />
+                              </Link>
+                            ) : null}
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -235,6 +277,7 @@ export default function SignatureExperiences({ siteContent }: SignatureExperienc
                     src={currentImages[currentImageIndex]}
                     alt={currentExperience.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
                   />
                   {/* Gradient Overlay */}

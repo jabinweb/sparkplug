@@ -4,13 +4,14 @@ import { ThemeProvider } from '@/lib/theme-provider'
 import Header from './Header'
 import Footer from './Footer'
 import GlobalCTA from './GlobalCTA'
+import type { SiteContent } from '@/types/site-content'
 
 export default function ClientLayout({
   children,
   siteContent,
 }: {
   children: React.ReactNode
-  siteContent: any
+  siteContent: SiteContent
 }) {
   return (
     <ThemeProvider>
@@ -18,7 +19,7 @@ export default function ClientLayout({
       <main className="min-h-screen">
         {children}
       </main>
-      <GlobalCTA />
+      <GlobalCTA siteContent={siteContent} />
       <Footer siteContent={siteContent} />
     </ThemeProvider>
   )

@@ -1,17 +1,23 @@
+import Link from 'next/link';
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="bg-[var(--color-bg-primary)]">
       {/* Hero Section */}
-      <section className="bg-[var(--color-brand-primary)] text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-[hsl(235,52%,27%)] text-white py-24 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
               Privacy Policy
             </h1>
-            <p className="text-xl md:text-2xl mb-4 font-light">
+            <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
               Sparkplug
             </p>
-            <p className="text-lg max-w-3xl mx-auto">
+            <p className="text-lg max-w-3xl mx-auto text-white/90">
               Your privacy is important to us. This policy outlines how we collect, use, and protect your information.
             </p>
           </div>
@@ -143,7 +149,11 @@ export default function PrivacyPolicyPage() {
                   <li>Request data portability</li>
                 </ul>
                 <p className="text-[var(--color-text-secondary)] leading-relaxed mt-4">
-                  To exercise these rights, please contact us at connect@sparkplug.in.
+                  To exercise these rights, please reach us via our{' '}
+                  <Link href="/contact" className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] transition-colors">
+                    contact page
+                  </Link>
+                  .
                 </p>
               </section>
 
@@ -190,17 +200,16 @@ export default function PrivacyPolicyPage() {
               {/* Contact Information */}
               <section>
                 <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">12. Contact Us</h2>
-                <p className="text-[var(--color-text-secondary)] leading-relaxed mb-4">
-                  If you have any questions about this Privacy Policy or our data practices, please contact us:
+                <p className="text-[var(--color-text-secondary)] leading-relaxed">
+                  If you have any questions about this Privacy Policy or our data practices, please reach us via our{' '}
+                  <Link
+                    href="/contact"
+                    className="text-[var(--color-brand-primary)] font-semibold hover:text-[var(--color-brand-secondary)] transition-colors"
+                  >
+                    contact page
+                  </Link>
+                  .
                 </p>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <p className="text-[var(--color-text-secondary)]">
-                    <strong>Sparkplug</strong><br />
-                    Pan-India Operations<br />
-                    Email: hello@sparkplug.in<br />
-                    Phone: +91 98765 43210
-                  </p>
-                </div>
               </section>
             </div>
           </div>

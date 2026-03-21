@@ -2,27 +2,41 @@
 
 import { motion } from 'framer-motion';
 
+type WhyTeamsLoveContent = {
+  title?: string;
+  badge?: string;
+  items?: string[];
+  stats?: { number: string; label: string }[];
+};
+
+type HomepageContent = {
+  whyTeamsLove?: WhyTeamsLoveContent;
+};
+
+type SiteContent = {
+  homepage?: HomepageContent;
+  site?: { homepage?: HomepageContent };
+};
+
 interface WhyTeamsLoveProps {
-  siteContent: any;
+  siteContent: SiteContent;
 }
 
 export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
-  const homepage = (siteContent as any).homepage || (siteContent as any).site?.homepage || {};
+  const homepage = siteContent.homepage || siteContent.site?.homepage || {};
+  const whyTeamsLoveTitle = homepage.whyTeamsLove?.title || '';
+  const whyTeamsLoveBadge = homepage.whyTeamsLove?.badge || '';
 
-  // Use JSON data if available
-  const jsonBenefits = homepage.whyTeamsLove?.items || [];
-  const benefits = jsonBenefits.length > 0 ? jsonBenefits.map((item: string, idx: number) => ({
-    icon: ['🎯', '💯', '⚡', '🤝', '✨', '📈'][idx] || '⚡',
-    text: item,
-    color: idx % 2 === 0 ? 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' : 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]'
-  })) : [
-    { icon: '🎯', text: 'Zero skill required', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
-    { icon: '💯', text: '100% participation guaranteed', color: 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]' },
-    { icon: '⚡', text: 'Breaks barriers instantly', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
-    { icon: '🤝', text: 'Boosts collaboration and communication', color: 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]' },
-    { icon: '✨', text: 'Creates lasting memories', color: 'bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]' },
-    { icon: '📈', text: 'Works for groups of 10 to 5,000+', color: 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)]' },
-  ];
+  const benefitItems = Array.isArray(homepage.whyTeamsLove?.items) ? homepage.whyTeamsLove.items : [];
+  const benefitIcons = ['🎯', '💯', '⚡', '🤝', '✨', '📈'];
+  const benefits = benefitItems.map((item: string, idx: number) => ({
+    icon: benefitIcons[idx % benefitIcons.length] || '⭐',
+    text: item
+  }));
+
+  if (benefits.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-20 bg-gradient-to-br from-[var(--color-bg-tertiary)] to-[var(--color-bg-secondary)] text-[var(--color-text-primary)] overflow-hidden transition-colors duration-300">
@@ -35,17 +49,19 @@ export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center bg-[var(--color-brand-primary)]/20 text-[var(--color-brand-primary)] px-4 py-2 rounded-full text-sm font-medium mb-6"
-          >
-            💛 Why Teams Love Us
-          </motion.div>
+          {whyTeamsLoveBadge ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 bg-[var(--color-brand-primary)]/20 text-[var(--color-brand-primary)] px-4 py-2 rounded-full text-sm font-medium mb-6"
+            >
+              <span>{whyTeamsLoveBadge}</span>
+            </motion.div>
+          ) : null}
           <h2 className="text-3xl md:text-5xl font-black mb-4">
-            Why Teams Love <span className="text-[var(--color-brand-secondary)]">Sparkplug</span>
+            {whyTeamsLoveTitle}
           </h2>
           {/* <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
             What makes our experiences unforgettable
@@ -67,15 +83,15 @@ export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
             }
           }}
         >
-          {benefits.map((benefit: { icon: string; text: string; color: string }, index: number) => (
+          {benefits.map((benefit: { icon: string; text: string }, index: number) => (
             <motion.div
               key={index}
               variants={{
                 hidden: { opacity: 0, y: 30, scale: 0.9 },
                 visible: { opacity: 1, y: 0, scale: 1 }
               }}
-              whileHover={{ 
-                scale: 1.05, 
+              whileHover={{
+                scale: 1.05,
                 y: -5,
                 transition: { type: "spring", stiffness: 300 }
               }}
@@ -83,8 +99,8 @@ export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
             >
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 h-full">
                 <div className="flex items-center gap-4">
-                  <motion.div 
-                    className={`w-14 h-14 ${benefit.color} rounded-xl flex items-center justify-center text-2xl flex-shrink-0`}
+                  <motion.div
+                    className="w-14 h-14 rounded-xl bg-[var(--color-bg-secondary)] text-2xl flex items-center justify-center flex-shrink-0 shadow-inner"
                     whileHover={{ rotate: [0, -10, 10, 0] }}
                     transition={{ duration: 0.5 }}
                   >
@@ -109,7 +125,7 @@ export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
         >
           {[
             { number: '10+', label: 'Years Experience' },
-            { number: '200+', label: 'Activities' },
+            { number: '200+', label: 'Events Delivered' },
             { number: '70K+', label: 'Participants' },
             { number: '50+', label: 'Cities' },
           ].map((stat, index) => (
@@ -119,15 +135,15 @@ export default function WhyTeamsLove({ siteContent }: WhyTeamsLoveProps) {
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <motion.div 
+              <motion.div
                 className="text-4xl md:text-5xl font-black text-[var(--color-brand-primary)] mb-2"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 200, 
-                  delay: 0.1 * index 
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  delay: 0.1 * index
                 }}
               >
                 {stat.number}

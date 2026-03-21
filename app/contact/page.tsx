@@ -4,12 +4,27 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useFormSubmit } from '@/lib/hooks/useFormSubmit';
 
+type ContactData = {
+  hero?: {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+  };
+  info?: {
+    email?: string;
+    linkedinurl?: string;
+    instagramUrl?: string;
+    instagram?: string;
+    whatsapp?: string;
+  };
+};
+
 export default function ContactPage() {
-  const [contactData, setContactData] = useState<any>(null);
+  const [contactData, setContactData] = useState<ContactData | null>(null);
   
   useEffect(() => {
-    fetch('/api/content').then(res => res.json()).then(data => {
-      setContactData(data.contact || {});
+    fetch('/api/content?section=site').then(res => res.json()).then(data => {
+      setContactData(data.content?.contact || {});
     }).catch(() => {});
   }, []);
   const [contactForm, setContactForm] = useState({
@@ -63,8 +78,9 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium rounded-full mb-8">
-              💬 Get in Touch
+            <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium rounded-full mb-8">
+              <span aria-hidden="true">💬</span>
+              <span>Get in Touch</span>
             </span>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
@@ -106,10 +122,10 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">Email Us</h3>
                     <a 
-                      href={`mailto:${contactData?.info?.email || 'connect@sparkplug.in'}`}
+                      href={`mailto:${contactData?.info?.email || 'connect@thesparkplug.in'}`}
                       className="text-[var(--color-brand-primary)] hover:text-[var(--color-brand-secondary)] font-medium text-lg"
                     >
-                      {contactData?.info?.email || 'connect@sparkplug.in'}
+                      {contactData?.info?.email || 'connect@thesparkplug.in'}
                     </a>
                   </div>
                 </div>

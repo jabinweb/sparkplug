@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Trash2, 
   ExternalLink, 
@@ -10,7 +12,10 @@ import {
   FileText,
   Download,
   Upload,
-  Folder
+  Folder,
+  Eye,
+  X,
+  File
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -49,6 +54,7 @@ export default function FileManagerPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [previewFile, setPreviewFile] = useState<FileRecord | null>(null);
 
   const canRead = hasPermission(user, 'files', 'read');
   const canUpload = hasPermission(user, 'files', 'create');
@@ -65,6 +71,8 @@ export default function FileManagerPage() {
       fetchFiles();
     }
   }, [canRead, isLoadingAuth]);
+
+  // ... (rest of the functions remain the same: fetchFiles, handleFileUpload, deleteFile, formatFileSize, formatDate)
 
   const fetchFiles = async () => {
     setLoading(true);
@@ -152,17 +160,28 @@ export default function FileManagerPage() {
     return new Date(dateString).toLocaleString();
   };
 
-  const getFileIcon = (mimeType: string) => {
+  const getFileIcon = (mimeType: string, url: string) => {
     if (mimeType.startsWith('image/')) {
-      return <FileText className="w-4 h-4 text-blue-500" />;
+      return (
+        <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 group-hover:border-[var(--color-brand-primary)]/50 transition-colors">
+          <Image 
+            src={url} 
+            alt="Thumbnail" 
+            fill 
+            className="object-cover"
+            sizes="40px"
+            unoptimized
+          />
+        </div>
+      );
+    }
+    if (mimeType.startsWith('video/')) {
+       return <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-600"><FileText className="w-5 h-5" /></div>;
     }
     if (mimeType === 'application/pdf') {
-      return <FileText className="w-4 h-4 text-red-500" />;
+      return <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-600"><FileText className="w-5 h-5" /></div>;
     }
-    if (mimeType === 'application/epub+zip') {
-      return <FileText className="w-4 h-4 text-purple-500" />;
-    }
-    return <FileText className="w-4 h-4 text-gray-500" />;
+    return <div className="w-10 h-10 rounded-lg bg-gray-500/10 flex items-center justify-center text-gray-600"><File className="w-5 h-5" /></div>;
   };
 
   const folders = Array.from(new Set(files.map(f => f.folder)));
@@ -193,7 +212,7 @@ export default function FileManagerPage() {
   };
   
   const toggleSelectAll = () => {
-    if (selectedFiles.size === paginatedFiles.length) {
+    if (selectedFiles.size === paginatedFiles.length && paginatedFiles.length > 0) {
       setSelectedFiles(new Set());
     } else {
       setSelectedFiles(new Set(paginatedFiles.map(f => f.id)));
@@ -385,7 +404,7 @@ export default function FileManagerPage() {
                     className="rounded border-gray-300"
                   />
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-[var(--color-text-secondary)] w-12"></th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-[var(--color-text-secondary)] w-16">Preview</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-[var(--color-text-secondary)]">Filename</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-[var(--color-text-secondary)]">Folder</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-[var(--color-text-secondary)]">Size</th>
@@ -408,7 +427,7 @@ export default function FileManagerPage() {
                 </tr>
               ) : (
                 paginatedFiles.map((file) => (
-                  <tr key={file.id} className="border-b border-[var(--color-brand-primary)]/10 hover:bg-[var(--color-bg-primary)] transition-colors">
+                  <tr key={file.id} className="border-b border-[var(--color-brand-primary)]/10 hover:bg-[var(--color-bg-primary)]/50 transition-colors group">
                     <td className="py-3 px-4">
                       <input
                         type="checkbox"
@@ -418,7 +437,12 @@ export default function FileManagerPage() {
                       />
                     </td>
                     <td className="py-3 px-4">
-                      {getFileIcon(file.mimeType)}
+                      <button 
+                        onClick={() => file.mimeType.startsWith('image/') || file.mimeType.startsWith('video/') ? setPreviewFile(file) : null}
+                        className={`${(file.mimeType.startsWith('image/') || file.mimeType.startsWith('video/')) ? 'cursor-pointer hover:scale-105 active:scale-95' : 'cursor-default'} transition-transform`}
+                      >
+                        {getFileIcon(file.mimeType, file.url)}
+                      </button>
                     </td>
                     <td className="py-3 px-4 font-medium text-[var(--color-text-primary)]">
                       <div className="flex flex-col">
@@ -426,6 +450,9 @@ export default function FileManagerPage() {
                         {file.description && (
                           <span className="text-xs text-[var(--color-text-secondary)]">{file.description}</span>
                         )}
+                        <span className="text-[10px] text-[var(--color-text-tertiary)] opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest mt-1">
+                          {file.mimeType}
+                        </span>
                       </div>
                     </td>
                     <td className="py-3 px-4">
@@ -433,12 +460,21 @@ export default function FileManagerPage() {
                         {file.folder}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-[var(--color-text-secondary)]">{formatFileSize(file.size)}</td>
-                    <td className="py-3 px-4 text-sm text-[var(--color-text-secondary)]">
+                    <td className="py-3 px-4 text-[var(--color-text-secondary)] text-sm">{formatFileSize(file.size)}</td>
+                    <td className="py-3 px-4 text-xs text-[var(--color-text-secondary)]">
                       {formatDate(file.createdAt)}
                     </td>
                     <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1">
+                        {(file.mimeType.startsWith('image/') || file.mimeType.startsWith('video/')) && (
+                          <button
+                            onClick={() => setPreviewFile(file)}
+                            className="p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-brand-primary)] hover:bg-[var(--color-brand-primary)]/10 rounded-lg transition-colors"
+                            title="Preview"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+                        )}
                         <a
                           href={file.url}
                           target="_blank"
@@ -528,6 +564,102 @@ export default function FileManagerPage() {
           </div>
         )}
       </div>
+
+      {/* Preview Modal */}
+      <AnimatePresence>
+        {previewFile && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setPreviewFile(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-5xl bg-[var(--color-bg-secondary)] rounded-2xl shadow-2xl overflow-hidden border border-[var(--color-brand-primary)]/20 flex flex-col max-h-[90vh]"
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-4 border-b border-[var(--color-brand-primary)]/10">
+                <div className="flex flex-col">
+                  <h3 className="text-lg font-bold text-[var(--color-text-primary)] line-clamp-1">
+                    {previewFile.originalName}
+                  </h3>
+                  <p className="text-xs text-[var(--color-text-secondary)]">
+                    {previewFile.mimeType} • {formatFileSize(previewFile.size)}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setPreviewFile(null)}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-gray-50 dark:bg-gray-900/50">
+                {previewFile.mimeType.startsWith('image/') ? (
+                  <div className="relative w-full h-full min-h-[300px] flex items-center justify-center">
+                    <Image
+                      src={previewFile.url}
+                      alt={previewFile.originalName}
+                      width={1200}
+                      height={800}
+                      className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-lg"
+                      unoptimized
+                    />
+                  </div>
+                ) : previewFile.mimeType.startsWith('video/') ? (
+                  <video
+                    src={previewFile.url}
+                    controls
+                    autoPlay
+                    className="max-w-full max-h-[70vh] rounded-lg shadow-lg"
+                  />
+                ) : (
+                  <div className="text-center p-12">
+                    <FileText className="w-20 h-20 text-[var(--color-text-tertiary)] mx-auto mb-4" />
+                    <p className="text-[var(--color-text-secondary)]">
+                      Preview not available for this file type.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-4 bg-[var(--color-bg-tertiary)]/50 border-t border-[var(--color-brand-primary)]/10 flex items-center justify-between">
+                <div className="text-sm text-[var(--color-text-secondary)]">
+                   Uploaded on {formatDate(previewFile.createdAt)}
+                </div>
+                <div className="flex gap-2">
+                   <a
+                    href={previewFile.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] rounded-lg hover:bg-[var(--color-bg-primary)] transition-colors text-sm flex items-center gap-2 border border-[var(--color-brand-primary)]/10"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Open Original
+                  </a>
+                  <a
+                    href={previewFile.url}
+                    download
+                    className="px-4 py-2 bg-[var(--color-brand-primary)] text-[var(--color-button-text)] rounded-lg hover:bg-[var(--color-brand-secondary)] transition-colors text-sm flex items-center gap-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

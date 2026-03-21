@@ -2,17 +2,13 @@
 
 import { useTheme } from '@/lib/theme-provider';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useIsHydrated } from '@/lib/hooks/useIsHydrated';
 
 export default function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
-  
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const isHydrated = useIsHydrated();
 
   // Prevent rendering until mounted to avoid hydration mismatch
-  if (!mounted) {
+  if (!isHydrated) {
     return (
       <div className="w-9 h-9 rounded-lg bg-white/10 dark:bg-white/5 border border-white/20" />
     );

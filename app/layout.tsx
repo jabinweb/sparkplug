@@ -58,7 +58,7 @@ export default async function RootLayout({
   const siteContent = await getAllSiteContent();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script
           dangerouslySetInnerHTML={{

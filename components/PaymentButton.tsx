@@ -32,7 +32,7 @@ export default function PaymentButton({
         currency: currency,
         name: 'School of Social Change',
         description: description,
-        handler: function (response: any) {
+        handler: function (response: unknown) {
           onSuccess?.(response.razorpay_payment_id);
         },
         prefill: {

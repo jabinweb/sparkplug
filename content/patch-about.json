@@ -1,0 +1,78 @@
+{
+  "about": {
+    "hero": {
+      "title": "Our Story",
+      "subtitle": "A simple observation about PEOPLE. Facilitated with purpose. Designed for scale. ",
+      "description": ""
+    },
+    "values": [
+      {
+        "title": "We Involve, Not Perform",
+        "description": "Everyone becomes part of the experience. No spectators, only participants."
+      },
+      {
+        "title": "Real Outcomes",
+        "description": "Not just passive entertainment, but active engagement that improves communication, trust, and team morale."
+      },
+      {
+        "title": "World-Class Facilitation",
+        "description": "Simple, clean, and deeply human sessions shaped by years of experience."
+      },
+      {
+        "title": "Any Group Size",
+        "description": "Small teams to stadium-level crowds across India."
+      }
+    ],
+    "vision": "To redefine how teams experience connection. Where collaboration happens naturally, creativity flows freely, and every gathering becomes a powerful mix of connection and pure fun.",
+    "founder": {
+      "title": "Meet the Founder",
+      "content": "YET TO DRAFT THIS"
+    },
+    "mission": "To design participative experiences that break silos, build trust, and transform how teams connect and collaborate. ",
+    "foundingAspiration": {
+      "lead": "Sparkplug started with something we kept noticing in rooms: no matter the size or the titles in the room, people engage more when they participate.",
+      "image": "",
+      "title": "Our Story",
+      "content": "Sparkplug began with a simple question: what if engagement felt less like a program and more like a shared experience? What is that one thing that everyone enjoys? \n\nWe noticed: the moment music or rhythm enters a space, something shifts. Energy moves. Smiles appear. Conversations start flowing in ways they weren’t before.\n\nWe saw this across corporate events, workshops, and community gatherings. Rhythm and participation can spark up a room within minutes. \n\nThis shift is not random. It is thoughtfully designed and guided by facilitators who understand people and the power of shared experiences.\n\nAfter creating experience after experience, it felt natural to give that insight a name.\n\nThat became Sparkplug - a way to spark up places that need people's power unlocked. "
+    },
+    "whatMakesDifferent": {
+      "items": [
+        {
+          "title": "We don't \"perform\". We involve.",
+          "description": "Everyone becomes part of the experience."
+        },
+        {
+          "title": "We design for real outcomes.",
+          "description": "Not just passive entertainment, but active engagement that improves communication, trust, and team morale."
+        },
+        {
+          "title": "We bring world-class facilitation.",
+          "description": "Simple, clean, and deeply human sessions shaped by years of experience."
+        },
+        {
+          "title": "We work with any group size.",
+          "description": "Small teams to stadium-level crowds across India."
+        }
+      ],
+      "title": "What Makes Sparkplug Different"
+    },
+    "team": {
+      "title": "Our Team",
+      "subtitle": "The people behind Sparkplug",
+      "members": [
+        {
+          "name": "Aarav Mehta",
+          "role": "Founder & Lead Facilitator",
+          "description": "Leads high-energy experiences that turn teams into connected, collaborative groups.",
+          "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "name": "Nisha Kapoor",
+          "role": "Program Director",
+          "description": "Designs custom programs that blend rhythm, creativity, and team alignment.",
+          "photo": "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=80"
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useIsHydrated } from '@/lib/hooks/useIsHydrated';
 
 type Theme = 'light' | 'dark';
 
@@ -12,25 +13,16 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
-  const [mounted, setMounted] = useState(false);
+  const isHydrated = useIsHydrated();
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'dark';
+    const savedTheme = localStorage.getItem('sparkplug-theme') as Theme | null;
+    if (savedTheme) return savedTheme;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+  });
 
   useEffect(() => {
-    setMounted(true);
-    // Check localStorage for saved theme preference
-    const savedTheme = localStorage.getItem('sparkplug-theme') as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setTheme(prefersDark ? 'dark' : 'light');
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
     const root = document.documentElement;
     
     if (theme === 'dark') {
@@ -40,20 +32,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
     
     localStorage.setItem('sparkplug-theme', theme);
-  }, [theme, mounted]);
+  }, [theme]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  // Prevent flash of wrong theme
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div style={{ visibility: isHydrated ? 'visible' : 'hidden' }} suppressHydrationWarning>
+        {children}
+      </div>
     </ThemeContext.Provider>
   );
 }

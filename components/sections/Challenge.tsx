@@ -3,11 +3,36 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import siteContent from '../../content/site-content.json';
+type ChallengeStat = {
+    number?: string;
+    label?: string;
+};
+
+type HomepageChallenge = {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    statistics?: ChallengeStat[];
+};
+
+type HomepageContent = {
+    challenge?: HomepageChallenge;
+};
+
+type SiteContent = {
+    homepage?: HomepageContent;
+    site?: { homepage?: HomepageContent };
+};
+
+interface ChallengeProps {
+    siteContent: SiteContent;
+}
 
 
-export default function Challenge() {
-    const { homepage } = siteContent;
+export default function Challenge({ siteContent }: ChallengeProps) {
+    const homepage = siteContent.homepage || siteContent.site?.homepage || {};
+    const challenge = homepage.challenge || {};
+    const stats = Array.isArray(challenge.statistics) ? challenge.statistics : [];
   
     return (
         <section className="py-12 sm:py-16 lg:py-20 bg-[var(--color-bg-secondary)]">
@@ -21,11 +46,12 @@ export default function Challenge() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
             >
-                <div className="inline-flex items-center bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 border border-[var(--color-brand-primary)]/20">
-                What We Do
+                <div className="inline-flex items-center gap-2 bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 border border-[var(--color-brand-primary)]/20">
+                <span aria-hidden="true">⚡</span>
+                <span>What We Do</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-text-primary)] mb-4 sm:mb-6 leading-tight px-4">
-                {homepage.challenge.subtitle}
+                {challenge.subtitle || ''}
                 </h2>
             </motion.div>
 
@@ -38,7 +64,7 @@ export default function Challenge() {
                 className="max-w-4xl mx-auto text-center mb-12"
             >
                 <p className="text-[var(--color-text-secondary)] leading-relaxed mb-8 text-base sm:text-lg">
-                    {homepage.challenge.description}
+                    {challenge.description || ''}
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
@@ -70,7 +96,7 @@ export default function Challenge() {
             >
                 <div className="max-w-5xl mx-auto px-4 sm:px-8">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
-                        {homepage.challenge.statistics.map((stat, index) => (
+                        {stats.map((stat, index) => (
                             <motion.div
                                 key={index}
                                 className="text-center p-4"
@@ -80,10 +106,10 @@ export default function Challenge() {
                                 transition={{ duration: 0.6, delay: 0.1 * index }}
                             >
                                 <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-brand-primary mb-2">
-                                    {stat.number}
+                                    {stat.number || ''}
                                 </div>
                                 <div className="text-[var(--color-text-tertiary)] font-medium text-sm sm:text-base">
-                                    {stat.label}
+                                    {stat.label || ''}
                                 </div>
                             </motion.div>
                         ))}

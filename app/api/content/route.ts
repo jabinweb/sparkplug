@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { auth } from '@/auth'
 import { revalidatePath } from 'next/cache'
-import fs from 'fs/promises'
-import path from 'path'
 
 // Get content by section
 export async function GET(request: NextRequest) {
@@ -83,31 +81,6 @@ export async function PUT(request: NextRequest) {
     })
 
     console.log('[Content API] Database updated, version:', updatedContent.version)
-
-    // Sync to JSON file as backup (optional)
-    try {
-      console.log('[Content API] Starting JSON backup sync...')
-      const allContent = await prisma.siteContent.findMany({
-        select: { section: true, content: true }
-      })
-      
-      const siteContent: Record<string, any> = {}
-      
-      allContent.forEach(item => {
-        if (item.section === 'site' && typeof item.content === 'object') {
-          Object.assign(siteContent, item.content)
-        } else {
-          siteContent[item.section] = item.content
-        }
-      })
-      
-      const contentPath = path.join(process.cwd(), 'content', 'site-content.json')
-      await fs.writeFile(contentPath, JSON.stringify(siteContent, null, 2), 'utf-8')
-      
-      console.log('[Content API] ✅ JSON backup saved')
-    } catch (syncError) {
-      console.error('[Content API] ⚠️ JSON backup failed:', syncError)
-    }
 
     // Revalidate all pages to show updated content immediately
     console.log('[Content API] Revalidating pages...')
