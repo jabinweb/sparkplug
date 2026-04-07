@@ -1,28 +1,22 @@
 import Link from 'next/link';
+import PageHero from '@/components/PageHero';
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="bg-[var(--color-bg-primary)]">
       {/* Hero Section */}
-      <section className="relative bg-[hsl(235,52%,27%)] text-white py-24 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
-              Privacy Policy
-            </h1>
-            <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
-              Sparkplug
-            </p>
-            <p className="text-lg max-w-3xl mx-auto text-white/90">
-              Your privacy is important to us. This policy outlines how we collect, use, and protect your information.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        className="bg-[hsl(235,52%,27%)] py-24"
+        decorations={
+          <>
+            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
+          </>
+        }
+        title="Privacy Policy"
+        subtitle="Sparkplug"
+        description="Your privacy is important to us. This policy outlines how we collect, use, and protect your information."
+      />
 
       {/* Privacy Policy Content */}
       <section className="py-16">

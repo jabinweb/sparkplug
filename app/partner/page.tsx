@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getContent } from '@/lib/getContent';
+import PageHero from '@/components/PageHero';
 
 export const revalidate = 0;
 
@@ -51,30 +52,19 @@ export default async function GetInvolvedPage() {
   return (
     <div className="bg-[var(--color-bg-primary)]">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[hsl(235,52%,27%)] to-[hsl(235,52%,35%)] text-white py-24 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium rounded-full mb-8">
-              <span aria-hidden="true">🤝</span>
-              <span>Partner With Us</span>
-            </span>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
-              {getInvolved.hero?.title || 'Get Involved'}
-            </h1>
-            <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
-              {getInvolved.hero?.subtitle || ''}
-            </p>
-            <p className="text-lg max-w-3xl mx-auto text-white/90">
-              {getInvolved.hero?.description || ''}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        className="bg-gradient-to-br from-[hsl(235,52%,27%)] to-[hsl(235,52%,35%)] py-24"
+        decorations={
+          <>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+          </>
+        }
+        badge={{ icon: '🤝', label: 'Partner With Us' }}
+        title={getInvolved.hero?.title || 'Get Involved'}
+        subtitle={getInvolved.hero?.subtitle || ''}
+        description={getInvolved.hero?.description || ''}
+      />
 
       {/* Booking Section */}
       <section className="py-16 bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">
@@ -97,7 +87,7 @@ export default async function GetInvolvedPage() {
                 <p className="text-[var(--color-text-secondary)] mb-6">{pkg.description}</p>
                 <Link
                   href={`/contact?package=${encodeURIComponent(pkg.name || '')}`}
-                  className="block w-full bg-[var(--color-brand-accent)] text-[var(--color-text-primary)] px-6 py-3 rounded-lg font-semibold hover:bg-[var(--color-brand-secondary)] transition-colors shadow-md hover:shadow-lg"
+                  className="block w-full bg-[var(--color-brand-primary)] text-[var(--color-button-text)] px-6 py-3 rounded-lg font-semibold hover:bg-[var(--color-brand-primary-600)] transition-colors shadow-md hover:shadow-lg"
                 >
                   Get a Quote
                 </Link>

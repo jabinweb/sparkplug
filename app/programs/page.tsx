@@ -1,6 +1,7 @@
 import { getContent } from '@/lib/getContent';
 import { AnimatedSection } from '@/components/animations/AnimatedSection';
 import { ProgramCard } from '@/components/programs/ProgramCards';
+import PageHero from '@/components/PageHero';
 
 export const revalidate = 0;
 
@@ -39,34 +40,30 @@ export default async function ExperiencesPage() {
   return (
     <div className="bg-[var(--color-bg-primary)]">
       {/* Hero Section */}
-      <section className="relative bg-[hsl(235,52%,27%)] text-white py-24 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <PageHero
+        className="bg-[hsl(235,52%,27%)] py-24"
+        wrapContent={(content) => (
           <AnimatedSection className="text-center" type="fadeInUp">
-            <AnimatedSection type="scaleIn" delay={0.2} className="inline-block mb-6">
-              <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-full text-sm font-semibold">
-                <span aria-hidden="true">🎵</span>
-                <span>{heroBadge}</span>
-              </span>
-            </AnimatedSection>
-
-            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight !text-white">
-              {programs.hero?.title }
-            </h1>
-            <p className="text-2xl md:text-3xl mb-6 font-semibold !text-white">
-              {programs.hero?.subtitle }
-            </p>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto !text-white/90 leading-relaxed">
-              {programs.hero?.description ||
-                'From corporate drum circles to custom experiences, we create moments that energize, connect, and inspire.'}
-            </p>
+            {content}
           </AnimatedSection>
-        </div>
-      </section>
+        )}
+        decorations={
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          </div>
+        }
+        badge={{ icon: '🎵', label: heroBadge }}
+        title={programs.hero?.title}
+        subtitle={programs.hero?.subtitle}
+        description={
+          programs.hero?.description ||
+          'From corporate drum circles to custom experiences, we create moments that energize, connect, and inspire.'
+        }
+        titleClassName="text-5xl md:text-7xl font-black mb-6 tracking-tight !text-white"
+        subtitleClassName="text-2xl md:text-3xl mb-6 font-semibold !text-white"
+        descriptionClassName="text-lg md:text-xl max-w-3xl mx-auto !text-white/90 leading-relaxed"
+      />
 
       {/* Experience Sections */}
       {experiences.map((experience: Experience, index: number) => (

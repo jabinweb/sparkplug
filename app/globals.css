@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+/* Use class-based dark mode for Tailwind utilities */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Ensure logo swaps are driven by the .dark class, independent of Tailwind utilities */
+.logo-dark,
+[data-logo="dark"] {
+  display: none !important;
+}
+
+.dark .logo-dark,
+.dark [data-logo="dark"] {
+  display: inline-block !important;
+}
+
+.dark .logo-light,
+.dark [data-logo="light"] {
+  display: none !important;
+}
+
 :root {
   --radius: 0.65rem;
   

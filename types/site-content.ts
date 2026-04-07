@@ -3,6 +3,8 @@ export type Branding = {
   logoLight?: string;
 };
 
+export type SiteTheme = 'light' | 'dark';
+
 export type CtaContent = {
   badge?: string;
   title?: string;
@@ -15,8 +17,11 @@ export type CtaContent = {
 
 export type SiteContent = {
   cta?: CtaContent;
+  branding?: Branding;
+  theme?: SiteTheme;
   site?: {
     cta?: CtaContent;
     branding?: Branding;
+    theme?: SiteTheme;
   };
 };

@@ -1,12 +1,20 @@
 import Link from 'next/link';
 import { getAllSiteContent } from '@/lib/getContent';
 import { getFeaturedBlogPosts, getRecentBlogPosts } from '@/lib/getBlogPosts';
+import PageHero from '@/components/PageHero';
 
 export const revalidate = 0;
 
+type BlogContent = {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+};
+
 export default async function BlogPage() {
   const siteContent = await getAllSiteContent();
-  const blog = (siteContent as any).blog || {};
+  const siteContentRecord = siteContent as Record<string, unknown>;
+  const blog = (siteContentRecord.blog as BlogContent | undefined) || {};
   const featuredPosts = await getFeaturedBlogPosts();
   const recentPosts = await getRecentBlogPosts(6);
 
@@ -32,30 +40,19 @@ export default async function BlogPage() {
   return (
     <div className="bg-[var(--color-bg-primary)] transition-colors duration-300">
       {/* Hero Section */}
-      <section className="relative bg-[hsl(235,52%,27%)] text-white py-24 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium rounded-full mb-8">
-              <span aria-hidden="true">📝</span>
-              <span>Stories & Insights</span>
-            </span>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
-              {blog.title}
-            </h1>
-            <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
-              {blog.subtitle}
-            </p>
-            <p className="text-lg max-w-3xl mx-auto text-white/90">
-              {blog.description}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        className="bg-[hsl(235,52%,27%)] py-24"
+        decorations={
+          <>
+            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
+          </>
+        }
+        badge={{ icon: '📝', label: 'Stories & Insights' }}
+        title={blog.title}
+        subtitle={blog.subtitle}
+        description={blog.description}
+      />
 
       {/* Featured Posts */}
       {featuredPosts.length > 0 && (

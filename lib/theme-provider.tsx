@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useIsHydrated } from '@/lib/hooks/useIsHydrated';
 
-type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark';
 
 type ThemeContextType = {
   theme: Theme;
@@ -12,12 +12,19 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({
+  children,
+  initialTheme,
+}: {
+  children: React.ReactNode;
+  initialTheme?: Theme;
+}) {
   const isHydrated = useIsHydrated();
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === 'undefined') return 'dark';
     const savedTheme = localStorage.getItem('sparkplug-theme') as Theme | null;
     if (savedTheme) return savedTheme;
+    if (initialTheme) return initialTheme;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     return prefersDark ? 'dark' : 'light';
   });

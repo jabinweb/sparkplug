@@ -3,9 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import { useTheme } from '@/lib/theme-provider';
 
 type FooterSiteContent = {
+  branding?: {
+    logoDark?: string;
+    logoLight?: string;
+  };
   site?: {
     branding?: {
       logoDark?: string;
@@ -24,12 +27,13 @@ type FooterSiteContent = {
 };
 
 export default function Footer({ siteContent }: { siteContent: FooterSiteContent }) {
-  const { theme } = useTheme();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ✅ Dynamic branding (same as Header)
-  const branding = siteContent?.site?.branding || {
+  const branding =
+    siteContent?.site?.branding ||
+    siteContent?.branding || {
     logoDark: '/logos/logo.png',
     logoLight: '/logos/sparkplug_light.png',
   };
@@ -84,12 +88,22 @@ export default function Footer({ siteContent }: { siteContent: FooterSiteContent
           <div className="w-full flex flex-col space-y-6">
             <div>
               <Image
-                src={theme === 'dark' ? logoDark : logoLight}
+                src={logoLight}
                 alt="Sparkplug Logo"
-                width={150}
-                height={50}
-                className="w-auto"
-                style={{ width: 'auto', height: '3rem' }}
+                width={180}
+                height={60}
+                className="w-auto logo-light"
+                data-logo="light"
+                style={{ width: 'auto', height: '4rem' }}
+              />
+              <Image
+                src={logoDark}
+                alt="Sparkplug Logo"
+                width={180}
+                height={60}
+                className="w-auto logo-dark"
+                data-logo="dark"
+                style={{ width: 'auto', height: '4rem' }}
               />
             </div>
             <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
@@ -213,7 +227,7 @@ export default function Footer({ siteContent }: { siteContent: FooterSiteContent
               href="https://web.jabin.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--color-text-tertiary)] hover:text-white transition-colors"
+              className="text-[var(--color-text-tertiary)] hover:text-[var(--color-brand-primary)] transition-colors"
             >
               Jabin Web
             </a>

@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
-import { useTheme } from '@/lib/theme-provider';
 
 const navigation = [
   { label: "Home", href: "/" },
@@ -16,6 +15,10 @@ const navigation = [
 ];
 
 type HeaderSiteContent = {
+  branding?: {
+    logoDark?: string;
+    logoLight?: string;
+  };
   site?: {
     branding?: {
       logoDark?: string;
@@ -25,13 +28,14 @@ type HeaderSiteContent = {
 };
 
 export default function Header({ siteContent }: { siteContent: HeaderSiteContent }) {
-  const { theme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   // ✅ LOGO NOW COMES FROM DYNAMIC PROP
-  const branding = siteContent?.site?.branding || {
+  const branding =
+    siteContent?.site?.branding ||
+    siteContent?.branding || {
     logoDark: '/logos/logo.png',
     logoLight: '/logos/sparkplug_light.png'
   };
@@ -73,11 +77,22 @@ export default function Header({ siteContent }: { siteContent: HeaderSiteContent
           >
             <Link href="/" className="flex items-center space-x-2 group">
               <Image
-                src={theme === 'dark' ? logoDark : logoLight}
+                src={logoLight}
                 alt="Sparkplug Logo"
                 width={40}
                 height={40}
-                className="transition-transform duration-300 group-hover:scale-105"
+                className="transition-transform duration-300 group-hover:scale-105 logo-light"
+                data-logo="light"
+                style={{ width: 'auto', height: '3.3rem' }}
+                priority
+              />
+              <Image
+                src={logoDark}
+                alt="Sparkplug Logo"
+                width={40}
+                height={40}
+                className="transition-transform duration-300 group-hover:scale-105 logo-dark"
+                data-logo="dark"
                 style={{ width: 'auto', height: '3.3rem' }}
                 priority
               />
@@ -183,101 +198,142 @@ export default function Header({ siteContent }: { siteContent: HeaderSiteContent
                 onClick={() => setIsMenuOpen(false)}
               />
 
-              {/* Side Panel */}
-              <motion.div
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-[#0b1220] text-slate-900 dark:text-white shadow-2xl lg:hidden z-50 overflow-y-auto"
-              >
-                {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10">
-                  <Image
-                    src={theme === 'dark' ? logoDark : logoLight}
-                    alt="Logo"
-                    width={32}
-                    height={32}
-                    className="w-auto"
-                    style={{ width: 'auto', height: '2.5rem' }}
-                  />
+{/* Side Panel */}
+<motion.div
+  initial={{ x: '100%' }}
+  animate={{ x: 0 }}
+  exit={{ x: '100%' }}
+  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+  className="
+    fixed top-0 right-0 bottom-0 w-80 max-w-[85vw]
+    bg-white dark:bg-slate-900
+    text-slate-900 dark:text-slate-100
+    shadow-2xl border-l border-gray-200 dark:border-white/10
+    lg:hidden z-50 overflow-y-auto
+  "
+>
+  {/* Header */}
+  <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10">
+    
+    {/* Logo (Fixed for dark/light) */}
+    <div className="flex items-center">
+      <Image
+        src={logoLight}
+        alt="Logo"
+        width={32}
+        height={32}
+        className="block dark:hidden"
+        style={{ height: '2.5rem', width: 'auto' }}
+      />
+      <Image
+        src={logoDark}
+        alt="Logo"
+        width={32}
+        height={32}
+        className="hidden dark:block"
+        style={{ height: '2.5rem', width: 'auto' }}
+      />
+    </div>
 
-                  <button
-                    onClick={() => setIsMenuOpen(false)}
-                    className="p-2 rounded-lg text-slate-800 dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition"
-                  >
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
+    {/* Close Button */}
+    <button
+      onClick={() => setIsMenuOpen(false)}
+      className="
+        p-2 rounded-lg text-slate-800 dark:text-white
+        hover:bg-gray-100 dark:hover:bg-white/10
+        transition transform hover:scale-105 active:scale-95
+      "
+    >
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
 
-                {/* Navigation */}
-                <div className="px-4 py-6 space-y-1">
-                  {navigation.map((item, index) => (
-                    <motion.div
-                      key={item.href}
-                      initial={{ opacity: 0, x: 30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.08 }}
-                    >
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`flex items-center justify-between px-4 py-3 rounded-xl font-medium transition ${
-                          pathname === item.href
-                            ? 'bg-brand-primary text-white'
-                            : 'text-slate-800 dark:text-white hover:bg-gray-100 dark:hover:bg-white/10'
-                        }`}
-                      >
-                        <span>{item.label}</span>
+  {/* Navigation */}
+  <div className="px-4 py-6 space-y-2">
+    {navigation.map((item, index) => (
+      <motion.div
+        key={item.href}
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.08 }}
+      >
+        <Link
+          href={item.href}
+          onClick={() => setIsMenuOpen(false)}
+          className={`flex items-center justify-between px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
+            pathname === item.href
+              ? 'bg-blue-600 text-white dark:bg-blue-500'
+              : 'text-slate-800 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-white/10'
+          }`}
+        >
+          <span>{item.label}</span>
 
-                        {pathname === item.href ? (
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M16.707 5.293l-8 8-4-4 1.414-1.414L8 10.586l6.293-6.293z" />
-                          </svg>
-                        ) : (
-                          <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        )}
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
+          {pathname === item.href ? (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M16.707 5.293l-8 8-4-4 1.414-1.414L8 10.586l6.293-6.293z" />
+            </svg>
+          ) : (
+            <svg
+              className="w-4 h-4 text-gray-400 dark:text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          )}
+        </Link>
+      </motion.div>
+    ))}
+  </div>
 
-                {/* Partner Button */}
-                <div className="px-4">
-                  <Link
-                    href="/partner"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block w-full py-4 text-center font-semibold text-white bg-background rounded-xl shadow hover:opacity-90 transition"
-                  >
-                    Partner With Us
-                  </Link>
+  {/* Partner Button */}
+  <div className="px-4">
+    <Link
+      href="/partner"
+      onClick={() => setIsMenuOpen(false)}
+      className="
+        block w-full py-4 text-center font-semibold rounded-xl transition-all duration-200
 
-                  <div className="mt-4 flex justify-center">
-                    <ThemeToggle />
-                  </div>
-                </div>
+        bg-gray-100 text-gray-800 shadow-sm
+        hover:bg-gray-200 hover:shadow-md
 
-                {/* Contact */}
-                {/* <div className="px-4 pt-6 pb-4 border-t border-gray-200 dark:border-white/10 space-y-4">
-                  <a
-                    href={`mailto:${siteContent.contactInfo.email}`}
-                    className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300"
-                  >
-                    ✉ {siteContent.contactInfo.email}
-                  </a>
+        dark:bg-gray-800 dark:text-gray-100
+        dark:hover:bg-gray-700 dark:hover:shadow-md
 
-                  <a
-                    href={`tel:${siteContent.contactInfo.phone?.replace(/\s/g, '')}`}
-                    className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300"
-                  >
-                    📞 {siteContent.contactInfo.phone}
-                  </a>
-                </div> */}
-              </motion.div>
+        focus:outline-none focus:ring-2 focus:ring-blue-500/40
+      "
+    >
+      Partner With Us
+    </Link>
+
+    {/* Theme Toggle */}
+    <div className="mt-4 flex justify-center">
+      <ThemeToggle />
+    </div>
+  </div>
+
+  {/* Optional Contact Section */}
+  {/*
+  <div className="px-4 pt-6 pb-4 border-t border-gray-200 dark:border-white/10 space-y-4">
+    <a
+      href={`mailto:${siteContent.contactInfo.email}`}
+      className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300"
+    >
+      ✉ {siteContent.contactInfo.email}
+    </a>
+
+    <a
+      href={`tel:${siteContent.contactInfo.phone?.replace(/\s/g, '')}`}
+      className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300"
+    >
+      📞 {siteContent.contactInfo.phone}
+    </a>
+  </div>
+  */}
+</motion.div>
             </>
           )}
         </AnimatePresence>

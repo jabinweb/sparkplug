@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { MediaPicker } from './MediaPicker'
 import { RichTextEditor } from './RichTextEditor'
+import { compressImage } from '@/lib/image-utils'
 
 type ContentObject = Record<string, unknown>
 
@@ -117,24 +118,59 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
     setMessage({ type: 'success', text: 'Uploading image...' })
 
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('folder', 'images')
-      formData.append('isPublic', 'true')
-      formData.append('description', `Image for ${path.join(' > ')}`)
+      // 1. Compress the image before uploading
+      const compressedFile = await compressImage(file)
+      
+      // 2. Upload directly to PHP server to bypass Next.js proxy hang
+      const phpUploadUrl = process.env.NEXT_PUBLIC_PHP_UPLOAD_URL || 'https://files.jabin.org/api/upload.php';
+      const apiKey = process.env.NEXT_PUBLIC_FILE_MANAGER_API_KEY;
+      
+      const phpFormData = new FormData()
+      phpFormData.append('file', compressedFile)
+      phpFormData.append('folder', 'images')
+      if (apiKey) phpFormData.append('api_key', apiKey)
 
-      const response = await fetch('/api/files', {
+      const phpResponse = await fetch(phpUploadUrl, {
         method: 'POST',
-        body: formData,
+        body: phpFormData
       })
 
-      const data = (await response.json()) as { error?: string; url?: string }
-
-      if (!response.ok || !data.url) {
-        throw new Error(data.error || 'Upload failed')
+      let phpData: any = {}
+      try {
+        phpData = await phpResponse.json()
+      } catch (e) {
+        if (phpResponse.status === 413) {
+          throw new Error('Image too large for the remote server. Please try a smaller image.')
+        }
+        throw new Error('Remote server returned an invalid response (not JSON)')
       }
 
-      updateField(path, data.url)
+      if (!phpResponse.ok) {
+        throw new Error(phpData.error || 'Remote upload failed')
+      }
+
+      // 3. Record the upload in our local database
+      const localFormData = new FormData()
+      localFormData.append('url', phpData.url || phpData.file_url)
+      localFormData.append('filename', phpData.filename || file.name)
+      localFormData.append('size', String(compressedFile.size))
+      localFormData.append('mimeType', compressedFile.type)
+      localFormData.append('path', phpData.path || `images/${phpData.filename || file.name}`)
+      localFormData.append('folder', 'images')
+      localFormData.append('description', `Image for ${path.join(' > ')}`)
+
+      const localResponse = await fetch('/api/files', {
+        method: 'POST',
+        body: localFormData
+      })
+
+      if (!localResponse.ok) {
+        const localError = await localResponse.json()
+        throw new Error(localError.error || 'Failed to record upload in database')
+      }
+
+      const recordData = await localResponse.json()
+      updateField(path, recordData.url)
       setMessage({ type: 'success', text: 'Image uploaded! Click Save to apply changes.' })
     } catch (error) {
       setMessage({
@@ -154,7 +190,9 @@ export default function VisualContentEditor({ initialContent, onSave }: ContentE
         ? ''
         : pathKey.endsWith('homepage.causes.items')
           ? { category: '', causes: [''] }
-          : {}
+          : pathKey.endsWith('homepage.videoReels.items')
+            ? { title: '', description: '', videoUrl: '', duration: '', thumbnail: '' }
+            : {}
 
     if (!Array.isArray(currentArray)) {
       updateField(path, [newItem])

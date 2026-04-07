@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Upload, Image as ImageIcon, Search, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useRef } from "react"
+import { compressImage } from "@/lib/image-utils"
 
 interface MediaItem {
   id: string
@@ -99,27 +100,71 @@ export function MediaPicker({ onSelect, selectedUrl, folder = "all" }: MediaPick
       setUploading(true)
       setUploadProgress(10)
       
+      // Compress the image before uploading
+      const compressedFile = await compressImage(file)
+      
       const formData = new FormData()
-      formData.append('file', file)
+      formData.append('file', compressedFile)
       formData.append('folder', folder === 'all' ? 'images' : folder)
       formData.append('isPublic', 'true')
       formData.append('description', `Image uploaded from media picker`)
 
-      console.log('Uploading to /api/files...')
+      // 1. Upload directly to PHP server to bypass Next.js proxy hang
+      const phpUploadUrl = process.env.NEXT_PUBLIC_PHP_UPLOAD_URL || 'https://files.jabin.org/api/upload.php';
+      const apiKey = process.env.NEXT_PUBLIC_FILE_MANAGER_API_KEY;
+      
+      const phpFormData = new FormData()
+      phpFormData.append('file', compressedFile)
+      phpFormData.append('folder', folder === 'all' ? 'images' : folder)
+      if (apiKey) phpFormData.append('api_key', apiKey)
+
+      console.log('Uploading directly to PHP server:', phpUploadUrl)
       setUploadProgress(30)
 
-      const response = await fetch('/api/files', {
+      const phpResponse = await fetch(phpUploadUrl, {
         method: 'POST',
-        body: formData
+        body: phpFormData
       })
 
-      console.log('Upload response:', response.status)
-      setUploadProgress(70)
+      console.log('PHP upload response:', phpResponse.status)
+      setUploadProgress(60)
 
-      if (response.ok) {
-        const newMedia = await response.json()
-        console.log('Upload successful:', newMedia)
-        setUploadProgress(90)
+      let phpData: any = {}
+      try {
+        phpData = await phpResponse.json()
+      } catch (e) {
+        if (phpResponse.status === 413) {
+          throw new Error('Image too large for the remote server. Please try a smaller image.')
+        }
+        throw new Error('Remote server returned an invalid response (not JSON)')
+      }
+
+      if (!phpResponse.ok) {
+        throw new Error(phpData.error || 'Remote upload failed')
+      }
+
+      // 2. Record the upload in our local database
+      console.log('Recording upload in local database...')
+      setUploadProgress(80)
+      
+      const localFormData = new FormData()
+      localFormData.append('url', phpData.url || phpData.file_url)
+      localFormData.append('filename', phpData.filename || file.name)
+      localFormData.append('size', String(compressedFile.size))
+      localFormData.append('mimeType', compressedFile.type)
+      localFormData.append('path', phpData.path || `${folder}/${phpData.filename || file.name}`)
+      localFormData.append('folder', folder === 'all' ? 'images' : folder)
+      localFormData.append('description', `Image uploaded from media picker`)
+
+      const localResponse = await fetch('/api/files', {
+        method: 'POST',
+        body: localFormData
+      })
+
+      if (localResponse.ok) {
+        const newMedia = await localResponse.json()
+        console.log('Upload recorded successfully:', newMedia)
+        setUploadProgress(100)
         
         // Refresh media list
         await fetchMedia()
@@ -127,12 +172,11 @@ export function MediaPicker({ onSelect, selectedUrl, folder = "all" }: MediaPick
         // Select the new image
         onSelect(newMedia.url)
         setIsOpen(false)
-        setUploadProgress(100)
         alert('Image uploaded successfully!')
       } else {
-        const error = await response.json()
-        console.error('Upload failed:', error)
-        throw new Error(error.error || 'Upload failed')
+        const localError = await localResponse.json()
+        console.error('Recording failed:', localError)
+        throw new Error(localError.error || 'Failed to record upload')
       }
     } catch (error) {
       console.error('Upload error:', error)

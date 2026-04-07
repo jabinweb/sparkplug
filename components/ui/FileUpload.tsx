@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Upload, X, FileText, Image as ImageIcon, CheckCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { compressImage } from '@/lib/image-utils';
 
 interface UploadedFile {
   filename: string;
@@ -58,28 +59,71 @@ export function FileUpload({
     toast.info('Uploading file...');
     
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('folder', folder); // Add folder parameter
-
-      console.log('Sending request to /api/files');
-      const response = await fetch('/api/files', {
-        method: 'POST',
-        body: formData,
-      });
-
-      console.log('Response status:', response.status);
-      const data = await response.json();
-      console.log('Response data:', data);
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Upload failed');
+      let fileToUpload = file;
+      
+      // 1. Compress if it's an image
+      if (file.type.startsWith('image/')) {
+        toast.info('Optimizing image...');
+        fileToUpload = await compressImage(file);
       }
 
-      setUploadedFile(data);
-      console.log('Upload successful, file data:', data);
+      // 2. Upload directly to PHP server to bypass Next.js proxy hang
+      const phpUploadUrl = process.env.NEXT_PUBLIC_PHP_UPLOAD_URL || 'https://files.jabin.org/api/upload.php';
+      const apiKey = process.env.NEXT_PUBLIC_FILE_MANAGER_API_KEY;
+      
+      const phpFormData = new FormData();
+      phpFormData.append('file', fileToUpload);
+      phpFormData.append('folder', folder);
+      if (apiKey) phpFormData.append('api_key', apiKey);
+
+      console.log('Uploading directly to PHP server:', phpUploadUrl);
+      const phpResponse = await fetch(phpUploadUrl, {
+        method: 'POST',
+        body: phpFormData,
+      });
+
+      console.log('PHP upload response:', phpResponse.status);
+      
+      let phpData: any = {};
+      try {
+        phpData = await phpResponse.json();
+      } catch (e) {
+        if (phpResponse.status === 413) {
+          throw new Error('File too large for the remote server. Please try a smaller file.');
+        }
+        throw new Error('Remote server returned an invalid response (not JSON)');
+      }
+      
+      if (!phpResponse.ok) {
+        throw new Error(phpData.error || 'Remote upload failed');
+      }
+
+      // 3. Record the upload in our local database
+      console.log('Recording upload in local database...');
+      const localFormData = new FormData();
+      localFormData.append('url', phpData.url || phpData.file_url);
+      localFormData.append('filename', phpData.filename || file.name);
+      localFormData.append('size', String(fileToUpload.size));
+      localFormData.append('mimeType', fileToUpload.type);
+      localFormData.append('path', phpData.path || `${folder}/${phpData.filename || file.name}`);
+      localFormData.append('folder', folder);
+      localFormData.append('description', `Uploaded via FileUpload component`);
+
+      const localResponse = await fetch('/api/files', {
+        method: 'POST',
+        body: localFormData,
+      });
+
+      if (!localResponse.ok) {
+        const localError = await localResponse.json();
+        throw new Error(localError.error || 'Failed to record upload in database');
+      }
+
+      const recordData = await localResponse.json();
+      setUploadedFile(recordData);
+      console.log('Upload successful, recorded:', recordData);
       toast.success('File uploaded successfully!');
-      onUploadComplete?.(data);
+      onUploadComplete?.(recordData);
     } catch (error) {
       console.error('Upload error:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to upload file');

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useFormSubmit } from '@/lib/hooks/useFormSubmit';
+import PageHero from '@/components/PageHero';
 
 type ContactData = {
   hero?: {
@@ -66,35 +67,31 @@ export default function ContactPage() {
   return (
     <div className="bg-[var(--color-bg-primary)] transition-colors duration-300">
       {/* Hero Section */}
-      <section className="relative bg-[hsl(235,52%,27%)] text-white py-24 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+      <PageHero
+        className="bg-[hsl(235,52%,27%)] py-24"
+        wrapContent={(content) => (
+          <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium rounded-full mb-8">
-              <span aria-hidden="true">💬</span>
-              <span>Get in Touch</span>
-            </span>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
-              {contactData?.hero?.title || 'Plan Your Experience'}
-            </h1>
-            <p className="text-xl md:text-2xl mb-6 font-light max-w-4xl mx-auto leading-relaxed">
-              {contactData?.hero?.subtitle || 'Tell us a little about your event, and we\'ll craft something perfect for your team.'}
-            </p>
-            {/* <p className="text-lg max-w-3xl mx-auto text-white/90">
-              {contactData?.hero?.description || 'Send us a message and let\'s create something unforgettable.'}
-            </p> */}
+            {content}
           </motion.div>
-        </div>
-      </section>
+        )}
+        decorations={
+          <>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+          </>
+        }
+        badge={{ icon: '💬', label: 'Get in Touch' }}
+        title={contactData?.hero?.title || 'Plan Your Experience'}
+        subtitle={
+          contactData?.hero?.subtitle ||
+          "Tell us a little about your event, and we'll craft something perfect for your team."
+        }
+      />
 
       {/* Contact Information & Form */}
       <section className="py-16">
