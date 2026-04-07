@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useMotionValue, animate, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
@@ -65,6 +65,11 @@ const normalizeHtml = (value?: string) => {
   return value
     .replace(/&amp;nbsp;?/gi, '&nbsp;')
     .replace(/&nbsp;?/gi, '&nbsp;')
+    .replace(/\sstyle="[^"]*"/gi, '')
+    .replace(/\sstyle='[^']*'/gi, '')
+    .replace(/\sclass="[^"]*"/gi, '')
+    .replace(/\sclass='[^']*'/gi, '')
+    .replace(/<\/?font[^>]*>/gi, '')
     .trim();
 };
 
@@ -74,12 +79,16 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeReelIndex, setActiveReelIndex] = useState<number | null>(null);
   const constraintsRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
   const dragRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const firstCardRef = useRef<HTMLDivElement>(null);
+  const [slideWidth, setSlideWidth] = useState(364);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartScrollRef = useRef(0);
 
   const videoStories = Array.isArray(reelsContent.items) ? reelsContent.items : [];
 
-  const slideWidth = 360; // card width + gap
   const totalSlides = videoStories.length;
 
   // Auto-scroll on wheel
@@ -89,9 +98,15 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
       
       e.preventDefault();
       if (e.deltaY > 0 && currentSlide < totalSlides - 1) {
-        setCurrentSlide(prev => prev + 1);
+        dragRef.current.scrollTo({
+          left: (currentSlide + 1) * slideWidth,
+          behavior: 'smooth'
+        });
       } else if (e.deltaY < 0 && currentSlide > 0) {
-        setCurrentSlide(prev => prev - 1);
+        dragRef.current.scrollTo({
+          left: (currentSlide - 1) * slideWidth,
+          behavior: 'smooth'
+        });
       }
     };
 
@@ -105,25 +120,33 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
         slider.removeEventListener('wheel', handleWheel);
       }
     };
-  }, [currentSlide, totalSlides]);
+  }, [currentSlide, totalSlides, slideWidth]);
 
-  // Animate to slide position
   useEffect(() => {
-    const targetX = -currentSlide * slideWidth;
-    animate(x, targetX, {
-      type: "spring",
-      stiffness: 300,
-      damping: 30
-    });
-  }, [currentSlide, x, slideWidth]);
+    const measure = () => {
+      if (!sliderRef.current || !firstCardRef.current || !dragRef.current) return;
+      const gap = parseFloat(getComputedStyle(sliderRef.current).columnGap || '0');
+      const width = firstCardRef.current.offsetWidth || 0;
+      if (width > 0) {
+        setSlideWidth(width + (Number.isNaN(gap) ? 0 : gap));
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
 
-  // Handle drag end to snap to nearest slide
-  const handleDragEnd = () => {
-    const currentX = x.get();
-    const slideIndex = Math.round(-currentX / slideWidth);
-    const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
-    setCurrentSlide(clampedIndex);
-  };
+  useEffect(() => {
+    const el = dragRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      if (slideWidth <= 0) return;
+      const nextIndex = Math.round(el.scrollLeft / slideWidth);
+      setCurrentSlide(Math.max(0, Math.min(nextIndex, totalSlides - 1)));
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [slideWidth, totalSlides]);
 
   const nextReel = () => {
     if (activeReelIndex !== null && activeReelIndex < videoStories.length - 1) {
@@ -174,17 +197,31 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
         
         {/* Reels Slider */}
         <div className="relative" ref={constraintsRef}>
-          <div className="overflow-hidden" ref={dragRef}>
-            <motion.div 
-              className="flex gap-6 cursor-grab active:cursor-grabbing"
-              style={{ x }}
-              drag="x"
-              dragConstraints={{
-                left: -(totalSlides - 1) * slideWidth,
-                right: 0
-              }}
-              dragElastic={0.1}
-              onDragEnd={handleDragEnd}
+          <div
+            className="overflow-x-auto scroll-smooth snap-x snap-mandatory cursor-grab active:cursor-grabbing scrollbar-hide select-none"
+            ref={dragRef}
+            onMouseDown={(e) => {
+              if (!dragRef.current) return;
+              isDraggingRef.current = true;
+              dragStartXRef.current = e.pageX;
+              dragStartScrollRef.current = dragRef.current.scrollLeft;
+            }}
+            onMouseLeave={() => {
+              isDraggingRef.current = false;
+            }}
+            onMouseUp={() => {
+              isDraggingRef.current = false;
+            }}
+            onMouseMove={(e) => {
+              if (!isDraggingRef.current || !dragRef.current) return;
+              e.preventDefault();
+              const walk = e.pageX - dragStartXRef.current;
+              dragRef.current.scrollLeft = dragStartScrollRef.current - walk;
+            }}
+          >
+            <div
+              ref={sliderRef}
+              className="flex gap-6"
             >
               {videoStories.map((story: VideoReelStory, index: number) => {
                 const title = normalizeText(story.title) || 'Video reel';
@@ -193,8 +230,9 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
 
                 return (
                 <motion.div
+                  ref={index === 0 ? firstCardRef : null}
                   key={index}
-                  className="flex-shrink-0 w-[340px]"
+                  className="flex-shrink-0 w-[340px] snap-start"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -242,7 +280,7 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
                         </h3>
                         {description && (
                           <p
-                            className="text-[var(--color-text-secondary)] text-sm line-clamp-2"
+                            className="text-white/90 text-sm line-clamp-2 [&_*]:text-white/90"
                             dangerouslySetInnerHTML={{ __html: description }}
                           />
                         )}
@@ -251,7 +289,7 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
                   </div>
                 </motion.div>
               )})}
-            </motion.div>
+            </div>
           </div>
         </div>
 
@@ -260,7 +298,13 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
           {videoStories.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => {
+                if (!dragRef.current) return;
+                dragRef.current.scrollTo({
+                  left: index * slideWidth,
+                  behavior: 'smooth'
+                });
+              }}
               className={`transition-all duration-300 rounded-full h-2 ${
                 index === currentSlide 
                   ? 'w-8 bg-[var(--color-brand-primary)]' 
