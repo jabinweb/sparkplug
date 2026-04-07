@@ -280,7 +280,7 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
                         </h3>
                         {description && (
                           <p
-                            className="text-white/90 text-sm line-clamp-2 [&_*]:text-white/90"
+                            className="text-[var(--color-text-secondary)] dark:text-white/90 text-sm line-clamp-2 [&_*]:text-[var(--color-text-secondary)] dark:[&_*]:text-white/90"
                             dangerouslySetInnerHTML={{ __html: description }}
                           />
                         )}
