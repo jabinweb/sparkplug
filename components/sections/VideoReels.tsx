@@ -55,6 +55,19 @@ const getYouTubeThumbnail = (url?: string) => {
   return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
 };
 
+const normalizeText = (value?: string) => {
+  if (!value) return '';
+  return value.replace(/&nbsp;?/gi, ' ').replace(/\s+/g, ' ').trim();
+};
+
+const normalizeHtml = (value?: string) => {
+  if (!value) return '';
+  return value
+    .replace(/&amp;nbsp;?/gi, '&nbsp;')
+    .replace(/&nbsp;?/gi, '&nbsp;')
+    .trim();
+};
+
 export default function VideoReels({ siteContent }: VideoReelsProps) {
   const homepage = siteContent.homepage || siteContent.site?.homepage || {};
   const reelsContent = homepage.videoReels || {};
@@ -174,8 +187,8 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
               onDragEnd={handleDragEnd}
             >
               {videoStories.map((story: VideoReelStory, index: number) => {
-                const title = story.title || 'Video reel';
-                const description = story.description || '';
+                const title = normalizeText(story.title) || 'Video reel';
+                const description = normalizeHtml(story.description);
                 const thumbnail = story.thumbnail || getYouTubeThumbnail(story.videoUrl);
 
                 return (
@@ -228,9 +241,10 @@ export default function VideoReels({ siteContent }: VideoReelsProps) {
                           {title}
                         </h3>
                         {description && (
-                          <p className="text-[var(--color-text-secondary)] text-sm line-clamp-2">
-                            {description}
-                          </p>
+                          <p
+                            className="text-[var(--color-text-secondary)] text-sm line-clamp-2"
+                            dangerouslySetInnerHTML={{ __html: description }}
+                          />
                         )}
                       </div>
                     </div>
